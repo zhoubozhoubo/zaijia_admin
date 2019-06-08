@@ -317,6 +317,56 @@ Route::group('admin', function () use ($afterBehavior) {
             ['method' => 'post']
         ],
     ], ['after_behavior' => $afterBehavior]);
+    Route::group('DbTable', [
+        'index' => [
+            'admin/DbTable/index',
+            ['method' => 'post']
+        ],
+        'getTableList' => [
+            'admin/DbTable/getTableList',
+            ['method' => 'get']
+        ],
+        'getTableFullFields' => [
+            'admin/DbTable/getTableFullFields',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('Banner', [
+        'getList' => [
+            'admin/Banner/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/Banner/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/Banner/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/Banner/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('Link', [
+        'getList' => [
+            'admin/Link/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/Link/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/Link/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/Link/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
 
     Route::miss('admin/Miss/index');
 });

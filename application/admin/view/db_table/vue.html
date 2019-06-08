@@ -1,0 +1,571 @@
+<template>
+    <div>
+        <Row>
+            <Col span="24">
+            <Card style="margin-bottom: 10px">
+                <Form inline>
+                    {volist name="searchConf" id="vo" key="k"}
+                    {if condition="$vo.components eq 'shuRuKuang'"}
+                    <FormItem style="margin-bottom: 0">
+                        <Input v-model="searchConf.{$vo.key}" placeholder="{$vo.name}"></Input>
+                    </FormItem>
+                    {elseif condition="$vo.components eq 'Select'"}
+                    <FormItem style="margin-bottom: 0">
+                    <Select v-model="searchConf.{$vo.key}" clearable placeholder='请选择{$vo.name}' style="width:100px">
+                        <Option :value="1">select1</Option>
+                        <Option :value="2">select2</Option>
+                        <Option :value="3">select3</Option>
+                    </Select>
+                    </FormItem>
+                    {elseif condition="$vo.components eq 'DatePicker'"}
+                    <FormItem style="margin-bottom: 0">
+                    <DatePicker type="date" @on-change="searchConf.{$vo.key}=$event" placeholder="选择日期" style="width: 150px"></DatePicker>
+                    </FormItem>
+                    {elseif condition="$vo.components eq 'DateRangePicker'"}
+                    <FormItem style="margin-bottom: 0">
+                    <DatePicker type="daterange" @on-change="searchConf.{$vo.key}=$event" placeholder="选择日期范围" style="width: 200px"></DatePicker>
+                    </FormItem>
+                    {/if}
+                    {/volist}
+                    <FormItem style="margin-bottom: 0">
+                        <Button type="primary" shape="circle" icon="ios-search" @click="search">查询/刷新</Button>
+                    </FormItem>
+                </Form>
+            </Card>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="24">
+            <Card>
+                {if condition="$add eq 1"}
+                <p slot="title" style="height: 40px">
+                    <Button type="primary" @click="alertAdd" icon="md-add">新增</Button>
+                </p>
+                {/if}
+                <div>
+                    <Table :loading="loading" :columns="columnsList" :data="tableData" border disabled-hover></Table>
+                </div>
+                <div style="text-align: center;margin-top: 15px">
+                    <Page :total="tableShow.listCount" :current="tableShow.currentPage"
+                          :page-size="tableShow.pageSize" @on-change="changePage"
+                          @on-page-size-change="changeSize" show-elevator show-sizer show-total></Page>
+                </div>
+            </Card>
+            </Col>
+        </Row>
+        <Modal v-model="modalSetting.show" width="700" :styles="{top: '30px'}" @on-visible-change="doCancel">
+            <p slot="header" style="color:#2d8cf0;">
+                <Icon type="md-information-circle"></Icon>
+                <span>{{formItem.{$pk} ? '编辑' : '新增'}}</span>
+            </p>
+            <Form ref="myForm" :rules="ruleValidate" :model="formItem" :label-width="100">
+                {volist name="formItem" id="vo" key="k"}
+                {if condition="$vo.show eq 1"}
+                <FormItem label="{$vo.name}" prop="{$vo.key}">
+                    {if condition="$vo.components eq 'shuRuKuang'"}
+                    <Input v-model="formItem.{$vo.key}" placeholder="{$vo.name}"></Input>
+                    {elseif condition="$vo.components eq 'Radio'"}
+                    <Radio v-model="formItem.{$vo.key}">Radio</Radio>
+                    {elseif condition="$vo.components eq 'Checkbox'"}
+                    <Checkbox v-model="formItem.{$vo.key}">Checkbox</Checkbox>
+                    {elseif condition="$vo.components eq 'Switch'"}
+                    <i-switch v-model="formItem.{$vo.key}" @on-change="" />
+                    {elseif condition="$vo.components eq 'Select'"}
+                    <Select v-model="formItem.{$vo.key}" style="width:200px">
+                        <Option :value="formItem.{$vo.key}">formItem.{$vo.key}</Option>
+                    </Select>
+                    {elseif condition="$vo.components eq 'Slider'"}
+                    <Slider v-model="formItem.{$vo.key}"></Slider>
+                    {elseif condition="$vo.components eq 'DatePicker'"}
+                    <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    {elseif condition="$vo.components eq 'TimePicker'"}
+                    <TimePicker type="time" placeholder="Select time" style="width: 168px"></TimePicker>
+                    {elseif condition="$vo.components eq 'InputNumber'"}
+                    <InputNumber :max="10" :min="1" v-model="formItem.{$vo.key}"></InputNumber>
+                    {elseif condition="$vo.components eq 'UploadImg'"}
+                    <div class="demo-upload-list" v-if="formItem.{$vo.key}">
+                        <img :src="formItem.{$vo.key}">
+                        <div class="demo-upload-list-cover">
+                            <Icon type="ios-eye-outline" @click.native="handleView()"></Icon>
+                            <Icon type="ios-trash-outline" @click.native="handleImgRemove()"></Icon>
+                        </div>
+                    </div>
+                    <input v-if="formItem.{$vo.key}" v-model="formItem.{$vo.key}" type="hidden" name="image">
+                    <Upload type="drag"
+                            :action="uploadUrl"
+                            :headers="uploadHeader"
+                            v-if="!formItem.{$vo.key}"
+                            :format="['jpg','jpeg','png']"
+                            :max-size="5120"
+                            :on-success="handleImgSuccess"
+                            :on-format-error="handleImgFormatError"
+                            :on-exceeded-size="handleImgMaxSize"
+                            style="display: inline-block;width:58px;">
+                        <div style="width: 58px;height:58px;line-height: 58px;">
+                            <Icon type="ios-camera" size="20"></Icon>
+                        </div>
+                    </Upload>
+                    <Modal title="View Image" v-model="visible">
+                        <img :src="formItem.{$vo.key}" v-if="visible" style="width: 100%">
+                    </Modal>
+                    {elseif condition="$vo.components eq 'TextArea'"}
+                    <Upload
+                            id="iviewUp"
+                            ref="upload"
+                            :show-upload-list="false"
+                            :on-success="handleSingleSuccess"
+                            :format="['jpg','jpeg','png']"
+                            :max-size="5120"
+                            :on-format-error="handleFormatError"
+                            :before-upload="handleBeforeUpload()"
+                            type="drag"
+                            :action="uploadUrl"
+                            :headers="uploadHeader"
+                            style="display: none;width:0">
+                        <div style="width: 0">
+                            <Icon type="ios-camera" size="50"></Icon>
+                        </div>
+                    </Upload>
+                    <quill-editor
+                            v-model="formItem.{$vo.key}"
+                            ref="myQuillEditor"
+                            :options="editorOption"
+                            @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+                            @change="onEditorChange($event)">
+                    </quill-editor>
+                    {elseif condition="$vo.components eq 'Rate'"}
+                    <Rate v-model="formItem.{$vo.key}" />
+                    {/if}
+                </FormItem>
+                {/if}
+                {/volist}
+            </Form>
+            <div slot="footer">
+                <Button type="text" @click="cancel" style="margin-right: 8px">取消</Button>
+                <Button type="primary" @click="submit" :loading="modalSetting.loading">确定</Button>
+            </div>
+        </Modal>
+        <!--查看大图-->
+        <Modal v-model="modalSeeingImg.show"
+               class-name="fl-image-modal"
+               @on-visible-change="doCancel">
+            <img :src="modalSeeingImg.img" v-if="modalSeeingImg.show" style="width: 100%">
+        </Modal>
+    </div>
+</template>
+
+<script>
+    {if condition="$imgComponents eq 1"}
+    import config from '../../../../build/config';
+    {/if}
+    import {getDataList,saveData,deleteData,change} from '@/api/{$fileName}'
+    {if condition="$textAreaComponents eq 1"}
+    import {quillEditor} from 'vue-quill-editor';
+    {/if}
+
+    const editButton = (vm, h, currentRow, index) => {
+        return h('Button', {
+            props: {
+                type: 'primary'
+            },
+            style: {
+                margin: '0 5px'
+            },
+            on: {
+                'click': () => {
+                    {volist name="formItem" id="vo" key="k"}
+                    vm.formItem.{$vo.key} = currentRow.{$vo.key};
+                    {/volist}
+                    vm.modalSetting.show = true
+                    vm.modalSetting.index = index
+                }
+            }
+        }, '编辑')
+    }
+    const deleteButton = (vm, h, currentRow, index) => {
+        return h('Poptip', {
+            props: {
+                confirm: true,
+                title: '您确定要删除这条数据吗? ',
+                transfer: true
+            },
+            on: {
+                'on-ok': () => {
+                    deleteData(currentRow.{$pk}).then(res => {
+                        if (res.data.code === 1) {
+                            vm.tableData.splice(index, 1)
+                            vm.$Message.success(res.data.msg)
+                        } else {
+                            vm.$Message.error(res.data.msg)
+                        }
+                    }, err => {
+                        vm.$Message.error(err.data.msg)
+                    })
+                }
+            }
+        }, [
+            h('Button', {
+                style: {
+                    margin: '0 5px'
+                },
+                props: {
+                    type: 'error',
+                    placement: 'top',
+                }
+            }, '删除')
+        ])
+    }
+
+    export default {
+        name: '{$fileName}',
+        components: {
+        },
+        data() {
+            return {
+                columnsList:{$columnsListJson},
+                tableData: [],
+                tableShow: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    listCount: 0
+                },
+                searchConf:{$searchConfJson},
+                modalSetting: {
+                    show: false,
+                    loading: false,
+                    index: 0
+                },
+                // 初始化图片弹出框
+                modalSeeingImg: {
+                    img: '',
+                    show: false
+                },
+                {if condition="$imgComponents eq 1"}
+                visible: false,
+                uploadUrl: '',
+                uploadHeader: {},
+                {/if}
+                {if condition="$textAreaComponents eq 1"}
+                editorOption: {
+                    modules: {
+                        toolbar: {
+                            container: [
+                                [{ 'size': ['small', false, 'large', 'huge'] }],
+                                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                                ['bold', 'italic', 'underline', 'strike', 'blockquote', 'clean'],
+                                [{ 'header': 1 }, { 'header': 2 }],
+                                [{'list': 'ordered'}, { 'list': 'bullet' }],
+                                [{'script': 'sub'}, { 'script': 'super' }],
+                                [{ 'align': [] }],
+                                [{ 'color': [] }, { 'background': [] }],
+                                ['link', 'image']
+                            ],
+                                handlers: {
+                                'image': function (value) {
+                                    if (value) {
+                                        console.log('image')
+                                        document.querySelector('#iviewUp input').click();
+                                    } else {
+                                        this.quill.format('image', false);
+                                    }
+                                },
+                                'link': function (value) {
+                                    if (value) {
+                                        console.log('link')
+                                        var href = prompt('Enter the URL');
+                                        this.quill.format('link', href);
+                                    } else {
+                                        this.quill.format('link', false);
+                                    }
+                                }
+                            }
+                        }
+                        // toolbar: [
+                        //     [{ 'size': ['small', false, 'large', 'huge'] }],
+                        //     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        //     ['bold', 'italic', 'underline', 'strike', 'blockquote', 'clean'],
+                        //     [{ 'header': 1 }, { 'header': 2 }],
+                        //     [{'list': 'ordered'}, { 'list': 'bullet' }],
+                        //     [{'script': 'sub'}, { 'script': 'super' }],
+                        //     [{ 'align': [] }],
+                        //     [{ 'color': [] }, { 'background': [] }],
+                        //     // ['image']
+                        // ]
+                    }
+                },
+                {/if}
+                formItem:{$formItemJson},
+                ruleValidate: {$ruleValidate},
+                    loading: true,
+            }
+        },
+        created() {
+            this.init()
+            this.getList()
+            {if condition="$imgComponents eq 1"}
+                this.uploadUrl = config.baseUrl + 'Index/upload';
+                this.uploadHeader = {'ApiAuth': sessionStorage.getItem('apiAuth')};
+            {/if}
+        },
+        methods: {
+            init() {
+                let vm = this
+                this.columnsList.forEach(item => {
+                    if (item.key === 'handle') {
+                        item.render = (h, param) => {
+                            let currentRowData = vm.tableData[param.index]
+                            {if condition="$edit eq 1 && $delete eq 1"}
+                            return h('div', [
+                                editButton(vm, h, currentRowData, param.index),
+                                deleteButton(vm, h, currentRowData, param.index)
+                            ])
+                            {elseif condition="$edit eq 1 && $delete eq 0"}
+                            return h('div', [
+                                editButton(vm, h, currentRowData, param.index)
+                            ])
+                            {elseif condition="$edit eq 0 && $delete eq 1"}
+                            return h('div', [
+                                deleteButton(vm, h, currentRowData, param.index)
+                            ])
+                            {/if}
+                        }
+                    }
+                    {volist name="tableComponentsData" id="vo" key="k"}
+                    {if condition="$vo.name eq 'Img'"}
+                        if (item.key === '{$vo.key}') {
+                            item.render = (h, param) => {
+                                let currentRowData = vm.tableData[param.index];
+                                if (currentRowData.{$vo.key}) {
+                                    return h('img', {
+                                        style: {
+                                            width: '40px',
+                                            height: '40px',
+                                            cursor: 'pointer',
+                                            margin: '5px 0'
+                                        },
+                                        attrs: {
+                                            src: currentRowData.{$vo.key},
+                                            shape: 'square',
+                                            size: 'large'
+                                        },
+                                        on: {
+                                            click: (e) => {
+                                                vm.modalSeeingImg.img = currentRowData.{$vo.key};
+                                                vm.modalSeeingImg.show = true;
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    return h('Tag', {}, '暂无图片');
+                                }
+                            };
+                        }
+                    {elseif condition="$vo.name eq 'Tag'"}
+                        if (item.key === '{$vo.key}') {
+                            item.render = (h, param) => {
+                                let currentRowData = vm.tableData[param.index];
+                                return h('Tag', {
+                                    attrs: {
+                                        color: 'blue'
+                                    }
+                                }, currentRowData.{$vo.key});
+                            };
+                        }
+                    {elseif condition="$vo.name eq 'Switch'"}
+                        if (item.key === '{$vo.key}') {
+                            item.render = (h, param) => {
+                                let currentRowData = vm.tableData[param.index];
+                                return h('i-switch', {
+                                    attrs: {
+                                        size: 'large'
+                                    },
+                                    props: {
+                                        'true-value': 1,
+                                        'false-value': 0,
+                                        value: currentRowData.{$vo.key}
+                                    },
+                                    on: {
+                                        'on-change': function (status) {
+                                            change({{$pk}:currentRowData.{$pk},{$vo.key}:status}).then(res => {
+                                                vm.$Message.success(res.data.msg)
+                                                vm.cancel()
+                                            }, err => {
+                                                vm.$Message.error(res.data.msg)
+                                                vm.cancel()
+                                            })
+                                        }
+                                    }
+                                }, [
+                                    h('span', {
+                                        slot: 'open'
+                                    }, '{$SwitchComment['value'][1]}'),
+                                    h('span', {
+                                        slot: 'close'
+                                    }, '{$SwitchComment['value'][0]}')
+                                ]);
+                            };
+                        }
+                    {/if}
+                    {/volist}
+                })
+            },
+            alertAdd() {
+                this.formItem.{$pk} = 0
+                this.modalSetting.show = true
+            },
+            {if condition="$imgComponents eq 1"}
+            handleView() {
+                this.visible = true;
+            },
+            handleImgRemove() {
+                this.formItem.{$imgComponentsKey} = '';
+            },
+            handleImgFormatError(file) {
+                this.$Notice.warning({
+                    title: '文件类型不合法',
+                    desc: file.name + '的文件类型不正确，请上传jpg或者png图片。'
+                });
+            },
+            handleImgMaxSize(file) {
+                this.$Notice.warning({
+                    title: '文件大小不合法',
+                    desc: file.name + '太大啦请上传小于5M的文件。'
+                });
+            },
+            handleImgSuccess(response) {
+                if (response.code === 1) {
+                    this.$Message.success(response.msg);
+                    this.formItem.{$imgComponentsKey} = response.data.fileUrl;
+                } else {
+                    this.$Message.error(response.msg);
+                }
+            },
+            {/if}
+            {if condition="$textAreaComponents eq 1"}
+                // 富文本编辑器中上传图片
+                handleSingleSuccess (res, file) {
+                    // 获取富文本组件实例
+                    let vm = this
+                    let quill = this.$refs.myQuillEditor.quill
+                    // 如果上传成功
+                    if (res.code === 1) {
+                        // 获取光标所在位置
+                        let length = quill.getSelection().index;
+                        // 插入图片  res.info为服务器返回的图片地址
+                        quill.insertEmbed(length, 'image', res.data.fileUrl)
+                        // 调整光标到最后
+                        quill.setSelection(length + 1);
+                    } else {
+                        vm.$Message.error('图片插入失败');
+                    }
+                },
+                handleFormatError () {
+                },
+                handleBeforeUpload () {
+                },
+                onEditorBlur () {
+                },
+                onEditorFocus () {
+                },
+                onEditorChange () {
+                },
+            {/if}
+            submit() {
+                this.$refs['myForm'].validate((valid) => {
+                    if (valid) {
+                        this.modalSetting.loading = true
+                        saveData(this.formItem).then(res => {
+                            if (res.data.code === 1) {
+                                this.$Message.success(res.data.msg)
+                                this.getList()
+                                this.cancel()
+                            } else {
+                                this.$Message.error(res.data.msg)
+                            }
+                        })
+                    }
+                })
+            },
+            cancel() {
+                this.modalSetting.show = false
+            },
+            doCancel(data) {
+                if (!data) {
+                    this.formItem.{$pk} = 0
+                    this.$refs['myForm'].resetFields()
+                    this.modalSetting.loading = false
+                    this.modalSetting.index = 0
+                }
+            },
+            changePage(page) {
+                this.tableShow.currentPage = page
+                this.getList()
+            },
+            changeSize(size) {
+                this.tableShow.pageSize = size
+                this.getList()
+            },
+            search() {
+                this.tableShow.currentPage = 1
+                this.getList()
+            },
+            getList() {
+
+                this.loading = true;
+                getDataList(this.tableShow, this.searchConf).then(res => {
+                    this.tableData = res.data.data.list
+                    this.tableShow.listCount = res.data.data.count
+                    this.loading = false
+                })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+{if condition="$imgComponents eq 1"}
+.demo-upload-list{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 4px;
+}
+.demo-upload-list img{
+    width: 100%;
+    height: 100%;
+}
+.demo-upload-list-cover{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover{
+    display: block;
+}
+.demo-upload-list-cover i{
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+{/if}
+</style>
+<style>
+{if condition="$textAreaComponents eq 1"}
+.ql-editor,.ql-blank{
+    height: 200px;
+}
+{/if}
+</style>
