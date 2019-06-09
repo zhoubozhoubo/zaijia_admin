@@ -317,6 +317,12 @@ Route::group('admin', function () use ($afterBehavior) {
             ['method' => 'post']
         ],
     ], ['after_behavior' => $afterBehavior]);
+    Route::group('AreaCon', [
+        'getList' => [
+            'admin/AreaCon/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
     Route::group('DbTable', [
         'index' => [
             'admin/DbTable/index',
@@ -364,6 +370,98 @@ Route::group('admin', function () use ($afterBehavior) {
         ],
         'delete' => [
             'admin/Link/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('UserCon', [
+        'getList' => [
+            'admin/UserCon/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('UserIncome', [
+        'getList' => [
+            'admin/UserIncome/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('UserNotice', [
+        'getList' => [
+            'admin/UserNotice/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('UserTask', [
+        'getList' => [
+            'admin/UserTask/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('Withdraw', [
+        'getList' => [
+            'admin/Withdraw/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('WithdrawWay', [
+        'getList' => [
+            'admin/WithdrawWay/getList',
+            ['method' => 'get']
+        ],
+        'change' => [
+            'admin/WithdrawWay/change',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('Commission', [
+        'getList' => [
+            'admin/Commission/getList',
+            ['method' => 'get']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('CommissionConf', [
+        'getList' => [
+            'admin/CommissionConf/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/CommissionConf/save',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('Task', [
+        'getList' => [
+            'admin/Task/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/Task/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/Task/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/Task/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('TaskType', [
+        'getList' => [
+            'admin/TaskType/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/TaskType/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/TaskType/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/TaskType/delete',
             ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);

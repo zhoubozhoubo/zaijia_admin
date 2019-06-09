@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 
-use app\admin\model\ZjLink;
+use app\admin\model\ZjTaskType;
 use app\util\BaseController;
 use think\Db;
 use think\Exception;
@@ -11,10 +11,10 @@ use think\exception\DbException;
 *
 * @package app\admin\controller
 */
-class Link extends BaseController
+class TaskType extends BaseController
 {
 
-    public $table = 'ZjLink';
+    public $table = 'ZjTaskType';
 
     /**
     * 获取列表
@@ -30,7 +30,11 @@ class Link extends BaseController
         $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
-                if($val !== ''){
+                if($val !== '') {
+                    if ($key === 'name') {
+                        $where[$key] = ['like', '%' . $val . '%'];
+                        continue;
+                    }
                     if ($key === 'status') {
                         $where[$key] = $val;
                         continue;
@@ -38,7 +42,7 @@ class Link extends BaseController
                 }
             }
         }
-        $db = $db->where($where)->order('sort ASC');
+        $db = $db->where($where)->order('id desc');
         return $this->_list($db);
     }
 
@@ -51,10 +55,10 @@ class Link extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        if ($postData['id'] !== 0) {
-            ZjLink::update($postData);
+        if ($postData['id'] != 0) {
+            ZjTaskType::update($postData);
             return $this->buildSuccess([]);
-        } else if (ZjLink::create($postData)) {
+        } else if (ZjTaskType::create($postData)) {
             return $this->buildSuccess([]);
         }
 
@@ -63,14 +67,14 @@ class Link extends BaseController
 
 
     /**
-    * 改变
-    * @return array
-    */
+     * 改变
+     * @return array
+     */
     public function change()
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        $res = ZjLink::update($postData);
+        $res = ZjTaskType::update($postData);
         if(!$res){
             return $this->buildFailed();
         }
@@ -86,7 +90,7 @@ class Link extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjLink::del($id)) {
+        if (ZjTaskType::destroy($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

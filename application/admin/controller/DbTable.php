@@ -343,13 +343,21 @@ class DbTable extends BaseController
         $this->assign('delete', $delete);
         //表单参数
         $this->assign('formItem', $formItem);
-        $this->assign('formItemJson', $this->jsonReplace($formItemJson));
+        if($formItemJson){
+            $this->assign('formItemJson', $this->jsonReplace($formItemJson));
+        }else{
+            $this->assign('formItemJson', '');
+        }
         $this->assign('imgComponentsKey', $imgComponentsKey);
         $this->assign('imgComponents', $imgComponents);
         $this->assign('textAreaComponentsKey', $textAreaComponentsKey);
         $this->assign('textAreaComponents', $textAreaComponents);
         //表单验证
-        $this->assign('ruleValidate', $this->jsonReplace($ruleValidate));
+        if($ruleValidate){
+            $this->assign('ruleValidate', $this->jsonReplace($ruleValidate));
+        }else{
+            $this->assign('ruleValidate', '');
+        }
         $this->assign('SwitchComment', $SwitchComment);
 
         //原始vue文件内容
@@ -450,6 +458,9 @@ class {$backControllerName} extends BaseController
             foreach ($-searchConf as $-key=>$-val){
                 if($-val === ''){
                     unset($-searchConf[$-key]);
+                }
+                else if($-key === 'status'){
+                    $-searchConf[$-key] = $-val;
                 }";
         $txtTwo = "
                 else{";
@@ -466,7 +477,12 @@ class {$backControllerName} extends BaseController
                         continue;
                     }";
         $txtFive = "
-                    $-searchConf[$-key] = ['like', '%'".".$-val."."'%'];
+                    if ($-key === 'status') {
+                        $-searchConf[$-key] = $-val;
+                    }
+                    else{
+                        $-searchConf[$-key] = ['like', '%'.$-val.'%'];
+                    }
                 }";
         $txtSix = "
             }
@@ -485,13 +501,12 @@ class {$backControllerName} extends BaseController
     {
         $-this->requestType('POST');
         $-postData = $-this->request->post();
-        if ($-postData['{$pk}'] != 0) {
+        if ($-postData['{$pk}'] !== 0) {
             {$backModelName}::update($-postData);
             return $-this->buildSuccess([]);
         } else if ({$backModelName}::create($-postData)) {
             return $-this->buildSuccess([]);
         }
-
         return $-this->buildFailed();
     }";
         $txtSeven = "

@@ -27,18 +27,18 @@ class Banner extends BaseController
         $this->requestType('GET');
         $searchConf = json_decode($this->request->param('searchConf', ''),true);
         $db = Db::name($this->table);
+        $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
-                if($val === ''){
-                    unset($searchConf[$key]);
-                }
-                else{
-                    $searchConf[$key] = ['like', '%'.$val.'%'];
+                if($val !== ''){
+                    if ($key === 'status') {
+                        $where[$key] = $val;
+                        continue;
+                    }
                 }
             }
         }
-        $where = $searchConf;
-        $db = $db->where($where)->order('id desc');
+        $db = $db->where($where)->order('sort ASC');
         return $this->_list($db);
     }
 
@@ -51,13 +51,12 @@ class Banner extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        if ($postData['id'] != 0) {
+        if ($postData['id'] !== 0) {
             ZjBanner::update($postData);
             return $this->buildSuccess([]);
         } else if (ZjBanner::create($postData)) {
             return $this->buildSuccess([]);
         }
-
         return $this->buildFailed();
     }
 
@@ -86,7 +85,7 @@ class Banner extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjBanner::destroy($id)) {
+        if (ZjBanner::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

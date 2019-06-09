@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 
-use app\admin\model\ZjLink;
+use app\admin\model\ZjWithdrawWay;
 use app\util\BaseController;
 use think\Db;
 use think\Exception;
@@ -11,10 +11,10 @@ use think\exception\DbException;
 *
 * @package app\admin\controller
 */
-class Link extends BaseController
+class WithdrawWay extends BaseController
 {
 
-    public $table = 'ZjLink';
+    public $table = 'ZjWithdrawWay';
 
     /**
     * 获取列表
@@ -25,20 +25,8 @@ class Link extends BaseController
     public function getList()
     {
         $this->requestType('GET');
-        $searchConf = json_decode($this->request->param('searchConf', ''),true);
         $db = Db::name($this->table);
-        $where = [];
-        if($searchConf){
-            foreach ($searchConf as $key=>$val){
-                if($val !== ''){
-                    if ($key === 'status') {
-                        $where[$key] = $val;
-                        continue;
-                    }
-                }
-            }
-        }
-        $db = $db->where($where)->order('sort ASC');
+        $db = $db->order('withdraw_way_id ASC');
         return $this->_list($db);
     }
 
@@ -51,10 +39,10 @@ class Link extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        if ($postData['id'] !== 0) {
-            ZjLink::update($postData);
+        if ($postData['withdraw_way_id'] != 0) {
+            ZjWithdrawWay::update($postData);
             return $this->buildSuccess([]);
-        } else if (ZjLink::create($postData)) {
+        } else if (ZjWithdrawWay::create($postData)) {
             return $this->buildSuccess([]);
         }
 
@@ -70,7 +58,7 @@ class Link extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        $res = ZjLink::update($postData);
+        $res = ZjWithdrawWay::update($postData);
         if(!$res){
             return $this->buildFailed();
         }
@@ -86,7 +74,7 @@ class Link extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjLink::del($id)) {
+        if (ZjWithdrawWay::destroy($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

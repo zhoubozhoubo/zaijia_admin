@@ -7,14 +7,14 @@
                     {volist name="searchConf" id="vo" key="k"}
                     {if condition="$vo.components eq 'shuRuKuang'"}
                     <FormItem style="margin-bottom: 0">
-                        <Input v-model="searchConf.{$vo.key}" placeholder="{$vo.name}"></Input>
+                        <Input v-model="searchConf.{$vo.key}" clearable placeholder="{$vo.name}"></Input>
                     </FormItem>
                     {elseif condition="$vo.components eq 'Select'"}
                     <FormItem style="margin-bottom: 0">
                     <Select v-model="searchConf.{$vo.key}" clearable placeholder='请选择{$vo.name}' style="width:100px">
-                        <Option :value="1">select1</Option>
-                        <Option :value="2">select2</Option>
-                        <Option :value="3">select3</Option>
+                        <Option value="1">select1</Option>
+                        <Option value="2">select2</Option>
+                        <Option value="3">select3</Option>
                     </Select>
                     </FormItem>
                     {elseif condition="$vo.components eq 'DatePicker'"}
@@ -191,7 +191,7 @@
             },
             on: {
                 'on-ok': () => {
-                    deleteData(currentRow.{$pk}).then(res => {
+                    deleteData({{$pk}:currentRow.{$pk}}).then(res => {
                         if (res.data.code === 1) {
                             vm.tableData.splice(index, 1)
                             vm.$Message.success(res.data.msg)
@@ -294,8 +294,16 @@
                     }
                 },
                 {/if}
-                formItem:{$formItemJson},
-                ruleValidate: {$ruleValidate},
+                {if condition="$formItemJson neq ''"}
+                    formItem:{$formItemJson},
+                {else}
+                    formItem:{},
+                {/if}
+                {if condition="$formItemJson neq ''"}
+                    ruleValidate: {$ruleValidate},
+                {else}
+                    ruleValidate:{},
+                {/if}
                     loading: true,
             }
         },
