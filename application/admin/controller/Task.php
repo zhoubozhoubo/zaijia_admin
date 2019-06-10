@@ -83,6 +83,7 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        print_r($postData);exit;
         if ($postData['task_id'] != 0) {
             ZjTask::update($postData);
             return $this->buildSuccess([]);
