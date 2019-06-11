@@ -26,7 +26,7 @@ class UserTask extends BaseController
     {
         $this->requestType('GET');
         $searchConf = json_decode($this->request->param('searchConf', ''),true);
-        $db = Db::view(['zj_user_task'=>'a'])->view(['zj_user'=>'b'],'nickname','a.user_id=b.user_id','LEFT')->view(['zj_task'=>'c'],'title','a.task_id=c.task_id','LEFT');
+        $db = Db::view(['zj_user_task'=>'a'])->view(['zj_user'=>'b'],'nickname,avatarurl,phone','a.user_id=b.user_id','LEFT')->view(['zj_task'=>'c'],'title','a.task_id=c.task_id','LEFT');
         $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
@@ -39,6 +39,10 @@ class UserTask extends BaseController
                     }
                     if($key === 'nickname'){
                         $where["b.{$key}"] = ['like', '%' . $val . '%'];
+                        continue;
+                    }
+                    if($key === 'task_id'){
+                        $where["c.{$key}"] = $val;
                         continue;
                     }
                     if($key === 'title'){
@@ -64,8 +68,14 @@ class UserTask extends BaseController
                 }
             }
         }
-        $db = $db->where($where)->order('id desc');
+        $db = $db->where($where)->order('gmt_create desc');
         return $this->_list($db);
+    }
+
+    public function _getList_data_filter(&$data){
+        foreach ($data as &$item){
+            $item['submit_img'] = explode('%,%',$item['submit_img']);
+        }
     }
 
 
@@ -78,6 +88,9 @@ class UserTask extends BaseController
         $this->requestType('POST');
         $postData = $this->request->post();
         if ($postData['id'] != 0) {
+            if($postData['status'] === 2 || $postData['status'] === 3){
+                $postData['check_time'] = date('Y-m-d H:i:s');
+            }
             ZjUserTask::update($postData);
             return $this->buildSuccess([]);
         } else if (ZjUserTask::create($postData)) {

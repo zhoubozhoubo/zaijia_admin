@@ -42,7 +42,7 @@ class TaskType extends BaseController
                 }
             }
         }
-        $db = $db->where($where)->order('id desc');
+        $db = $db->where($where)->order('sort ASC');
         return $this->_list($db);
     }
 

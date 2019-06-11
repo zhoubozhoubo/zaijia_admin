@@ -389,12 +389,20 @@ Route::group('admin', function () use ($afterBehavior) {
         'getList' => [
             'admin/UserNotice/getList',
             ['method' => 'get']
+        ],
+        'save' => [
+            'admin/UserNotice/save',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('UserTask', [
         'getList' => [
             'admin/UserTask/getList',
             ['method' => 'get']
+        ],
+        'save' => [
+            'admin/UserTask/save',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('Withdraw', [

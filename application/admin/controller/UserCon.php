@@ -30,6 +30,11 @@ class UserCon extends BaseController
         $db = Db::view(['zj_user'=>'a'])->view(['zj_user'=>'b'], 'nickname as superior_user_nickname','a.superior_user_id = b.user_id','LEFT');
         $where = [];
         if ($searchConf) {
+            if($searchConf['level'] == 1) {
+                $where["a.superior_user_id"] = $searchConf['user_id'];
+            }else if($searchConf['level'] == 2) {
+                $where["a.superior_superior_user_id"] = $searchConf['user_id'];
+            }
             foreach ($searchConf as $key => $val) {
                 if($val !== ''){
                     if ($key === 'gmt_create') {

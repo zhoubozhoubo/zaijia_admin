@@ -56,7 +56,7 @@ class Withdraw extends BaseController
                 }
             }
         }
-        $db = $db->where($where)->order('id desc');
+        $db = $db->where($where)->order('gmt_create desc');
         return $this->_list($db);
     }
 

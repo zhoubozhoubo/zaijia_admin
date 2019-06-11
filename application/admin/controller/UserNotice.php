@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 
+use app\admin\model\ZjUser;
 use app\admin\model\ZjUserNotice;
 use app\util\BaseController;
 use think\Db;
@@ -56,7 +57,7 @@ class UserNotice extends BaseController
                 }
             }
         }
-        $db = $db->where($where)->order('id desc');
+        $db = $db->where($where)->order('gmt_create desc');
         return $this->_list($db);
     }
 
@@ -69,11 +70,21 @@ class UserNotice extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        if ($postData['id'] != 0) {
-            ZjUserNotice::update($postData);
-            return $this->buildSuccess([]);
-        } else if (ZjUserNotice::create($postData)) {
-            return $this->buildSuccess([]);
+        if($postData['user_id'] === 0){
+            $userId = ZjUser::where('is_delete',0)->column('user_id');
+        }else{
+            $userId = explode(',',$postData['user_id']);
+        }
+        $data = [];
+        foreach ($userId as $key=>$val){
+            $data[$key]['user_id'] = $val;
+            $data[$key]['title'] = $postData['title'];
+            $data[$key]['content'] = $postData['content'];
+        }
+        $userNotice = new ZjUserNotice();
+        $res = $userNotice->saveAll($data);
+        if ($res) {
+            return $this->buildSuccess($res);
         }
 
         return $this->buildFailed();
