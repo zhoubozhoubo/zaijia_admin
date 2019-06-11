@@ -26,7 +26,7 @@ class Withdraw extends BaseController
     {
         $this->requestType('GET');
         $searchConf = json_decode($this->request->param('searchConf', ''),true);
-        $db = Db::view(['zj_withdraw'=>'a'])->view(['zj_user'=>'b'],'nickname','a.user_id=b.user_id','LEFT');
+        $db = Db::view(['zj_withdraw'=>'a'])->view(['zj_user'=>'b'],'nickname','a.user_id=b.user_id','LEFT')->view(['zj_withdraw_way'=>'c'],'name as withdraw_name','a.withdraw_way_id=c.withdraw_way_id','LEFT');
         $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){

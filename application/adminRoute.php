@@ -401,12 +401,20 @@ Route::group('admin', function () use ($afterBehavior) {
         'getList' => [
             'admin/Withdraw/getList',
             ['method' => 'get']
+        ],
+        'save' => [
+            'admin/Withdraw/save',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('WithdrawWay', [
         'getList' => [
             'admin/WithdrawWay/getList',
             ['method' => 'get']
+        ],
+        'save' => [
+            'admin/WithdrawWay/save',
+            ['method' => 'post']
         ],
         'change' => [
             'admin/WithdrawWay/change',
