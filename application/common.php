@@ -70,6 +70,17 @@ function formatTree($list, $lv = 0, $title = 'name')
 }
 
 /**
+ * 手机号验证
+ * @param string $str
+ * @return false|int
+ */
+function isPhone($str = '')
+{
+    $isMatched = preg_match("/^0?1[3|4|5|6|7|8][0-9]\d{8}$/", $str, $matches);
+    return $isMatched;
+}
+
+/**
  * 获得用户所有下级
  * @param $id_str
  * @param $table

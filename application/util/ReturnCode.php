@@ -33,10 +33,13 @@ class ReturnCode {
     const RECORD_NOT_FOUND = -19; // 记录未找到
     const DELETE_FAILED = -20; // 删除失败
     const ADD_FAILED = -21; // 添加记录失败
-    const UPDATE_FAILED = -22; // 添加记录失败
+    const UPDATE_FAILED = -22; // 更新记录失败
 
+    const CODE_ERROR = -23; // 验证码错误
+
+    const PARAM_DEFECT = -994; // 参数缺失
     const PARAM_INVALID = -995; // 参数无效
-    const ACCESS_TOKEN_TIMEOUT = -996;
+    const ACCESS_TOKEN_TIMEOUT = -996; // 非法请求
     const SESSION_TIMEOUT = -997;
     const UNKNOWN = -998;
     const EXCEPTION = -999;

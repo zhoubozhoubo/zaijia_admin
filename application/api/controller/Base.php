@@ -7,18 +7,56 @@
 
 namespace app\api\controller;
 
-
-use app\util\ApiLog;
 use app\util\ReturnCode;
 use think\Controller;
 
 class Base extends Controller {
 
     private $debug = [];
+
+    /**
+     * 逻辑对象
+     * @var
+     */
+    public $logic;
+
+    /**
+     * token
+     * @var string
+     */
+    public $token='';
+
+    /**
+     * 用户信息
+     * @var array
+     */
     protected $userInfo = [];
 
-    public function _initialize() {
-        $this->userInfo = ApiLog::getUserInfo();
+    public function _initialize()
+    {
+        $this->token = $this->request->header('token');
+        if ($this->token) {
+            $userInfo = cache($this->token);
+            if ($userInfo) {
+                //更新时间
+                cache($this->token, $userInfo, config('CACHE_TIME'));
+                $this->userInfo = json_decode($userInfo, true);
+                $this->userInfo['token'] = $this->token;
+            }
+        }
+        $this->initLogic();
+
+    }
+
+    /**
+     * 初始化逻辑
+     */
+    private function initLogic()
+    {
+        $name = str_replace('controller', 'logic', get_class($this)) . 'Logic';
+        if (class_exists($name)) {
+            $this->logic = new $name;
+        }
     }
 
     public function buildSuccess($data, $msg = '操作成功', $code = ReturnCode::SUCCESS) {
@@ -87,6 +125,38 @@ class Base extends Controller {
             }
         }
         return true;
+    }
+
+    /**
+     * 请求方式
+     * @param string $type
+     * @return \think\response\Json
+     */
+    protected function requestType($type = 'GET')
+    {
+        if ($this->request->isOptions()) {
+            $result['code'] = ReturnCode::ACCESS_TOKEN_TIMEOUT;
+            $result['msg'] = '请求不合法';
+            $header = config('basic.CROSS_DOMAIN');
+            return json($result, 200, $header);
+        }
+
+        if ($this->request->isGet() && $type != 'GET') {
+            exit('请求方式错误');
+        }
+
+        if ($this->request->isPost() && $type != 'POST') {
+            exit('请求方式错误');
+        }
+
+        if ($this->request->isPut() && $type != 'PUT') {
+            exit('请求方式错误');
+        }
+
+        if ($this->request->isDelete() && $type != 'DELETE') {
+            exit('请求方式错误');
+        }
+
     }
 
 }
