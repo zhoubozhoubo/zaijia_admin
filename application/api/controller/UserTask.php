@@ -42,6 +42,51 @@ class UserTask extends Base
     }
 
     /**
+     * 用户任务详情
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function taskDetails(){
+        $this->requestType('POST');
+        $postData = $this->request->post();
+        if(!$this->userInfo){
+            return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
+        }
+        $where = [
+            'user_id'=>$this->userInfo['user_id'],
+            'id'=>$postData['id'],
+            'is_delete'=>0
+        ];
+        $res = ZjUserTask::where($where)->field('gmt_modified,is_delete',true)->find();
+        if(!$res){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
+        }
+        $res->task;
+        $surplusTime = 0;
+        if ($res['status'] === 0) {
+            //执行中返回执行剩余时间
+            $finishDuration = $res['task']['finish_duration'] * 60 * 60;
+            $surplusTime = $finishDuration - (time() - strtotime($res['gmt_create']));
+            //当时间小于0时，表示阶段已结束，进行订单放弃处理
+            if ($surplusTime <= 0) {
+                ZjUserTask::update(['id' => $res['id'], 'status' => 4]);
+            }
+        } else if ($res['status'] === 1) {
+            //执行中返回审核剩余时间
+            $checkDuration = $res['task']['check_duration'] * 60 * 60;
+            $surplusTime = $checkDuration - (time() - strtotime($res['submit_time']));
+            //当时间小于0时，表示阶段已结束，进行订单自动通过处理
+            if ($surplusTime <= 0) {
+                ZjUserTask::update(['id' => $res['id'], 'status' => 2]);
+            }
+        }
+        $res['surplus_time'] = $surplusTime * 1000;
+        return $this->buildSuccess($res);
+    }
+
+    /**
      * 添加任务
      * @return \think\response\Json
      */
@@ -60,8 +105,8 @@ class UserTask extends Base
             return $this->buildFailed(ReturnCode::ADD_FAILED,'领取任务失败','');
         }
         //返回任务完成时间
-        $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->value('finish_duration');
-        $res['finish_duration']=$finishDuration*60*60*1000;
+        $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->field('finish_duration')->find();
+        $res['finish_duration']=$finishDuration['finish_duration']*60*60*1000;
         return $this->buildSuccess($res,'成功领取任务');
     }
 

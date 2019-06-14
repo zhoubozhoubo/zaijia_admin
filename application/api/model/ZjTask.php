@@ -45,4 +45,13 @@ class ZjTask extends Model
             ->field('id,img');
     }
 
+    /**
+     * 获取完成时长
+     * @param $value
+     * @return float
+     */
+    public function getFinishDurationAttr($value){
+        return $value = 30 ? 0.5 : $value;
+    }
+
 }
