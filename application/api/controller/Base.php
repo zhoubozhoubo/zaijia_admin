@@ -7,6 +7,14 @@
 
 namespace app\api\controller;
 
+// 跨域请求配置
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Allow-Methods:*');
+//// 响应头设置
+header('Access-Control-Allow-Headers:Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild , token');
+
+
 use app\util\ReturnCode;
 use think\Controller;
 
@@ -137,7 +145,7 @@ class Base extends Controller {
         if ($this->request->isOptions()) {
             $result['code'] = ReturnCode::ACCESS_TOKEN_TIMEOUT;
             $result['msg'] = '请求不合法';
-            $header = config('basic.CROSS_DOMAIN');
+            $header = config('apiAdmin.CROSS_DOMAIN');
             return json($result, 200, $header);
         }
 

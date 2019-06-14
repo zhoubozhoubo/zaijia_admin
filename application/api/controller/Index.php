@@ -21,14 +21,20 @@ class Index extends Base
     public function areaList()
     {
         $this->requestType('GET');
-        $res = Area::where(['level' => 1])->field('id,code as value,name as label')->select();
-        if (!$res) {
-            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
+        $provinceList =Area::where(['level' => 1])->field('code,name')->select();
+        foreach ($provinceList as $item){
+            $newProvinceList[$item['code']] = $item['name'];
         }
-        foreach ($res as &$item) {
-            $item['children'] = $item->City;
+        $cityList =Area::where(['level' => 2])->field('code,name')->select();
+        foreach ($cityList as $item){
+            $newCityList[$item['code']] = $item['name'];
         }
+        $res=[
+            'province_list'=>$newProvinceList,
+            'city_list'=>$newCityList
+        ];
         return $this->buildSuccess($res);
+
     }
 
     /**

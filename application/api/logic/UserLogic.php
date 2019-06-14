@@ -23,10 +23,10 @@ class UserLogic extends Base
      */
     public function login($postData)
     {
-        if(!isset($postData['phone'])){
+        if(!isset($postData['phone']) || $postData['phone'] === ''){
             return $this->resultFailed(ReturnCode::PARAM_DEFECT,'请输入手机号','');
         }
-        if(!isset($postData['password'])){
+        if(!isset($postData['password']) || $postData['password'] === ''){
             return $this->resultFailed(ReturnCode::PARAM_DEFECT,'请输入密码','');
         }
         $phone = $postData['phone'];
@@ -55,19 +55,20 @@ class UserLogic extends Base
      * @throws \think\Exception
      */
     public function register($postData){
-        print_r($postData);
-        if(!isset($postData['phone'])){
+        if(!isset($postData['phone']) || $postData['phone'] === ''){
             return $this->resultFailed(ReturnCode::PARAM_DEFECT,'请输入手机号','');
         }
-        if(!isset($postData['code'])){
+        if(!isset($postData['code']) || $postData['code'] === ''){
             return $this->resultFailed(ReturnCode::PARAM_DEFECT,'请输入验证码','');
         }
-        if(!isset($postData['password'])){
+        if(!isset($postData['password']) || $postData['password'] === ''){
             return $this->resultFailed(ReturnCode::PARAM_DEFECT,'请输入密码','');
         }
         $phone = $postData['phone'];
         $code = $postData['code'];
         $password = $postData['password'];
+        //邀请码
+        $invitationCode = $postData['invitationCode'];
         $res = ZjUser::where('phone', $phone)->count();
         if ($res > 0) {
             return $this->resultFailed(ReturnCode::RECORD_NOT_FOUND,'账号已注册','');
@@ -75,7 +76,21 @@ class UserLogic extends Base
         if($code != cache($phone)){
             return $this->resultFailed(ReturnCode::CODE_ERROR,'验证码错误','');
         }
-        $res = ZjUser::create(['phone'=>$phone,'password'=>md5($password),'code'=>$this->createCode()]);
+        $user = [
+            'phone'=>$phone,
+            'password'=>md5($password),
+            'code'=>$this->createCode()
+        ];
+        if($invitationCode){
+            //根据邀请码绑定上级及上上级
+            $superior = ZjUser::where(['code'=>$invitationCode,'is_delete'=>0])->field('user_id,superior_user_id')->find();
+            if($superior){
+                $user['superior_user_id'] =  $superior['user_id'];
+                $user['superior_superior_user_id'] =  $superior['superior_user_id'];
+            }
+        }
+
+        $res = ZjUser::create($user);
         if (!$res) {
             return $this->resultFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
         }

@@ -2,6 +2,7 @@
 
 namespace app\api\controller;
 
+use app\api\model\ZjTask;
 use app\api\model\ZjUserTask;
 use app\util\ReturnCode;
 
@@ -20,19 +21,22 @@ class UserTask extends Base
      * @throws \think\exception\DbException
      */
     public function taskList(){
-        $this->requestType('GET');
-        $getData = $this->request->get();
+        $this->requestType('POST');
+        $postData = $this->request->post();
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
         $where = [
             'user_id'=>$this->userInfo['user_id'],
-            'status'=>$getData['status'],
+            'status'=>$postData['status'],
             'is_delete'=>0
         ];
-        $res = ZjUserTask::where($where)->field('gmt_create,gmt_modified,is_delete',true)->select();
+        $res = ZjUserTask::where($where)->field('gmt_create,gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        foreach ($res as $item){
+            $item->task;
         }
         return $this->buildSuccess($res);
     }
@@ -53,9 +57,12 @@ class UserTask extends Base
         ];
         $res = ZjUserTask::create($data);
         if(!$res){
-            return $this->buildFailed(ReturnCode::ADD_FAILED,'添加任务失败','');
+            return $this->buildFailed(ReturnCode::ADD_FAILED,'领取任务失败','');
         }
-        return $this->buildSuccess($res);
+        //返回任务完成时间
+        $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->value('finish_duration');
+        $res['finish_duration']=$finishDuration*60*60*1000;
+        return $this->buildSuccess($res,'成功领取任务');
     }
 
     /**

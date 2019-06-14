@@ -18,7 +18,7 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function info(){
-        $this->requestType('GET');
+        $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
@@ -47,7 +47,7 @@ class User extends Base
         if($res['code'] !== 1){
             return $this->buildFailed($res['code'], $res['msg'], $res['data']);
         }
-        return $this->buildSuccess($res['data']);
+        return $this->buildSuccess($res['data'],'登陆成功');
     }
 
     /**
@@ -61,7 +61,7 @@ class User extends Base
         if($res['code'] !== 1){
             return $this->buildFailed($res['code'], $res['msg'], $res['data']);
         }
-        return $this->buildSuccess($res['data']);
+        return $this->buildSuccess($res['data'],'注册成功');
     }
 
     /**
@@ -75,7 +75,7 @@ class User extends Base
         if($res['code'] !== 1){
             return $this->buildFailed($res['code'], $res['msg'], $res['data']);
         }
-        return $this->buildSuccess($res['data']);
+        return $this->buildSuccess($res['data'],'发送验证码成功');
     }
 
     /**
@@ -86,24 +86,24 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function myTeamList(){
-        $this->requestType('GET');
-        $getData = $this->request->get();
+        $this->requestType('POST');
+        $postData = $this->request->post();
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
         $where=[];
-        if($getData['type'] === 1){ //一级团队成员
+        if($postData['type'] === 1){ //一级团队成员
             $where = [
                 'superior_user_id'=>$this->userInfo['user_id'],
                 'is_delete'=>0
             ];
-        }else if($getData['type'] === 2){ //二级团队成员
+        }else if($postData['type'] === 2){ //二级团队成员
             $where = [
                 'superior_superior_user_id'=>$this->userInfo['user_id'],
                 'is_delete'=>0
             ];
         }
-        $res = ZjUser::where($where)->field('nickname,avatarurl,gmt_create')->select();
+        $res = ZjUser::where($where)->field('nickname,avatarurl,gmt_create')->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }

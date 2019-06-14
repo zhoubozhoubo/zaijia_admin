@@ -7,6 +7,31 @@ use think\Model;
 class ZjTask extends Model
 {
     /**
+     * 获取金额
+     * @param $value
+     * @return string
+     */
+    public function getMoneyAttr($value){
+        return number_format($value / 100, 2, '.', '');
+    }
+
+    public function getStepAttr($value){
+        return explode('%,%',$value);
+    }
+
+    public function getShowImgAttr($value){
+        return explode('%,%',$value);
+    }
+
+    public function getSubmitImgAttr($value){
+        return explode('%,%',$value);
+    }
+
+    public function getPassRatioAttr($value, $data){
+        return explode('%,%',$value);
+    }
+
+    /**
      * 关联任务类型
      * @return \think\model\relation\HasOne
      */
@@ -17,7 +42,7 @@ class ZjTask extends Model
         ];
         return $this->hasOne('ZjTaskType','id','task_type_id')
             ->where($where)
-            ->field('img');
+            ->field('id,img');
     }
 
 }

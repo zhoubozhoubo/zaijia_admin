@@ -349,10 +349,6 @@ Route::group('admin', function () use ($afterBehavior) {
         'change' => [
             'admin/Banner/change',
             ['method' => 'post']
-        ],
-        'delete' => [
-            'admin/Banner/delete',
-            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('Link', [
@@ -366,10 +362,6 @@ Route::group('admin', function () use ($afterBehavior) {
         ],
         'change' => [
             'admin/Link/change',
-            ['method' => 'post']
-        ],
-        'delete' => [
-            'admin/Link/delete',
             ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);

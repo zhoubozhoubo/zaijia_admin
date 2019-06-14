@@ -20,7 +20,7 @@ class UserNotice extends Base
      * @throws \think\exception\DbException
      */
     public function noticeList(){
-        $this->requestType('GET');
+        $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
@@ -28,7 +28,7 @@ class UserNotice extends Base
             'user_id'=>$this->userInfo['user_id'],
             'is_delete'=>0
         ];
-        $res = ZjUserNotice::where($where)->field('gmt_create,gmt_modified,is_delete',true)->select();
+        $res = ZjUserNotice::where($where)->field('gmt_create,gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }

@@ -7,6 +7,7 @@ use think\Controller;
 class Index extends Controller
 {
     public function index(){
-        print_r('qewq');
+        $this->assign('title','123');
+        return $this->fetch();
     }
 }

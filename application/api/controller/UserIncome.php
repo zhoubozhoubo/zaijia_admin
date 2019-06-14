@@ -21,7 +21,7 @@ class UserIncome extends Base
      * @throws \think\exception\DbException
      */
     public function myIncomeList(){
-        $this->requestType('GET');
+        $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
@@ -29,9 +29,12 @@ class UserIncome extends Base
             'user_id'=>$this->userInfo['user_id'],
             'is_delete'=>0
         ];
-        $res = ZjUserIncome::where($where)->field('gmt_create,gmt_modified,is_delete',true)->select();
+        $res = ZjUserIncome::where($where)->field('gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        foreach ($res as $item){
+            $item->task;
         }
         return $this->buildSuccess($res);
     }
@@ -44,19 +47,23 @@ class UserIncome extends Base
      * @throws \think\exception\DbException
      */
     public function teamIncomeList(){
-        $this->requestType('GET');
-        $getData = $this->request->get();
+        $this->requestType('POST');
+        $postData = $this->request->post();
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
         $where = [
             'user_id'=>$this->userInfo['user_id'],
-            'type'=>$getData['type'],
+            'type'=>$postData['type'],
             'is_delete'=>0
         ];
-        $res = ZjCommission::where($where)->field('gmt_create,gmt_modified,is_delete',true)->select();
+        $res = ZjCommission::where($where)->field('gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        foreach ($res as $item){
+            $item->task;
+            $item->fromUser;
         }
         return $this->buildSuccess($res);
     }

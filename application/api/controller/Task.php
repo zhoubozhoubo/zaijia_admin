@@ -27,6 +27,9 @@ class Task extends Base
             'status' => 1,
             'is_delete' => 0
         ];
+        if($getData['city']){
+            $where['city'] = $getData['city'];
+        }
         switch ($getData['order']){
             case 0: //默认排序
                 $order='gmt_create DESC';
@@ -50,7 +53,7 @@ class Task extends Base
         $res = ZjTask::where($where)
             ->field('task_id,task_type_id,title,money,number,have_number,(number-have_number) as surplus_number')
             ->order($order)
-            ->select();
+            ->paginate();
         if (!$res) {
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
         }

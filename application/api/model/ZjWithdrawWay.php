@@ -4,7 +4,7 @@ namespace app\api\model;
 
 use think\Model;
 
-class ZjUserWithdraw extends Model
+class ZjWithdrawWay extends Model
 {
 
 }

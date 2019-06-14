@@ -2,7 +2,7 @@
 
 namespace app\api\controller;
 
-use app\api\model\ZjUserWithdraw;
+use app\api\model\ZjWithdraw;
 use app\util\ReturnCode;
 
 /**
@@ -10,7 +10,7 @@ use app\util\ReturnCode;
  * Class UserWithDraw
  * @package app\api\controller
  */
-class UserWithDraw extends Base
+class WithDraw extends Base
 {
 
     /**
@@ -21,7 +21,7 @@ class UserWithDraw extends Base
      * @throws \think\exception\DbException
      */
     public function withdrawList(){
-        $this->requestType('GET');
+        $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
@@ -29,9 +29,12 @@ class UserWithDraw extends Base
             'user_id'=>$this->userInfo['user_id'],
             'is_delete'=>0
         ];
-        $res = ZjUserWithdraw::where($where)->field('gmt_create,gmt_modified,is_delete',true)->select();
+        $res = ZjWithdraw::where($where)->field('gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        foreach ($res as $item){
+            $item->withdrawType;
         }
         return $this->buildSuccess($res);
     }
