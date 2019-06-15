@@ -489,6 +489,14 @@ Route::group('admin', function () use ($afterBehavior) {
         'saveCustomer' => [
             'admin/BasicConf/saveCustomer',
             ['method' => 'post']
+        ],
+        'website' => [
+            'admin/BasicConf/website',
+            ['method' => 'get']
+        ],
+        'saveWebsite' => [
+            'admin/BasicConf/saveWebsite',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
 

@@ -17,11 +17,11 @@ return [
     // 服务器地址
     'hostname'        => Env::get('database.hostname', 'rm-2ze3drctwx0tnax0txo.mysql.rds.aliyuncs.com'),
     // 数据库名
-    'database'        => Env::get('database.hostname', 'zaijia'),
+    'database'        => Env::get('database.database', 'zaijia'),
     // 用户名
-    'username'        => Env::get('database.hostname', 'lckingme'),
+    'username'        => Env::get('database.username', 'lckingme'),
     // 密码
-    'password'        => Env::get('database.hostname', 'hmDOG888@com'),
+    'password'        => Env::get('database.password', 'hmDOG888@com'),
     // 端口
     'hostport'        => '',
     // 连接dsn

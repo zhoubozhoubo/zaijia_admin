@@ -3,6 +3,7 @@
 /.idea
 /.svn
 /.git
+/.env
 /runtime
 /nbproject
 /composer.lock
