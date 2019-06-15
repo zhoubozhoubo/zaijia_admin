@@ -68,7 +68,12 @@ class UserLogic extends Base
         $code = $postData['code'];
         $password = $postData['password'];
         //邀请码
-        $invitationCode = $postData['invitationCode'];
+        if(isset($postData['invitationCode']) && $postData['invitationCode']!==''){
+            $invitationCode = $postData['invitationCode'];
+        }else{
+            $invitationCode=0;
+        }
+
         $res = ZjUser::where('phone', $phone)->count();
         if ($res > 0) {
             return $this->resultFailed(ReturnCode::RECORD_NOT_FOUND,'账号已注册','');
