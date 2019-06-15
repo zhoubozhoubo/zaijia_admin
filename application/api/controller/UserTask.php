@@ -72,6 +72,9 @@ class UserTask extends Base
             //当时间小于0时，表示阶段已结束，进行订单放弃处理
             if ($surplusTime <= 0) {
                 ZjUserTask::update(['id' => $res['id'], 'status' => 4]);
+                //任务已领取数量自减
+                $taskId = ZjUserTask::where(['id'=>$postData['id']])->value('task_id');
+                ZjTask::where(['task_id'=>$taskId])->setDec('have_number');
             }
         } else if ($res['status'] === 1) {
             //执行中返回审核剩余时间
@@ -107,6 +110,8 @@ class UserTask extends Base
         //返回任务完成时间
         $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->field('finish_duration')->find();
         $res['finish_duration']=$finishDuration['finish_duration']*60*60*1000;
+        //任务已领取数量自增
+        ZjTask::where(['task_id'=>$postData['task_id']])->setInc('have_number');
         return $this->buildSuccess($res,'成功领取任务');
     }
 
@@ -154,6 +159,9 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'放弃任务失败','');
         }
+        //任务已领取数量自减
+        $taskId = ZjUserTask::where(['id'=>$postData['id']])->value('task_id');
+        ZjTask::where(['task_id'=>$taskId])->setDec('have_number');
         return $this->buildSuccess($res);
     }
 

@@ -2,7 +2,10 @@
 
 namespace app\api\controller;
 
+use app\admin\model\ZjBasicConf;
 use app\api\model\ZjUser;
+use app\api\model\ZjUserNotice;
+use app\api\model\ZjWithdrawWay;
 use app\util\ReturnCode;
 
 /**
@@ -33,6 +36,24 @@ class User extends Base
         $res->superiorUser;
         $res['my_income'] = $res->my_income;
         $res['team_income'] = $res->team_income;
+        $res['total_income'] =number_format(($res['my_income']+$res['team_income']), 2, '.', '') ;
+        //提现方式信息
+        $withdrawWay = ZjWithdrawWay::where(['withdraw_way_id'=>1,'status'=>1,'is_delete'=>0])->field('gmt_create,gmt_modified,is_delete',true)->find();
+        $res['withdraw_notice']=$withdrawWay['notice'];
+        //二维码图片内容
+        //获取域名配置
+        $website = ZjBasicConf::where(['name'=>'website'])->value('value');
+        $res['qr_code'] = $website.'?invitationCode='.$res['code'];
+        //邀请技巧
+        $invite = ZjBasicConf::where(['name'=>'invite'])->value('value');
+        $res['invite'] = explode('%,%',$invite);
+        //邀请技巧
+        $customer = ZjBasicConf::where(['name'=>'customer'])->value('value');
+        $res['customer'] = explode('%,%',$customer);
+        //最新消息数量
+        $noticeNum = ZjUserNotice::where(['user_id'=>$res['user_id'],'is_read'=>0])->count();
+        $res['notice_num']=$noticeNum;
+
         return $this->buildSuccess($res);
     }
 

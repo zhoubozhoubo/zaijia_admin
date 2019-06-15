@@ -7,6 +7,15 @@ use think\Model;
 class ZjUser extends Model
 {
     /**
+     * 获取价格
+     * @param $value
+     * @return string
+     */
+    public function getMoneyAttr($value){
+        return number_format($value / 100, 2, '.', '');
+    }
+
+    /**
      * 关联上级用户昵称
      * @return \think\model\relation\HasOne
      */

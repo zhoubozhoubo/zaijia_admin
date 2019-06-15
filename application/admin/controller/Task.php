@@ -81,6 +81,7 @@ class Task extends BaseController
             $item['wait_check'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>1,'is_delete'=>0])->count();
             $item['have_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>2,'is_delete'=>0])->count();
             $item['no_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>3,'is_delete'=>0])->count();
+            $item['money'] =  number_format($item['money'] / 100, 2, '.', '');
         }
     }
 

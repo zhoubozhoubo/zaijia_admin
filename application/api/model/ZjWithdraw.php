@@ -16,6 +16,15 @@ class ZjWithdraw extends Model
     }
 
     /**
+     * 存储money处理
+     * @param $value
+     * @return float|int
+     */
+    public function setMoneyAttr($value){
+        return $value * 100;
+    }
+
+    /**
      * 关联提现方式信息
      * @return \think\model\relation\HasOne
      */

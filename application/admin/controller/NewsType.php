@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 
-use app\admin\model\ZjWithdrawWay;
+use app\admin\model\ZjNewsType;
 use app\util\BaseController;
 use think\Db;
 use think\Exception;
@@ -11,10 +11,10 @@ use think\exception\DbException;
 *
 * @package app\admin\controller
 */
-class WithdrawWay extends BaseController
+class NewsType extends BaseController
 {
 
-    public $table = 'ZjWithdrawWay';
+    public $table = 'ZjNewsType';
 
     /**
     * 获取列表
@@ -25,16 +25,29 @@ class WithdrawWay extends BaseController
     public function getList()
     {
         $this->requestType('GET');
+        $searchConf = json_decode($this->request->param('searchConf', ''),true);
         $db = Db::name($this->table);
-        $db = $db->order('withdraw_way_id ASC');
-        return $this->_list($db);
-    }
-
-    public function _getList_data_filter(&$data){
-        foreach ($data as &$item){
-            $item['min_money'] =  number_format($item['min_money'] / 100, 2, '.', '');
-            $item['max_money'] =  number_format($item['max_money'] / 100, 2, '.', '');
+        if($searchConf){
+            foreach ($searchConf as $key=>$val){
+                if($val === ''){
+                    unset($searchConf[$key]);
+                }
+                else if($key === 'status'){
+                    $searchConf[$key] = $val;
+                }
+                else{
+                    if ($key === 'status') {
+                        $searchConf[$key] = $val;
+                    }
+                    else{
+                        $searchConf[$key] = ['like', '%'.$val.'%'];
+                    }
+                }
+            }
         }
+        $where = $searchConf;
+        $db = $db->where($where)->order('news_type_id desc');
+        return $this->_list($db);
     }
 
 
@@ -46,13 +59,12 @@ class WithdrawWay extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        if ($postData['withdraw_way_id'] != 0) {
-            ZjWithdrawWay::update($postData);
+        if ($postData['news_type_id'] !== 0) {
+            ZjNewsType::update($postData);
             return $this->buildSuccess([]);
-        } else if (ZjWithdrawWay::create($postData)) {
+        } else if (ZjNewsType::create($postData)) {
             return $this->buildSuccess([]);
         }
-
         return $this->buildFailed();
     }
 
@@ -65,7 +77,7 @@ class WithdrawWay extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        $res = ZjWithdrawWay::update($postData);
+        $res = ZjNewsType::update($postData);
         if(!$res){
             return $this->buildFailed();
         }
@@ -81,7 +93,7 @@ class WithdrawWay extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjWithdrawWay::destroy($id)) {
+        if (ZjNewsType::destroy($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

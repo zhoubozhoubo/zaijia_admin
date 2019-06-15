@@ -9,17 +9,19 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+use think\Env;
+
 return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => Env::get('database.hostname', 'rm-2ze3drctwx0tnax0txo.mysql.rds.aliyuncs.com'),
     // 数据库名
-    'database'        => 'zaijia',
+    'database'        => Env::get('database.hostname', 'zaijia'),
     // 用户名
-    'username'        => 'root',
+    'username'        => Env::get('database.hostname', 'lckingme'),
     // 密码
-    'password'        => 'root',
+    'password'        => Env::get('database.hostname', 'hmDOG888@com'),
     // 端口
     'hostport'        => '',
     // 连接dsn

@@ -76,10 +76,12 @@ class UserLogic extends Base
         if($code != cache($phone)){
             return $this->resultFailed(ReturnCode::CODE_ERROR,'验证码错误','');
         }
+        $code = $this->createCode();
         $user = [
             'phone'=>$phone,
             'password'=>md5($password),
-            'code'=>$this->createCode()
+            'code'=>$code,
+            'nickname'=>'惠元财富会员'.$code
         ];
         if($invitationCode){
             //根据邀请码绑定上级及上上级
@@ -134,7 +136,7 @@ class UserLogic extends Base
      * @return int
      */
     public function createCode(){
-        $code = 1234;
-        return $code;
+        $nowMaxCode = ZjUser::order('code DESC')->limit(1)->value('code');
+        return $nowMaxCode+1;
     }
 }

@@ -59,4 +59,10 @@ class Commission extends BaseController
         $db = $db->where($where)->order('gmt_create desc');
         return $this->_list($db);
     }
+
+    public function _getList_data_filter(&$data){
+        foreach ($data as &$item){
+            $item['money'] =  number_format($item['money'] / 100, 2, '.', '');
+        }
+    }
 }
