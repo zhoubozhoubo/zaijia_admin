@@ -1,8 +1,10 @@
 <?php
 namespace app\admin\controller;
 
+use app\admin\model\ZjTask;
 use app\admin\model\ZjTaskType;
 use app\util\BaseController;
+use app\util\ReturnCode;
 use think\Db;
 use think\Exception;
 use think\exception\DbException;
@@ -90,7 +92,12 @@ class TaskType extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjTaskType::destroy($id)) {
+        //查询当前新闻分类下是否有新闻数据
+        $news = ZjTask::where(['task_type_id'=>$id['task_type_id'],'is_delete'=>0])->count();
+        if($news>0){
+            return $this->buildFailed(ReturnCode::DELETE_FAILED,'当前分类下存在任务数据，无法删除','');
+        }
+        if (ZjTaskType::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

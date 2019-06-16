@@ -499,6 +499,42 @@ Route::group('admin', function () use ($afterBehavior) {
             ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
+    Route::group('News', [
+        'getList' => [
+            'admin/News/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/News/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/News/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/News/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
+    Route::group('NewsType', [
+        'getList' => [
+            'admin/NewsType/getList',
+            ['method' => 'get']
+        ],
+        'save' => [
+            'admin/NewsType/save',
+            ['method' => 'post']
+        ],
+        'change' => [
+            'admin/NewsType/change',
+            ['method' => 'post']
+        ],
+        'delete' => [
+            'admin/NewsType/delete',
+            ['method' => 'post']
+        ]
+    ], ['after_behavior' => $afterBehavior]);
 
     Route::miss('admin/Miss/index');
 });

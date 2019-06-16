@@ -1,8 +1,10 @@
 <?php
 namespace app\admin\controller;
 
+use app\admin\model\ZjNews;
 use app\admin\model\ZjNewsType;
 use app\util\BaseController;
+use app\util\ReturnCode;
 use think\Db;
 use think\Exception;
 use think\exception\DbException;
@@ -27,26 +29,22 @@ class NewsType extends BaseController
         $this->requestType('GET');
         $searchConf = json_decode($this->request->param('searchConf', ''),true);
         $db = Db::name($this->table);
+        $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
-                if($val === ''){
-                    unset($searchConf[$key]);
-                }
-                else if($key === 'status'){
-                    $searchConf[$key] = $val;
-                }
-                else{
-                    if ($key === 'status') {
-                        $searchConf[$key] = $val;
+                if($val !== '') {
+                    if ($key === 'name') {
+                        $where[$key] = ['like', '%' . $val . '%'];
+                        continue;
                     }
-                    else{
-                        $searchConf[$key] = ['like', '%'.$val.'%'];
+                    if ($key === 'status') {
+                        $where[$key] = $val;
+                        continue;
                     }
                 }
             }
         }
-        $where = $searchConf;
-        $db = $db->where($where)->order('news_type_id desc');
+        $db = $db->where($where)->order('sort ASC');
         return $this->_list($db);
     }
 
@@ -93,7 +91,12 @@ class NewsType extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjNewsType::destroy($id)) {
+        //查询当前新闻分类下是否有新闻数据
+        $news = ZjNews::where(['news_type_id'=>$id['news_type_id'],'is_delete'=>0])->count();
+        if($news>0){
+            return $this->buildFailed(ReturnCode::DELETE_FAILED,'当前分类下存在新闻数据，无法删除','');
+        }
+        if (ZjNewsType::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

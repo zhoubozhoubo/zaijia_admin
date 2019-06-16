@@ -26,26 +26,26 @@ class News extends BaseController
     {
         $this->requestType('GET');
         $searchConf = json_decode($this->request->param('searchConf', ''),true);
-        $db = Db::name($this->table);
+        $db = Db::view(['zj_news' => 'a'])->view(['zj_news_type' => 'b'], 'name as news_type_name', 'a.news_type_id=b.news_type_id', 'LEFT');
+        $where = [];
         if($searchConf){
             foreach ($searchConf as $key=>$val){
-                if($val === ''){
-                    unset($searchConf[$key]);
-                }
-                else if($key === 'status'){
-                    $searchConf[$key] = $val;
-                }
-                else{
-                    if ($key === 'status') {
-                        $searchConf[$key] = $val;
+                if ($val !== '') {
+                    if ($key === 'news_type_id') {
+                        $where["b.news_type_id"] = $val;
+                        continue;
                     }
-                    else{
-                        $searchConf[$key] = ['like', '%'.$val.'%'];
+                    if ($key === 'title') {
+                        $where["a.{$key}"] = ['like', '%' . $val . '%'];
+                        continue;
+                    }
+                    if ($key === 'status') {
+                        $where["a.{$key}"] = $val;
+                        continue;
                     }
                 }
             }
         }
-        $where = $searchConf;
         $db = $db->where($where)->order('news_id desc');
         return $this->_list($db);
     }

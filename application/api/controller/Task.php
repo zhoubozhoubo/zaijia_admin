@@ -82,8 +82,9 @@ class Task extends Base
         if (!$res) {
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
         }
-        //用户已登录，对当前任务进行状态判断
+        //用户登录状态判断
         if($this->userInfo){
+            //用户已登录，对当前任务进行状态判断
             $where=[
                 'task_id'=>$taskId,
                 'user_id'=>$this->userInfo['user_id']
@@ -165,6 +166,7 @@ class Task extends Base
                 }
             }
         }else{
+            //用户未登录，当前任务可领取
             $res['can_receive'] = 1;
         }
         return $this->buildSuccess($res);

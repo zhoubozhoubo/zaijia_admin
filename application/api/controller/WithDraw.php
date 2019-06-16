@@ -48,32 +48,48 @@ class WithDraw extends Base
      * @throws \think\Exception
      */
     public function addWithdraw(){
-
+        $this->requestType('POST');
+        $money = $this->request->post('money','');
+        $name = $this->request->post('name','');
+        $account = $this->request->post('account','');
+        if(!$this->userInfo){
+            return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
+        }
+        if($money===''){
+            return $this->buildFailed(ReturnCode::PARAM_DEFECT, '缺少提现金额', '');
+        }
+        //提现方式信息
+        $withdrawWay = ZjWithdrawWay::where(['withdraw_way_id'=>1,'status'=>1,'is_delete'=>0])->field('gmt_create,gmt_modified,is_delete',true)->find();
+        //判断提现金额
+        if($money<$withdrawWay['min_money']){
+            return $this->buildFailed(ReturnCode::ADD_FAILED,'提现金额最低'.$withdrawWay['min_money'].'元','');
+        }
+        if($money > $withdrawWay['max_money']){
+            return $this->buildFailed(ReturnCode::ADD_FAILED,'提现金额最高'.$withdrawWay['max_money'].'元','');
+        }
+        if($name===''){
+            return $this->buildFailed(ReturnCode::PARAM_DEFECT, '缺少账户姓名', '');
+        }
+        if($account===''){
+            return $this->buildFailed(ReturnCode::PARAM_DEFECT, '缺少帐号信息', '');
+        }
+        $userMoney = ZjUser::where(['user_id'=>$this->userInfo['user_id']])->value('money');
+        if($money > $userMoney){
+            return $this->buildFailed(ReturnCode::PARAM_DEFECT, '提现金额不能大于余额', '');
+        }
         // 启动事务
         Db::startTrans();
         try {
-            $this->requestType('POST');
-            $postData = $this->request->post();
-            if(!$this->userInfo){
-                return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
-            }
-            //提现方式信息
-            $withdrawWay = ZjWithdrawWay::where(['withdraw_way_id'=>1,'status'=>1,'is_delete'=>0])->field('gmt_create,gmt_modified,is_delete',true)->find();
-            //判断提现金额
-            if($postData['money']<$withdrawWay['min_money']){
-                return $this->buildFailed(ReturnCode::ADD_FAILED,'提现金额最低'.$withdrawWay['min_money'].'元','');
-            }
-            if($postData['money'] > $withdrawWay['max_money']){
-                return $this->buildFailed(ReturnCode::ADD_FAILED,'提现金额最高'.$withdrawWay['max_money'].'元','');
-            }
             $data = [
                 'user_id'=>$this->userInfo['user_id'],
-                'money'=>$postData['money'],
+                'money'=>$money,
                 'withdraw_way_id'=>1,
-                'account'=>$postData['account']
+                'name'=>$name,
+                'account'=>$account
             ];
             $res = ZjWithdraw::create($data);
-            ZjUser::where(['user_id'=>$this->userInfo['user_id']])->setDec('money',$postData['money']*100);
+            //用户余额减少
+            ZjUser::where(['user_id'=>$this->userInfo['user_id']])->setDec('money',$money*100);
             // 提交事务
             Db::commit();
             return $this->buildSuccess($res,'申请提现成功');
