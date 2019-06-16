@@ -21,16 +21,16 @@ class User extends Base
     //初始化配置
     public $config = [];
 
-    function __construct() {
+    /*function __construct() {
         $this->config = [
-            'token' => '',
+            'token' => 'xtcyivubohibxrctyvubn6rty',
             'appid' => 'wxc5b8b08c2e2b506f',
-            'appsecret' => '5ebc580f146a89330cb3addc8b6cd30e'
+            'appsecret' => '3e0301d69ff031f7c7024e2c01ce05ea'
 //            'token' => 'PCd4Gcdd55a4X440996pc9Y5tP90IP6K',
 //            'appid' => 'wxc7338b8f1cc708e3',
 //            'appsecret' => 'ca15b6f6e7015e4e44b12a5d0a8b336b'
         ];
-    }
+    }*/
 
     /**
      * 用户个人信息
@@ -78,16 +78,15 @@ class User extends Base
      * 用户登录
      * @return array|\think\response\Json
      */
-    /*public function login(){
+    public function login(){
         $this->requestType('POST');
         $postData = $this->request->post();
         $res = $this->logic->login($postData);
-        $res = $this->logic->login();
         if($res['code'] !== 1){
             return $this->buildFailed($res['code'], $res['msg'], $res['data']);
         }
         return $this->buildSuccess($res['data'],'登陆成功');
-    }*/
+    }
 
     /**
      * 用户注册
@@ -153,16 +152,16 @@ class User extends Base
     /**
      * 用户登录
      */
-    public function login() {
+    /*public function login() {
         //请求授权
         $Oauth = new Oauth($this->config);
 
         //获取code
-        $code = $Oauth->getOauthRedirect("jianzhi.hmdog.com/api/5d063d8fd4a60", 'state');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com", 'state','snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
         echo "<script>window.location.href='{$code}'</script>";
-    }
+    }*/
 
 
     /**

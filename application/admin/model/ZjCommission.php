@@ -14,5 +14,8 @@ class ZjCommission extends Model
     public function getMoneyAttr($value){
         return number_format($value / 100, 2, '.', '');
     }
+    public function setMoneyAttr($value){
+        return $value * 100;
+    }
 
 }

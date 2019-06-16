@@ -146,15 +146,8 @@ class UserTask extends BaseController
             $task = ZjTask::where(['task_id'=>$userTask['task_id']])->field('money,task_id')->find();
             //用户数据
             $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id')->find();
-            //添加用户收入数据
-            $userIncome = [
-                'user_id'=>$user['user_id'],
-                'task_id'=>$task['task_id'],
-                'money'=>$task['money']*100
-            ];
-            ZjUserIncome::create($userIncome);
-            //用户增加金额
-            ZjUser::where(['user_id'=>$user['user_id']])->setInc('money',$task['money']*100);
+            //任务金额
+            $money = $task['money'];
             if($user['superior_user_id'] !== 0){
                 //存在上级 TODO 上级分享一级佣金
                 //一级佣金比例
@@ -163,14 +156,16 @@ class UserTask extends BaseController
                 $oneCommission = [
                     'type'=>1,
                     'user_id'=>$user['superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf,
+                    'money'=>$task['money'] * $commissionConf/100,
                     'from_user_id'=>$user['user_id'],
                     'task_id'=>$task['task_id']
                 ];
                 //添加佣金数据
                 ZjCommission::create($oneCommission);
                 //上级增加金额
-                ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']);
+                ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
+                //剩余任务金额
+                $money -=$oneCommission['money'];
             }
             if($user['superior_superior_user_id'] !== 0){
                 //存在上上级 TODO 上上级分享二级佣金
@@ -180,18 +175,28 @@ class UserTask extends BaseController
                 $twoCommission = [
                     'type'=>2,
                     'user_id'=>$user['superior_superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf,
+                    'money'=>$task['money'] * $commissionConf/100,
                     'from_user_id'=>$user['user_id'],
                     'task_id'=>$task['task_id']
                 ];
                 //添加佣金数据
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
-                ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']);
+                ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
+                //剩余任务金额
+                $money-=$twoCommission['money'];
             }
+            //添加用户收入数据
+            $userIncome = [
+                'user_id'=>$user['user_id'],
+                'task_id'=>$task['task_id'],
+                'money'=>$money
+            ];
+            ZjUserIncome::create($userIncome);
+            //用户增加金额
+            ZjUser::where(['user_id'=>$user['user_id']])->setInc('money',$money*100);
             // 提交事务
             Db::commit();
-            return $this->buildSuccess([]);
         } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();
