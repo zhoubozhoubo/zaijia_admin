@@ -230,8 +230,37 @@ class User extends Base
      * @param $info
      */
     public function add($info) {
-        print_r($info);exit;
-        /*//检查该用户是否存在
+        $where = [
+            'openid'=>$info['openid']
+        ];
+        //检查该用户是否存在
+        $res = ZjUser::where($where)->count();
+        if ($res > 0) {
+            //存在则返回用户信息以及token
+            $user = ZjUser::where($where)->find();
+            $res = [
+                'nickname'=>$info['nickname'],
+                'headimgurl'=>$info['headimgurl'],
+                'token'=>$this->createToken($user)
+            ];
+            return $this->buildSuccess($res,'登陆成功');
+        }else{
+            //不存在则创建用户信息
+            $user=[
+                'code'=>$this->createCode(),
+                'nickname'=>$info['nickname'],
+                'avatarurl'=>$info['headimgurl']
+            ];
+            $res = ZjUser::create($user);
+            if (!$res) {
+                return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
+            }
+            return $this->buildSuccess($res,'注册成功');
+        }
+
+
+/*
+        //检查该用户是否存在
         $db = Db::name($this->table)->where('openid', $info['openid'])->find();
         if ($db) {
             //用户存在设置登陆信息
@@ -320,6 +349,28 @@ class User extends Base
             }
 
         }*/
+    }
+
+    /**
+     * 生成token
+     * @param $user
+     * @return array
+     */
+    public function createToken($user){
+        $str = mt_rand(1000,9999);
+        $str = uniqid("$str.", true);
+        $token = md5($str);
+        cache($token, json_encode($user));
+        return ['token'=>$token];
+    }
+
+    /**
+     * 生成code
+     * @return int
+     */
+    public function createCode(){
+        $nowMaxCode = ZjUser::order('code DESC')->limit(1)->value('code');
+        return $nowMaxCode+1;
     }
 
 
