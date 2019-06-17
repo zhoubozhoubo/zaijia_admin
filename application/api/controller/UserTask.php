@@ -49,18 +49,24 @@ class UserTask extends Base
             //倒计时
             $surplusTime = 0;
             if ($item['status'] === 0) {
+                print_r("status=0\n");
                 //执行中返回执行剩余时间
                 $finishDuration = $item['task']['finish_duration'] * 60 * 60;
+                print_r("finishDuration={$finishDuration}\n");
                 $surplusTime = $finishDuration - (time() - strtotime($item['gmt_create']));
+                print_r("surplusTime={$surplusTime}\n");
                 //当时间小于0时，表示执行阶段已结束，进行订单放弃处理
                 if ($surplusTime <= 0) {
                     ZjUserTask::update(['id' => $item['id'], 'status' => 4]);
                     unset($res[$key]);
                 }
             } else if ($item['status'] === 1) {
+                print_r("status=1\n");
                 //审核中返回审核剩余时间
                 $checkDuration = $item['task']['check_duration'] * 60 * 60;
+                print_r("checkDuration={$checkDuration}\n");
                 $surplusTime = $checkDuration - (time() - strtotime($item['submit_time']));
+                print_r("surplusTime={$surplusTime}\n");
                 //当时间小于0时，表示审核阶段已结束，进行订单自动通过处理
                 if ($surplusTime <= 0) {
                     ZjUserTask::update(['id' => $item['id'],'check_time'=>date('Y-m-d H:i:s'), 'status' => 2]);
