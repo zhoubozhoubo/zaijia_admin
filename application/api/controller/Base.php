@@ -40,12 +40,9 @@ class Base extends Controller {
      */
     protected $userInfo = [];
 
-    public function __construct()
+    public function _initialize()
     {
         $this->token = $this->request->header('token');
-        print_r('$this->token:');
-        print_r($this->token);
-        exit;
         if ($this->token) {
             $userInfo = cache($this->token);
             if ($userInfo) {

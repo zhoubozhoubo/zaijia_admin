@@ -19,11 +19,7 @@ use WeChat\Oauth;
 class User extends Base
 {
     //初始化配置
-    public $config = [
-        'token' => 'xtcyivubohibxrctyvubn6rty',
-        'appid' => 'wxc5b8b08c2e2b506f',
-        'appsecret' => '3e0301d69ff031f7c7024e2c01ce05ea'
-    ];
+    public $config = [];
 
     /*function __construct() {
         $this->config = [
@@ -82,7 +78,7 @@ class User extends Base
      * 用户登录
      * @return array|\think\response\Json
      */
-    /*public function login(){
+    public function login(){
         $this->requestType('POST');
         $postData = $this->request->post();
         $res = $this->logic->login($postData);
@@ -90,7 +86,7 @@ class User extends Base
             return $this->buildFailed($res['code'], $res['msg'], $res['data']);
         }
         return $this->buildSuccess($res['data'],'登陆成功');
-    }*/
+    }
 
     /**
      * 用户注册
@@ -156,20 +152,16 @@ class User extends Base
     /**
      * 用户登录
      */
-    public function login() {
+    /*public function login() {
         //请求授权
         $Oauth = new Oauth($this->config);
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com", 'state','snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
-        $res = [
-            'data'=>"<script>window.location.href='{$code}'</script>"
-        ];
-//        return $this->buildSuccess($res,'登陆成功');
         echo "<script>window.location.href='{$code}'</script>";
-    }
+    }*/
 
 
     /**
@@ -238,62 +230,96 @@ class User extends Base
      * @param $info
      */
     public function add($info) {
-        $where = [
-            'openid'=>$info['openid']
-        ];
-        //检查该用户是否存在
-        $res = ZjUser::where($where)->count();
-        if ($res > 0) {
-            //存在则返回用户信息以及token
-            $user = ZjUser::where($where)->find();
-//            $res = [
-//                'url'=>'jianzhi.hmdog.com:8003/#/User',
-//                'nickname'=>$info['nickname'],
-//                'headimgurl'=>$info['headimgurl'],
-//                'token'=>$this->createToken($user)
-//            ];
-            $token = $this->createToken($user);
-//            return $this->buildSuccess($res,'登陆成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."';</script>";
-        }else{
-            //不存在则创建用户信息
-            $user=[
-                'code'=>$this->createCode(),
-                'nickname'=>$info['nickname'],
-                'avatarurl'=>$info['headimgurl'],
-                'openid'=>$info['openid']
+        print_r($info);exit;
+        /*//检查该用户是否存在
+        $db = Db::name($this->table)->where('openid', $info['openid'])->find();
+        if ($db) {
+            //用户存在设置登陆信息
+            //            session('id', $db['id']);
+            //            session('username', $db['username']);
+            //            session('userimg', $db['userimg']);
+            //            session('exp', $db['exp']);
+            $url = IndexUrl();
+            echo "<script>window.location.href='{$url}/#/?openid={$info['openid']}&exp={$db['exp']}';</script>";
+        } else {
+            //下载用户头像到本地
+            $data = [
+                //用户名
+                'username' => $info['nickname'],
+                //用户头像
+                'userimg' => $info['headimgurl'],
+                //用户openid,对当前公众唯一
+                'openid' => $info['openid'],
+                //新用户等级1
+                'exp' => 1,
             ];
-            $res = ZjUser::create($user);
-            if (!$res) {
-                return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
+
+            //被邀请
+            if (!empty(cookie('coder'))) {
+                //推荐人id
+                $fid = base64_decode(cookie('coder'));
+                $data['fid'] = $fid;
+                //寻找爷级
+                $sid = Db::name('User')->where('id', $fid)->value('fid');
+                if ($sid != 0) {
+                    //爷级存在
+                    $data['sid'] = $sid;
+                }
+                //推荐人等级
+                $fexp = Db::name('User')->where('id', $fid)->value('exp');
+                //寻找团队
+                if ($fexp == 4) {
+                    //推荐人为联创人时
+                    $data['vid'] = $fid;
+                } else {
+                    $vid = Db::name('User')->where('id', $fid)->value('vid');
+                    if ($vid != 0) {
+                        //团队存在
+                        $data['vid'] = $vid;
+                    }
+                }
+
             }
-            $token = $this->createToken($user);
-//            return $this->buildSuccess($res,'注册成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."';</script>";
-        }
 
-    }
+            //检测管理用户最少的财务
+            //            $finances=db('SystemUser')->where('authorize',1)->column('id');
+            //            $finance=db('User')->group('cw_id')->where('cw_id','neq',0)->column('cw_id,count(*) as count');
+            //            $finance_arr=db('User')->group('cw_id')->where('cw_id','neq',0)->column('cw_id');
+            //
+            //            foreach ($finances as $key=>$val) {
+            //                if(!in_array($val,$finance_arr)){
+            //                    $finance[$val]=0;
+            //                }
+            //            }
+            //
+            //            foreach ($finance as $k=>$v) {
+            //                if($v==min($finance)){
+            //                    $cw_id=$k;
+            //                    break;
+            //                }
+            //            }
+            //            //所属财务
+            //            $data['cw_id'] = $cw_id;
+            //
+            $db = Db::name($this->table)->insertGetId($data);
 
-    /**
-     * 生成token
-     * @param $user
-     * @return array
-     */
-    public function createToken($user){
-        $str = mt_rand(1000,9999);
-        $str = uniqid("$str.", true);
-        $token = md5($str);
-        cache($token, json_encode($user));
-        return $token;
-    }
+            if ($db > 0) {
+                $db = Db::name('user')->where('id', $db)->find();
 
-    /**
-     * 生成code
-     * @return int
-     */
-    public function createCode(){
-        $nowMaxCode = ZjUser::order('code DESC')->limit(1)->value('code');
-        return $nowMaxCode+1;
+                //添加用户成功，添加登陆信息
+                session('id', $db['id']);
+                session('username', $db['username']);
+                session('userimg', $db['userimg']);
+                session('exp', $db['exp']);
+
+                $url = IndexUrl();
+                echo "<script>window.location.href='{$url}/#/?openid={$info['openid']}&exp={$db['exp']}';</script>";
+
+            } else {
+                return '登陆失败';
+            }
+
+        }*/
     }
 
 
