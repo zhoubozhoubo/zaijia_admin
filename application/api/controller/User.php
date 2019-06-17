@@ -191,9 +191,7 @@ class User extends Base
             $invitationCode = isset($_GET['state']) ? $_GET['state'] : '';
 
             $token = $Oauth->getOauthAccessToken();
-            print_r($token);
-            print_r($invitationCode);
-            exit;
+            cache($token['openid'],$invitationCode);
 
             $this->GetToken($token, $Oauth);
         } catch (Exception $e) {
@@ -274,6 +272,15 @@ class User extends Base
                 'avatarurl'=>$info['headimgurl'],
                 'openid'=>$info['openid']
             ];
+            $invitationCode = cache($info['openid']);
+            if($invitationCode){
+                //根据邀请码绑定上级及上上级
+                $superior = ZjUser::where(['code'=>$invitationCode,'is_delete'=>0])->field('user_id,superior_user_id')->find();
+                if($superior){
+                    $user['superior_user_id'] =  $superior['user_id'];
+                    $user['superior_superior_user_id'] =  $superior['superior_user_id'];
+                }
+            }
             $res = ZjUser::create($user);
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
