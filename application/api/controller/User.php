@@ -47,6 +47,7 @@ class User extends Base
             'is_delete'=>0
         ];
         $res = ZjUser::where($where)->field('password,gmt_create,gmt_modified,is_delete',true)->find();
+        print_r($res);exit;
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'用户不存在','');
         }
