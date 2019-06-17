@@ -249,9 +249,8 @@ class User extends Base
 //                'token'=>$this->createToken($user)
 //            ];
 //            return $this->buildSuccess($res,'登陆成功');
-            print_r('token:');
             $token = $this->createToken($user);
-            print_r($token);exit;
+            print_r("<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>");exit;
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }else{
             //不存在则创建用户信息
