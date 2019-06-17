@@ -263,7 +263,7 @@ class User extends Base
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
 //            return $this->buildSuccess($res,'注册成功');
-            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/?token='+{$this->createToken($user)}</script>";
+            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/?token='</script>";
         }
 
 
