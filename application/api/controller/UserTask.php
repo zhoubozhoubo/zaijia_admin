@@ -99,7 +99,7 @@ class UserTask extends Base
         }
         $res->task;
         $surplusTime = 0;
-        if ($res['status'] === 0) {
+        if ($res['status'] == 0) {
             //执行中返回执行剩余时间
             $finishDuration = $res['task']['finish_duration'] * 60 * 60;
             $surplusTime = $finishDuration - (time() - strtotime($res['gmt_create']));
@@ -108,7 +108,7 @@ class UserTask extends Base
                 ZjUserTask::update(['id' => $res['id'], 'status' => 4]);
                 $res['status'] = 4;
             }
-        } else if ($res['status'] === 1) {
+        } else if ($res['status'] == 1) {
             //执行中返回审核剩余时间
             $checkDuration = $res['task']['check_duration'] * 60 * 60;
             $surplusTime = $checkDuration - (time() - strtotime($res['submit_time']));
