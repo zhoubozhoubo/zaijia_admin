@@ -46,7 +46,8 @@ class UserTask extends Base
             //通过率
             $pass_number = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>1,'is_delete'=>0])->count();
             $all_number = ZjUserTask::where(['task_id'=>$item['task_id'],'is_delete'=>0])->count();
-            $item['ratio'] = $pass_number/$all_number*100;
+            $item['ratio'] = number_format($pass_number/$all_number*100, 2, '.', '');
+
             //倒计时
             $surplusTime = 0;
             if ($item['status'] == 0) {
