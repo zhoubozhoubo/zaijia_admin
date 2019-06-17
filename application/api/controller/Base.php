@@ -45,7 +45,6 @@ class Base extends Controller {
         $this->token = $this->request->header('token');
         if ($this->token) {
             $userInfo = cache($this->token);
-            print_r($userInfo);exit;
             if ($userInfo) {
                 //更新时间
                 cache($this->token, $userInfo, config('CACHE_TIME'));

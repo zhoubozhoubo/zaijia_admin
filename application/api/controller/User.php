@@ -285,6 +285,7 @@ class User extends Base
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
+            $user = ZjUser::where($where)->find();
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'注册成功');
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."';</script>";
