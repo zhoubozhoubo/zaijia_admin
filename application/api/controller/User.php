@@ -161,12 +161,12 @@ class User extends Base
         $Oauth = new Oauth($this->config);
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d078f37bc5b9", 'state','snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
-        $res = [
-            'data'=>"<script>window.location.href='{$code}'</script>"
-        ];
+//        $res = [
+//            'data'=>"<script>window.location.href='{$code}'</script>"
+//        ];
 //        return $this->buildSuccess($res,'登陆成功');
         echo "<script>window.location.href='{$code}'</script>";
     }
@@ -179,7 +179,6 @@ class User extends Base
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function get() {
-        print_r($this->config);exit;
         try {
             $Oauth = new Oauth($this->config);
 
