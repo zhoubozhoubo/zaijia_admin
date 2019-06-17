@@ -48,7 +48,7 @@ class UserTask extends Base
             $item['ratio'] = $pass_number/$all_number*100;
             //倒计时
             $surplusTime = 0;
-            if ($item['status'] === 0) {
+            if ($item['status'] == 0) {
                 print_r("status=0\n");
                 //执行中返回执行剩余时间
                 $finishDuration = $item['task']['finish_duration'] * 60 * 60;
@@ -60,7 +60,7 @@ class UserTask extends Base
                     ZjUserTask::update(['id' => $item['id'], 'status' => 4]);
                     unset($res[$key]);
                 }
-            } else if ($item['status'] === 1) {
+            } else if ($item['status'] == 1) {
                 print_r("status=1\n");
                 //审核中返回审核剩余时间
                 $checkDuration = $item['task']['check_duration'] * 60 * 60;
