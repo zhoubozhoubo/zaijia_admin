@@ -181,6 +181,7 @@ class User extends Base
     public function get() {
         try {
             $Oauth = new Oauth($this->config);
+            print_r($Oauth);exit;
 
             $token = $Oauth->getOauthAccessToken();
 
