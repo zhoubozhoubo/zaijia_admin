@@ -159,6 +159,8 @@ class User extends Base
     public function login() {
         //请求授权
         $Oauth = new Oauth($this->config);
+        $getData = $this->request->get();
+        print_r($getData);exit;
 
         //获取code
         $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
