@@ -43,6 +43,7 @@ class Base extends Controller {
     public function _initialize()
     {
         $this->token = $this->request->header('token');
+        print_r($this->token);exit;
         if ($this->token) {
             $userInfo = cache($this->token);
             if ($userInfo) {
