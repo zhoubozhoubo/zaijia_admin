@@ -157,7 +157,7 @@ class User extends Base
         $Oauth = new Oauth($this->config);
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d078f37bc5b9", 'state','snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
         $res = [
@@ -248,21 +248,22 @@ class User extends Base
                 'headimgurl'=>$info['headimgurl'],
                 'token'=>$this->createToken($user)
             ];
-            return $this->buildSuccess($res,'登陆成功');
-//            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/User';</script>";
+//            return $this->buildSuccess($res,'登陆成功');
+            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/User';</script>";
         }else{
             //不存在则创建用户信息
             $user=[
                 'code'=>$this->createCode(),
                 'nickname'=>$info['nickname'],
-                'avatarurl'=>$info['headimgurl']
+                'avatarurl'=>$info['headimgurl'],
+                'openid'=>$info['openid']
             ];
             $res = ZjUser::create($user);
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
-            return $this->buildSuccess($res,'注册成功');
-//            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/User';</script>";
+//            return $this->buildSuccess($res,'注册成功');
+            echo "<script>window.location.href='jianzhi.hmdog.com:8003/#/User';</script>";
         }
 
 
