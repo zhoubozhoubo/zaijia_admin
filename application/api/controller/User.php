@@ -38,7 +38,9 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function info(){
+        print_r('$this->userInfo:');
         print_r($this->userInfo);
+        print_r('cache:');
         print_r(cache('67caae3e06a5279477eb82eb38af2423'));
         exit;
         $this->requestType('POST');
