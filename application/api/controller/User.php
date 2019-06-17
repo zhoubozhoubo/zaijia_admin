@@ -239,7 +239,6 @@ class User extends Base
         ];
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
-        print_r($res);exit;
         if ($res > 0) {
             //存在则返回用户信息以及token
             $user = ZjUser::where($where)->find();
@@ -250,7 +249,9 @@ class User extends Base
 //                'token'=>$this->createToken($user)
 //            ];
 //            return $this->buildSuccess($res,'登陆成功');
+            print_r('token:');
             $token = $this->createToken($user);
+            print_r($token);exit;
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }else{
             //不存在则创建用户信息
