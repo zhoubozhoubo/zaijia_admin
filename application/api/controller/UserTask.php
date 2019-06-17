@@ -69,10 +69,10 @@ class UserTask extends Base
                     unset($res[$key]);
                 }
             }
-            print_r($surplusTime);exit;
             $item['surplus_time'] = $surplusTime * 1000;
             $item['count_time'] = '--:--:--';
         }
+        print_r($res);exit;
         return $this->buildSuccess($res);
     }
 
