@@ -31,8 +31,7 @@ class Task extends Base
         $getData = $this->request->get();
         $where = [
             'status' => 1,
-            'is_delete' => 0,
-            'have_number' => ['<', 'number']
+            'is_delete' => 0
         ];
         if($getData['city']){
             $where['city'] = $getData['city'];
@@ -59,6 +58,7 @@ class Task extends Base
 
         $res = ZjTask::where($where)
             ->field('task_id,task_type_id,title,money,number,have_number,(number-have_number) as surplus_number')
+            ->where('number - have_number','>',0)
             ->order($order)
             ->paginate();
         if (!$res) {
