@@ -42,6 +42,7 @@ class UserTask extends Base
         }
         foreach ($res as $key=>$item){
             $item->task;
+            $item['img']=$item['task']['task_type']['img'];
             //通过率
             $pass_number = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>1,'is_delete'=>0])->count();
             $all_number = ZjUserTask::where(['task_id'=>$item['task_id'],'is_delete'=>0])->count();
