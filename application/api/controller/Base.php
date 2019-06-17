@@ -40,7 +40,7 @@ class Base extends Controller {
      */
     protected $userInfo = [];
 
-    public function _initialize()
+    public function __construct()
     {
         $this->token = $this->request->header('token');
         print_r('$this->token:');
