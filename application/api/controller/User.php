@@ -263,6 +263,7 @@ class User extends Base
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
+            print_r('token:');
             $token = $this->createToken($user);
             print_r($token);exit;
 //            return $this->buildSuccess($res,'注册成功');
