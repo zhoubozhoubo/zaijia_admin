@@ -38,7 +38,9 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function info(){
-        $this->requestType('POST');
+        if(!$this->request->isPost()){
+            return $this->buildFailed(ReturnCode::UNKNOWN, '请求方式错误', '');
+        }
         print_r($this->userInfo);
         exit;
         if(!$this->userInfo){
