@@ -160,10 +160,15 @@ class User extends Base
         //请求授权
         $Oauth = new Oauth($this->config);
         $getData = $this->request->get();
-        print_r($getData);exit;
+        //邀请码
+        if(isset($getData['invitationCode']) && $getData['invitationCode']!==''){
+            $invitationCode = $getData['invitationCode'];
+        }else{
+            $invitationCode=0;
+        }
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
 //        $res = [
@@ -183,8 +188,12 @@ class User extends Base
     public function get() {
         try {
             $Oauth = new Oauth($this->config);
+            $invitationCode = isset($_GET['state']) ? $_GET['state'] : '';
 
             $token = $Oauth->getOauthAccessToken();
+            print_r($token);
+            print_r($invitationCode);
+            exit;
 
             $this->GetToken($token, $Oauth);
         } catch (Exception $e) {
