@@ -39,6 +39,8 @@ class User extends Base
      */
     public function info(){
         $this->requestType('POST');
+        print_r($this->userInfo);
+        exit;
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
