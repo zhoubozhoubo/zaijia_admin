@@ -234,12 +234,12 @@ class User extends Base
      * @param $info
      */
     public function add($info) {
-        print_r($info);exit;
         $where = [
             'openid'=>$info['openid']
         ];
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
+        print_r($res);exit;
         if ($res > 0) {
             //存在则返回用户信息以及token
             $user = ZjUser::where($where)->find();
