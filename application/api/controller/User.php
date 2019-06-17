@@ -251,7 +251,7 @@ class User extends Base
 //            return $this->buildSuccess($res,'登陆成功');
             $token = $this->createToken($user);
             print_r($token);
-            print_r("window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token);
+//            print_r("window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token);
             exit;
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }else{
