@@ -31,7 +31,8 @@ class Task extends Base
         $getData = $this->request->get();
         $where = [
             'status' => 1,
-            'is_delete' => 0
+            'is_delete' => 0,
+            'have_number' => ['<', 'number']
         ];
         if($getData['city']){
             $where['city'] = $getData['city'];
@@ -105,7 +106,7 @@ class Task extends Base
                     if ($userTask) {
                         $res['status'] = $userTask['status'];
                         $surplusTime = 0;
-                        if ($userTask['status'] === 0) {
+                        if ($userTask['status'] == 0) {
                             //执行中返回执行剩余时间
                             $finishDuration = $res['finish_duration'] * 60 * 60;
                             $surplusTime = $finishDuration - (time() - strtotime($userTask['gmt_create']));
@@ -116,7 +117,7 @@ class Task extends Base
                                 //任务已领取数量自减
                                 ZjTask::where(['task_id'=>$res['task_id']])->setDnc('have_number');
                             }
-                        } else if ($userTask['status'] === 1) {
+                        } else if ($userTask['status'] == 1) {
                             //执行中返回审核剩余时间
                             $checkDuration = $res['check_duration'] * 60 * 60;
                             $surplusTime = $checkDuration - (time() - strtotime($userTask['submit_time']));
