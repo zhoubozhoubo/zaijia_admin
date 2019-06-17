@@ -76,6 +76,11 @@ class TaskType extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        //查询当前任务分类下是否有任务数据
+        $task = ZjTask::where(['task_type_id'=>$postData['id'],'is_delete'=>0])->count();
+        if($task>0){
+            return $this->buildFailed(ReturnCode::DELETE_FAILED,'当前分类下存在任务数据，无法关闭','');
+        }
         $res = ZjTaskType::update($postData);
         if(!$res){
             return $this->buildFailed();
@@ -92,9 +97,9 @@ class TaskType extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        //查询当前新闻分类下是否有新闻数据
-        $news = ZjTask::where(['task_type_id'=>$id['task_type_id'],'is_delete'=>0])->count();
-        if($news>0){
+        //查询当前任务分类下是否有任务数据
+        $task = ZjTask::where(['task_type_id'=>$id['task_type_id'],'is_delete'=>0])->count();
+        if($task>0){
             return $this->buildFailed(ReturnCode::DELETE_FAILED,'当前分类下存在任务数据，无法删除','');
         }
         if (ZjTaskType::del($id)) {
