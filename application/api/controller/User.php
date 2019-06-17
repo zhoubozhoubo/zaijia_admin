@@ -64,7 +64,7 @@ class User extends Base
         //二维码图片内容
         //获取域名配置
         $website = ZjBasicConf::where(['name'=>'website'])->value('value');
-        $res['qr_code'] = $website.'/#/Register?invitationCode='.$res['code'];
+        $res['qr_code'] = $website.'/api/5d0287415a574/?invitationCode='.$res['code'];
         //邀请技巧
         $invite = ZjBasicConf::where(['name'=>'invite'])->value('value');
         $res['invite'] = explode('%,%',$invite);
