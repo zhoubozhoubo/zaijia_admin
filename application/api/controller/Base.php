@@ -142,12 +142,12 @@ class Base extends Controller {
      */
     protected function requestType($type = 'GET')
     {
-        if ($this->request->isOptions()) {
-            $result['code'] = ReturnCode::ACCESS_TOKEN_TIMEOUT;
-            $result['msg'] = '请求不合法';
-            $header = config('apiAdmin.CROSS_DOMAIN');
-            return json($result, 200, $header);
-        }
+//        if ($this->request->isOptions()) {
+//            $result['code'] = ReturnCode::ACCESS_TOKEN_TIMEOUT;
+//            $result['msg'] = '请求不合法';
+//            $header = config('apiAdmin.CROSS_DOMAIN');
+//            return json($result, 200, $header);
+//        }
 
         if ($this->request->isGet() && $type != 'GET') {
             exit('请求方式错误');
