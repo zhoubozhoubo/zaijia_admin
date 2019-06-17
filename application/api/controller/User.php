@@ -248,11 +248,8 @@ class User extends Base
 //                'headimgurl'=>$info['headimgurl'],
 //                'token'=>$this->createToken($user)
 //            ];
-//            return $this->buildSuccess($res,'登陆成功');
             $token = $this->createToken($user);
-            print_r($token);
-//            print_r("window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token);
-            exit;
+//            return $this->buildSuccess($res,'登陆成功');
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }else{
             //不存在则创建用户信息
@@ -266,9 +263,7 @@ class User extends Base
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
-            print_r('token:');
             $token = $this->createToken($user);
-            print_r($token);exit;
 //            return $this->buildSuccess($res,'注册成功');
             echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }
@@ -376,7 +371,7 @@ class User extends Base
         $str = uniqid("$str.", true);
         $token = md5($str);
         cache($token, json_encode($user));
-        return ['token'=>$token];
+        return $token;
     }
 
     /**
