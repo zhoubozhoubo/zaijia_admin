@@ -234,6 +234,7 @@ class User extends Base
      * @param $info
      */
     public function add($info) {
+        print_r($info);exit;
         $where = [
             'openid'=>$info['openid']
         ];
