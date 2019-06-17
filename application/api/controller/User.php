@@ -161,7 +161,7 @@ class User extends Base
         $Oauth = new Oauth($this->config);
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d078f37bc5b9", 'state','snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", 'state','snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_userinfo');
 
 //        $res = [
