@@ -42,6 +42,8 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function info(){
+        print_r(cache('454f11f03e641619f1351c22d1254da6'));
+        exit;
         $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
