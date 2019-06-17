@@ -179,9 +179,9 @@ class User extends Base
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function get() {
+        print_r($this->config);exit;
         try {
             $Oauth = new Oauth($this->config);
-            print_r($Oauth);exit;
 
             $token = $Oauth->getOauthAccessToken();
 
