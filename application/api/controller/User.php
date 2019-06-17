@@ -38,11 +38,9 @@ class User extends Base
      * @throws \think\exception\DbException
      */
     public function info(){
-        if(!$this->request->isPost()){
-            return $this->buildFailed(ReturnCode::UNKNOWN, '请求方式错误', '');
-        }
         print_r($this->userInfo);
         exit;
+        $this->requestType('POST');
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
