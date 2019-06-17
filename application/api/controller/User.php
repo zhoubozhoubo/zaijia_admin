@@ -249,7 +249,8 @@ class User extends Base
 //                'token'=>$this->createToken($user)
 //            ];
 //            return $this->buildSuccess($res,'登陆成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=12';</script>";
+            $token = $this->createToken($user);
+            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }else{
             //不存在则创建用户信息
             $user=[
@@ -262,8 +263,9 @@ class User extends Base
             if (!$res) {
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'注册失败','');
             }
+            $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'注册成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=23'</script>";
+            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/?token=".$token."';</script>";
         }
 
 
