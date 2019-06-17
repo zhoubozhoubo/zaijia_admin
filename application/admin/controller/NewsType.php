@@ -75,6 +75,11 @@ class NewsType extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        //查询当前任务分类下是否有任务数据
+        $news = ZjNews::where(['news_type_id'=>$postData['news_type_id'],'is_delete'=>0])->count();
+        if($news>0){
+            return $this->buildFailed(ReturnCode::DELETE_FAILED,'当前分类下存在任务数据，无法关闭','');
+        }
         $res = ZjNewsType::update($postData);
         if(!$res){
             return $this->buildFailed();
