@@ -74,6 +74,10 @@ class User extends Base
         //最新消息数量
         $noticeNum = ZjUserNotice::where(['user_id'=>$res['user_id'],'is_read'=>0])->count();
         $res['notice_num']=$noticeNum;
+        //检测用户是否关注公众号
+//        $Oauth = new Oauth($this->config);
+//        $userInfo = $Oauth->getUser($accessToken, $res['openid']);
+//        $res['subscribe'] = $userInfo['subscribe'];
 
         return $this->buildSuccess($res);
     }
@@ -247,6 +251,7 @@ class User extends Base
      * @param $info
      */
     public function add($info) {
+        print_r($info);exit;
         $where = [
             'openid'=>$info['openid']
         ];

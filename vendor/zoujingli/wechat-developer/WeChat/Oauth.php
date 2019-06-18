@@ -92,4 +92,18 @@ class Oauth extends BasicWeChat
         return $this->httpGetForJson($url);
     }
 
+    /**
+     * @param $access_token
+     * @param $openid
+     * @return array
+     * @throws Exceptions\InvalidResponseException
+     * @throws Exceptions\LocalCacheException
+     */
+    public function getUser($access_token, $openid)
+    {
+
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$access_token}&openid={$openid}";
+        return $this->httpGetForJson($url);
+    }
+
 }

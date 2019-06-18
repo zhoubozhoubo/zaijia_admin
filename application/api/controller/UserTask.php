@@ -165,7 +165,7 @@ class UserTask extends Base
         $data = [
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
-            'submit_img'=>$postData['submit_img'],
+            'submit_img'=>implode('%,%',$postData['submit_img']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
