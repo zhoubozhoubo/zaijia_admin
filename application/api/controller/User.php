@@ -254,6 +254,7 @@ class User extends Base
         $Oauth = new Oauth($this->config);
 //        $token = $Oauth->getOauthAccessToken();
         $userInfo = $Oauth->getUser($accessToken, $info['openid']);
+        print_r($userInfo);exit;
         if(!$userInfo['subscribe']){
             echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
         }
