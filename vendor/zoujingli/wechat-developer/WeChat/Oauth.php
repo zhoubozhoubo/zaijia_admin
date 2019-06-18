@@ -101,7 +101,9 @@ class Oauth extends BasicWeChat
      */
     public function getUser($openid)
     {
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=&secret=";
+        $appid = $this->config->get('appid');
+        $appsecret = $this->config->get('appsecret');
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$appsecret}";
         $accessToken = $this->httpGetForJson($url);
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$accessToken}&openid={$openid}";
         return $this->httpGetForJson($url);
