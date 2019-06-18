@@ -47,6 +47,7 @@ class User extends Base
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
         $where = [
+            'openid'=>$this->userInfo['openid'],
             'user_id'=>$this->userInfo['user_id'],
             'is_delete'=>0
         ];
