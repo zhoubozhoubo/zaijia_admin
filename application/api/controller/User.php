@@ -74,10 +74,6 @@ class User extends Base
         //最新消息数量
         $noticeNum = ZjUserNotice::where(['user_id'=>$res['user_id'],'is_read'=>0])->count();
         $res['notice_num']=$noticeNum;
-        //检测用户是否关注公众号
-//        $Oauth = new Oauth($this->config);
-//        $userInfo = $Oauth->getUser($accessToken, $res['openid']);
-//        $res['subscribe'] = $userInfo['subscribe'];
 
         return $this->buildSuccess($res);
     }
@@ -240,7 +236,7 @@ class User extends Base
             //获取用户基本信息
             $info = $Oauth->getUserInfo($token['access_token'], $token['openid']);
 
-            $this->add($info);
+            $this->add($token['access_token'],$info);
 
         } catch (Exception $e) {
             return $e->getMessage() . PHP_EOL;
@@ -250,11 +246,16 @@ class User extends Base
     /**   用户信息处理
      * @param $info
      */
-    public function add($info) {
-        print_r($info);exit;
+    public function add($accessToken,$info) {
         $where = [
             'openid'=>$info['openid']
         ];
+        //检测用户是否关注公众号
+        $Oauth = new Oauth($this->config);
+        $userInfo = $Oauth->getUser($accessToken, $info['openid']);
+        if(!$userInfo['subscribe']){
+            echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
+        }
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
         if ($res > 0) {
