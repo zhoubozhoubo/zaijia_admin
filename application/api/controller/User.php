@@ -186,6 +186,7 @@ class User extends Base
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function get() {
+        print_r('code:');exit;
         try {
             $Oauth = new Oauth($this->config);
             $invitationCode = isset($_GET['state']) ? $_GET['state'] : '';
