@@ -236,7 +236,7 @@ class User extends Base
             //获取用户基本信息
             $info = $Oauth->getUserInfo($token['access_token'], $token['openid']);
 
-            $this->add($info);
+            $this->add($token['access_token'], $info);
 
         } catch (Exception $e) {
             return $e->getMessage() . PHP_EOL;
@@ -246,14 +246,14 @@ class User extends Base
     /**   用户信息处理
      * @param $info
      */
-    public function add($info) {
+    public function add($accessToken,$info) {
         $where = [
             'openid'=>$info['openid']
         ];
         //检测用户是否关注公众号
         $Oauth = new Oauth($this->config);
-        $token = $Oauth->getOauthAccessToken();
-        $userInfo = $Oauth->getUser($token, $info['openid']);
+//        $token = $Oauth->getOauthAccessToken();
+        $userInfo = $Oauth->getUser($accessToken, $info['openid']);
         if(!$userInfo['subscribe']){
             echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
         }
