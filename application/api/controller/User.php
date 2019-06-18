@@ -253,7 +253,9 @@ class User extends Base
         //检测用户是否关注公众号
         $Oauth = new Oauth($this->config);
         $userInfo = $Oauth->getUser($info['openid']);
-        print_r($userInfo);exit;
+        print_r('userInfo:');
+        print_r($userInfo);
+        exit;
         if(!$userInfo['subscribe']){
             echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
         }
