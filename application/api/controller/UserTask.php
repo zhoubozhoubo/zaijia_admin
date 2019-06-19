@@ -149,14 +149,14 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::ADD_FAILED,'领取任务失败','');
         }
-        //发送消息给用户
-        $date = date('Y-m-d H:i:s');
-        $this->sendNotice($data['user_id'],'领取任务成功',"您于'{$date}'领取了任务,请在规定时间内完成,超时将自动放弃任务");
         //返回任务完成时间
         $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->field('finish_duration')->find();
         $res['finish_duration']=$finishDuration['finish_duration']*60*60*1000;
         //任务已领取数量自增
         ZjTask::where(['task_id'=>$postData['task_id']])->setInc('have_number');
+        //发送消息给用户
+        $date = date('Y-m-d H:i:s');
+        $this->sendNotice($data['user_id'],'领取任务成功',"您于'{$date}'领取了任务,请在规定时间内完成,超时将自动放弃任务");
         return $this->buildSuccess($res,'成功领取任务');
     }
 
@@ -207,11 +207,11 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'放弃任务失败','');
         }
-        //发送消息给用户
-        $this->sendNotice($data['user_id'],'放弃任务',"您放弃了任务,请再接再厉");
         //任务已领取数量自减
         $taskId = ZjUserTask::where(['id'=>$postData['id']])->value('task_id');
         ZjTask::where(['task_id'=>$taskId])->setDec('have_number');
+        //发送消息给用户
+        $this->sendNotice($data['user_id'],'放弃任务',"您放弃了任务,请再接再厉");
         return $this->buildSuccess($res);
     }
 
@@ -249,10 +249,10 @@ class UserTask extends Base
                 ZjCommission::create($oneCommission);
                 //上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
-                //发送消息给用户
-                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
                 //剩余任务金额
                 $money -=$oneCommission['money'];
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
             }
             if($user['superior_superior_user_id'] !== 0){
                 //存在上上级 TODO 上上级分享二级佣金
@@ -270,10 +270,10 @@ class UserTask extends Base
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
-                //发送消息给用户
-                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
                 //剩余任务金额
                 $money-=$twoCommission['money'];
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
             }
             //添加用户收入数据
             $userIncome = [

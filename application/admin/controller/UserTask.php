@@ -169,10 +169,10 @@ class UserTask extends BaseController
                 ZjCommission::create($oneCommission);
                 //上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
-                //发送消息给用户
-                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
                 //剩余任务金额
                 $money -=$oneCommission['money'];
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
             }
             if($user['superior_superior_user_id'] !== 0){
                 //存在上上级 TODO 上上级分享二级佣金
@@ -190,10 +190,10 @@ class UserTask extends BaseController
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
-                //发送消息给用户
-                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
                 //剩余任务金额
                 $money-=$twoCommission['money'];
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
             }
             //添加用户收入数据
             $userIncome = [
