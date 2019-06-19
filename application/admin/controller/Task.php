@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\admin\model\ZjTask;
 use app\admin\model\ZjUserTask;
 use app\util\BaseController;
+use app\util\ReturnCode;
 use think\Db;
 use think\Exception;
 use think\exception\DbException;
@@ -127,6 +128,19 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        if($postData['status']==0){
+            //查找该任务下是否有用户具有状态
+            $where=[
+                'task_id'=>$postData['task_id'],
+                'status'=>['in','0,1'],
+                'is_delete'=>0
+            ];
+            $userTask = ZjUserTask::where($where)->count();
+            if($userTask>0){
+                return $this->buildFailed(ReturnCode::DELETE_FAILED,'该任务存在用户执行中或待审核，无法关闭','');
+            }
+        }
+
         $res = ZjTask::update($postData);
         if (!$res) {
             return $this->buildFailed();
@@ -143,6 +157,16 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
+        //查找该任务下是否有用户具有状态
+        $where=[
+            'task_id'=>$id['task_id'],
+            'status'=>['in','0,1'],
+            'is_delete'=>0
+        ];
+        $userTask = ZjUserTask::where($where)->count();
+        if($userTask>0){
+            return $this->buildFailed(ReturnCode::DELETE_FAILED,'该任务存在用户执行中或待审核，无法删除','');
+        }
         if (ZjTask::del($id)) {
             return $this->buildSuccess([]);
         }
