@@ -25,7 +25,7 @@ class Index extends Base
     public function getWechatJsSign(){
         $Script = new Script($this->config);
 //        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
-        $res=$Script->getJsSign('http://jianzhi.hmdog.com','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
+        $res=$Script->getJsSign('jianzhi.hmdog.com','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
         return $this->buildSuccess($res);
     }
 
@@ -37,6 +37,8 @@ class Index extends Base
     {
         $this->requestType('GET');
         $provinceList =Area::where(['level' => 1])->field('code,name')->select();
+        $newProvinceList[0] = '全国';
+        $newCityList[0] = '全国';
         foreach ($provinceList as $item){
             $newProvinceList[$item['code']] = $item['name'];
         }
