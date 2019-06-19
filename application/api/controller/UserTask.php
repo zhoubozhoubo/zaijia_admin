@@ -150,7 +150,8 @@ class UserTask extends Base
             return $this->buildFailed(ReturnCode::ADD_FAILED,'领取任务失败','');
         }
         //发送消息给用户
-        $this->sendNotice($data['user_id'],'领取任务成功',"您于'{$res['gmt_create']}'领取了任务,请在规定时间内完成,超时将自动放弃任务");
+        $date = date('Y-m-d H:i:s');
+        $this->sendNotice($data['user_id'],'领取任务成功',"您于'{$date}'领取了任务,请在规定时间内完成,超时将自动放弃任务");
         //返回任务完成时间
         $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->field('finish_duration')->find();
         $res['finish_duration']=$finishDuration['finish_duration']*60*60*1000;
@@ -284,7 +285,8 @@ class UserTask extends Base
             //用户增加金额
             ZjUser::where(['user_id'=>$user['user_id']])->setInc('money',$money*100);
             //发送消息给用户
-            $this->sendNotice($user['user_id'],'任务收入',"您于'{$userTask['gmt_create']}'领取的任务通过了审核,收入任务金额'{$userIncome['money']}'");
+            $date = date('Y-m-d H:i:s');
+            $this->sendNotice($user['user_id'],'任务收入',"您于'{$date}'领取的任务通过了审核,收入任务金额'{$userIncome['money']}'");
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {

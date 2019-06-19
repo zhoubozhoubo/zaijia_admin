@@ -94,7 +94,8 @@ class WithDraw extends Base
             // 提交事务
             Db::commit();
             //发送消息给用户
-            $this->sendNotice($data['user_id'],'申请提现成功',"您于'{$res['gmt_create']}'成功发起提现申请,请耐心等待");
+            $date = date('Y-m-d H:i:s');
+            $this->sendNotice($data['user_id'],'申请提现成功',"您于'{$date}'成功发起提现申请,请耐心等待");
             return $this->buildSuccess($res,'申请提现成功');
         } catch (\Exception $e) {
             // 回滚事务

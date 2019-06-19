@@ -6,6 +6,7 @@ use app\api\model\Area;
 use app\api\model\ZjBanner;
 use app\api\model\ZjLink;
 use app\util\ReturnCode;
+use WeChat\Script;
 
 /**
  * 首页Controller
@@ -14,6 +15,19 @@ use app\util\ReturnCode;
  */
 class Index extends Base
 {
+    //初始化配置
+    public $config = [
+        'token' => 'xtcyivubohibxrctyvubn6rty',
+        'appid' => 'wxc5b8b08c2e2b506f',
+        'appsecret' => '3e0301d69ff031f7c7024e2c01ce05ea'
+    ];
+
+    public function getWechatJsSign(){
+        $Script = new Script($this->config);
+        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
+        return $this->buildSuccess($res);
+    }
+
     /**
      * 城市列表
      * @return array|\think\response\Json
