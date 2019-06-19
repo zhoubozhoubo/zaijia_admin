@@ -85,9 +85,9 @@ class Withdraw extends BaseController
             if(!$res){
                 return $this->buildFailed(ReturnCode::UPDATE_FAILED,'操作失败,请稍候再试','');
             }
+            $withdraw = ZjWithdraw::where(['id'=>$postData['id']])->field('user_id,money,name,account,gmt_create')->find();
             if($postData['status'] === 2){
                 //如果提现未通过 TODO 返回余额给用户
-                $withdraw = ZjWithdraw::where(['id'=>$postData['id']])->field('user_id,money,name,account,gmt_create')->find();
                 ZjUser::where(['user_id'=>$withdraw['user_id']])->setInc('money',$withdraw['money']);
                 //发送消息给用户
                 $this->sendNotice($withdraw['user_id'],'申请提现失败',"您于'{$withdraw['gmt_create']}'发起的申请提现被拒绝,有疑问请联系管理员");
