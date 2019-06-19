@@ -28,7 +28,7 @@ class UserNotice extends Base
             'user_id'=>$this->userInfo['user_id'],
             'is_delete'=>0
         ];
-        $res = ZjUserNotice::where($where)->field('gmt_modified,is_delete',true)->paginate();
+        $res = ZjUserNotice::where($where)->field('gmt_modified,is_delete',true)->order('gmt_create DESC')->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
