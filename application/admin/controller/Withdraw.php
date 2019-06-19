@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use app\admin\model\ZjUser;
 use app\admin\model\ZjWithdraw;
+use app\admin\model\ZjUserNotice;
 use app\util\BaseController;
 use app\util\ReturnCode;
 use think\Db;
@@ -86,11 +87,15 @@ class Withdraw extends BaseController
             }
             if($postData['status'] === 2){
                 //如果提现未通过 TODO 返回余额给用户
-                $withdraw = ZjWithdraw::where(['id'=>$postData['id']])->field('user_id,money')->find();
+                $withdraw = ZjWithdraw::where(['id'=>$postData['id']])->field('user_id,money,name,account,gmt_create')->find();
                 ZjUser::where(['user_id'=>$withdraw['user_id']])->setInc('money',$withdraw['money']);
+                //发送消息给用户
+                $this->sendNotice($withdraw['user_id'],'申请提现失败',"您于'{$withdraw['gmt_create']}'发起的申请提现被拒绝,有疑问请联系管理员");
             }
             // 提交事务
             Db::commit();
+            //发送消息给用户
+            $this->sendNotice($withdraw['user_id'],'申请提现成功',"您于'{$withdraw['gmt_create']}'发起的申请提现已通过,请到账号'{$withdraw['name']}({$withdraw['account']})'查收");
             return $this->buildSuccess($res,'操作成功');
         } catch (\Exception $e) {
             // 回滚事务
@@ -98,5 +103,20 @@ class Withdraw extends BaseController
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'操作失败,请稍候再试','');
         }
 
+    }
+
+    /**
+     * 发送消息给用户
+     * @param $user_id
+     * @param $title
+     * @param $content
+     */
+    public function sendNotice($user_id,$title,$content){
+        $notice = [
+            'user_id'=>$user_id,
+            'title'=>$title,
+            'content'=>$content
+        ];
+        ZjUserNotice::create($notice);
     }
 }

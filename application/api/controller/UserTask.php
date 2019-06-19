@@ -7,6 +7,7 @@ use app\api\model\ZjCommission;
 use app\api\model\ZjTask;
 use app\api\model\ZjUser;
 use app\api\model\ZjUserIncome;
+use app\api\model\ZjUserNotice;
 use app\api\model\ZjUserTask;
 use app\util\ReturnCode;
 use think\Db;
@@ -129,6 +130,10 @@ class UserTask extends Base
     /**
      * 添加任务
      * @return \think\response\Json
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function addTask(){
         $this->requestType('POST');
@@ -144,6 +149,8 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::ADD_FAILED,'领取任务失败','');
         }
+        //发送消息给用户
+        $this->sendNotice($data['user_id'],'领取任务成功',"您于'{$res['gmt_create']}'领取了任务,请在规定时间内完成,超时将自动放弃任务");
         //返回任务完成时间
         $finishDuration = ZjTask::where(['task_id'=>$postData['task_id']])->field('finish_duration')->find();
         $res['finish_duration']=$finishDuration['finish_duration']*60*60*1000;
@@ -174,12 +181,15 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'提交任务失败','');
         }
+        //发送消息给用户
+        $this->sendNotice($data['user_id'],'提交任务成功',"您于'{$res['submit_time']}'提交了任务,请等待后台审核");
         return $this->buildSuccess($res);
     }
 
     /**
      * 放弃任务
      * @return \think\response\Json
+     * @throws \think\Exception
      */
     public function delTask(){
         $this->requestType('POST');
@@ -196,6 +206,8 @@ class UserTask extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'放弃任务失败','');
         }
+        //发送消息给用户
+        $this->sendNotice($data['user_id'],'放弃任务',"您放弃了任务,请再接再厉");
         //任务已领取数量自减
         $taskId = ZjUserTask::where(['id'=>$postData['id']])->value('task_id');
         ZjTask::where(['task_id'=>$taskId])->setDec('have_number');
@@ -217,7 +229,7 @@ class UserTask extends Base
             //任务数据
             $task = ZjTask::where(['task_id'=>$userTask['task_id']])->field('money,task_id')->find();
             //用户数据
-            $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id')->find();
+            $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id,nickname')->find();
             //任务金额
             $money = $task['money'];
             if($user['superior_user_id'] !== 0){
@@ -236,6 +248,8 @@ class UserTask extends Base
                 ZjCommission::create($oneCommission);
                 //上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
                 //剩余任务金额
                 $money -=$oneCommission['money'];
             }
@@ -255,6 +269,8 @@ class UserTask extends Base
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
+                //发送消息给用户
+                $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
                 //剩余任务金额
                 $money-=$twoCommission['money'];
             }
@@ -267,6 +283,8 @@ class UserTask extends Base
             ZjUserIncome::create($userIncome);
             //用户增加金额
             ZjUser::where(['user_id'=>$user['user_id']])->setInc('money',$money*100);
+            //发送消息给用户
+            $this->sendNotice($user['user_id'],'任务收入',"您于'{$userTask['gmt_create']}'领取的任务通过了审核,收入任务金额'{$userIncome['money']}'");
             // 提交事务
             Db::commit();
         } catch (\Exception $e) {
@@ -279,6 +297,21 @@ class UserTask extends Base
     }
 
 
+
+    /**
+     * 发送消息给用户
+     * @param $user_id
+     * @param $title
+     * @param $content
+     */
+    public function sendNotice($user_id,$title,$content){
+        $notice = [
+            'user_id'=>$user_id,
+            'title'=>$title,
+            'content'=>$content
+        ];
+        ZjUserNotice::create($notice);
+    }
 
 
 

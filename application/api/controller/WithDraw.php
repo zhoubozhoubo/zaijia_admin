@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\api\model\ZjUser;
+use app\api\model\ZjUserNotice;
 use app\api\model\ZjWithdraw;
 use app\api\model\ZjWithdrawWay;
 use app\util\ReturnCode;
@@ -92,6 +93,8 @@ class WithDraw extends Base
             ZjUser::where(['user_id'=>$this->userInfo['user_id']])->setDec('money',$money*100);
             // 提交事务
             Db::commit();
+            //发送消息给用户
+            $this->sendNotice($data['user_id'],'申请提现成功',"您于'{$res['gmt_create']}'成功发起提现申请,请耐心等待");
             return $this->buildSuccess($res,'申请提现成功');
         } catch (\Exception $e) {
             // 回滚事务
@@ -101,6 +104,20 @@ class WithDraw extends Base
 
     }
 
+    /**
+     * 发送消息给用户
+     * @param $user_id
+     * @param $title
+     * @param $content
+     */
+    public function sendNotice($user_id,$title,$content){
+        $notice = [
+            'user_id'=>$user_id,
+            'title'=>$title,
+            'content'=>$content
+        ];
+        ZjUserNotice::create($notice);
+    }
 
 
 }
