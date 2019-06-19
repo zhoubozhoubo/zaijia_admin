@@ -233,7 +233,7 @@ class UserTask extends Base
             $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id,nickname')->find();
             //任务金额
             $money = $task['money'];
-            if($user['superior_user_id'] !== 0){
+            if($user['superior_user_id'] != 0){
                 //存在上级 TODO 上级分享一级佣金
                 //一级佣金比例
                 $commissionConf = ZjCommissionConf::where(['level'=>1])->value('value');
@@ -254,7 +254,7 @@ class UserTask extends Base
                 //发送消息给用户
                 $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
             }
-            if($user['superior_superior_user_id'] !== 0){
+            if($user['superior_superior_user_id'] != 0){
                 //存在上上级 TODO 上上级分享二级佣金
                 //二级佣金比例
                 $commissionConf = ZjCommissionConf::where(['level'=>2])->value('value');
