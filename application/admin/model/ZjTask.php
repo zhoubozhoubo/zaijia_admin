@@ -16,6 +16,15 @@ class ZjTask extends Model
     }
 
     /**
+     * 设置价格
+     * @param $value
+     * @return float|int
+     */
+    public function setMoneyAttr($value){
+        return $value * 100;
+    }
+
+    /**
      * 获取完成时长
      * @param $value
      * @return float
