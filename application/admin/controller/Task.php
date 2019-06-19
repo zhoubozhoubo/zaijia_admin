@@ -143,7 +143,7 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjTask::destroy($id)) {
+        if (ZjTask::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

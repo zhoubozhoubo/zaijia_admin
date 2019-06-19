@@ -130,7 +130,7 @@ class UserTask extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjUserTask::destroy($id)) {
+        if (ZjUserTask::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

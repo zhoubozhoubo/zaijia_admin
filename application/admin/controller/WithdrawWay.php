@@ -81,7 +81,7 @@ class WithdrawWay extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjWithdrawWay::destroy($id)) {
+        if (ZjWithdrawWay::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

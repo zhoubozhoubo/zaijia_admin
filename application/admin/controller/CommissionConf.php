@@ -58,7 +58,7 @@ class CommissionConf extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjCommissionConf::destroy($id)) {
+        if (ZjCommissionConf::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

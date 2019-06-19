@@ -99,7 +99,7 @@ class UserNotice extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjUserNotice::destroy($id)) {
+        if (ZjUserNotice::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();

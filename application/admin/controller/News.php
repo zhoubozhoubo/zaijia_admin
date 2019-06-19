@@ -93,7 +93,7 @@ class News extends BaseController
     {
         $this->requestType('POST');
         $id = $this->request->post();
-        if (ZjNews::destroy($id)) {
+        if (ZjNews::del($id)) {
             return $this->buildSuccess([]);
         }
         return $this->buildFailed();
