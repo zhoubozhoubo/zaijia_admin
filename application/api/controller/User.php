@@ -192,6 +192,7 @@ class User extends Base
             $invitationCode = isset($_GET['state']) ? $_GET['state'] : '';
 
             $token = $Oauth->getOauthAccessToken();
+            print_r($token);exit;
             cache($token['openid'],$invitationCode);
 
             $this->GetToken($token, $Oauth);
