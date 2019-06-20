@@ -42,7 +42,6 @@ class Index extends Base
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
         }
         return $this->buildSuccess($wechatQrCode);
-
     }
 
     /**

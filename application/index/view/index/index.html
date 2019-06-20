@@ -14,6 +14,17 @@
   <link type="text/css" rel="stylesheet" href="/public/static/css/auto_combine_d5456.css">
   <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 </head>
+<style>
+  .recommandJob{
+    margin-top: 40px!important;
+  }
+  .slogen{
+    left: 250px!important;
+  }
+  .qr-code{
+    background-image: none!important;
+  }
+</style>
 
 <body>
   <!--页面数据[start]-->
@@ -21,9 +32,9 @@
   <section>
     <div class="masthead">
       <div class="container">
-        <div class="side left-side"></div>
-        <div class="side right-side"></div>
-        <div class="phone-img">
+        <!--<div class="side left-side"></div>-->
+        <!--<div class="side right-side"></div>-->
+        <!--<div class="phone-img">
           <div class="side left-side"></div>
           <div class="side right-side"></div>
           <div class="title">兼客兼职</div>
@@ -48,7 +59,7 @@
                       <span class="modIconTxt_time">04/30-06/30</span>
                     </div>
                     <div class="modPostion">
-                      <!-- 优质岗位 -->
+                      &lt;!&ndash; 优质岗位 &ndash;&gt;
                     </div>
                   </span>
                 </a>
@@ -72,7 +83,7 @@
                       <span class="modIconTxt_time">05/01-07/29</span>
                     </div>
                     <div class="modPostion">
-                      <!-- 优质岗位 -->
+                      &lt;!&ndash; 优质岗位 &ndash;&gt;
                     </div>
                   </span>
                 </a>
@@ -96,7 +107,7 @@
                       <span class="modIconTxt_time">05/08-08/05</span>
                     </div>
                     <div class="modPostion">
-                      <!-- 优质岗位 -->
+                      &lt;!&ndash; 优质岗位 &ndash;&gt;
                     </div>
                   </span>
                 </a>
@@ -120,7 +131,7 @@
                       <span class="modIconTxt_time">04/05-07/03</span>
                     </div>
                     <div class="modPostion">
-                      <!-- 优质岗位 -->
+                      &lt;!&ndash; 优质岗位 &ndash;&gt;
                     </div>
                   </span>
                 </a>
@@ -144,14 +155,14 @@
                       <span class="modIconTxt_time">04/29-07/11</span>
                     </div>
                     <div class="modPostion">
-                      <!-- 优质岗位 -->
+                      &lt;!&ndash; 优质岗位 &ndash;&gt;
                     </div>
                   </span>
                 </a>
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
 
         <div class="slogen">
           <div class="title">
@@ -162,10 +173,12 @@
         </div>
 
         <div class="app-download">
-          <div class="txt">扫码下载APP</div>
-          <div class="qr-code"></div>
+          <div class="txt">扫码关注微信公众号</div>
+          <div class="qr-code">
+            <img src="{$wechatQrCode}"/>
+          </div>
         </div>
-        <div class="whiteDown"></div>
+        <!--<div class="whiteDown"></div>-->
       </div>
     </div>
   </section>
@@ -180,15 +193,11 @@
     <div class="container">
       <a href="#" class="logo"></a>
       <div class="nav-list">
-        <a href="./city.html" class="currentCity"><span>选择城市</span><i></i></a>
-        <a href="#" class="current">首页</a>
-        <a href="#">兼职</a>
-        <a href="#">众包</a>
-        <a href="#">企业服务</a>
-      </div>
-      <div class="nav-user-center modNewHeaderLogin">
-        <a href="./login.html" class="toLoginBtn">登录</a>
-        <a href="./register.html" class="toRegisterBtn dz">注册</a>
+        <a href="./city.html" class="currentCity"></a>
+        <a href="Index" class="current">首页</a>
+        <a href="Job">兼职</a>
+        <a href="News">最新资讯</a>
+        <a href="Aboutus">关于我们</a>
       </div>
     </div>
   </div>
@@ -197,7 +206,7 @@
   <!--头部[end]-->
 
   <!-- 兼客介绍 -->
-  <section>
+  <!--<section>
     <div class="container">
       <div class="service">
         <ul>
@@ -219,9 +228,9 @@
         </ul>
       </div>
     </div>
-  </section>
+  </section>-->
   <!-- 兼客成绩 -->
-  <section>
+  <!--<section>
     <div class="find-job">
       <div class="container">
         <h2 class="indent base-service">他们通过兼客兼职平台找到了兼职</h2>
@@ -230,10 +239,10 @@
         <p class="go-find-job"><a href="#" class="controlBtn">找兼职</a></p>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <!-- 提供的服务 -->
-  <section>
+  <!--<section>
     <div class="container">
       <div class="service">
         <h2 class="indent service-detail">兼客企业服务介绍</h2>
@@ -256,9 +265,9 @@
         </ul>
       </div>
     </div>
-  </section>
+  </section>-->
   <!-- 合作企业 -->
-  <section>
+  <!--<section>
     <div class="container">
       <div class="enterprise">
         <h1 class="indent company">合作企业</h1>
@@ -266,14 +275,15 @@
       </div>
       <div class="release-job"><a href="#" class="controlBtn">立马发布兼职</a></div>
     </div>
-  </section>
+  </section>-->
+
   <!-- 最新岗位 -->
   <section>
     <div class="container">
       <div class="recommandJob">
         <ul class="nav" id="typeNav">
-          <li class="title active">推荐岗位</li>
-          <li class="title">众包列表</li>
+          <li class="title active">推荐兼职</li>
+          <!--<li class="title">众包列表</li>-->
         </ul>
         <ul class="modJobList show">
           <li class="clearFloat">
@@ -436,147 +446,18 @@
               </p>
             </div>
           </li>
-          <li class="clearFloat moreJob">
-            <a href="https://www.jianke.cc/city.html?jp=1" target="_blank" class="getMoreTask">查看更多</a>
-          </li>
-        </ul>
 
-        <ul class="modJobList ">
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/075b42b1-8732-4858-8471-bbdfd0c95c4b.html" target="_blank">兴业信用卡</a>
-              <p>
-                <span class="modIconTxt jobPrice">50元/次</span><span class="modIconTxt modIconTxt_gps">剩余15次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/15a5a27d-558e-469b-b950-b5262e221f4d.html" target="_blank">关注微信公众号</a>
-              <p>
-                <span class="modIconTxt jobPrice">0.5元/次</span><span class="modIconTxt modIconTxt_gps">剩余16次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/f6db5690-8dbc-495a-819d-7698537513b5.html" target="_blank">【百度口碑】好评即可不下载</a>
-              <p>
-                <span class="modIconTxt jobPrice">1元/次</span><span class="modIconTxt modIconTxt_gps">剩余59次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/fd848917-29f0-4778-954f-7100ed663306.html" target="_blank">【校园e点通】关注公众号</a>
-              <p>
-                <span class="modIconTxt jobPrice">0.8元/次</span><span class="modIconTxt modIconTxt_gps">剩余10次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/5b994f8d-8729-480b-9678-6443a2517397.html" target="_blank">【趣步】实名认证</a>
-              <p>
-                <span class="modIconTxt jobPrice">4元/次</span><span class="modIconTxt modIconTxt_gps">剩余17次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/166b76cd-1bc4-44df-bfb1-2c433822f77f.html" target="_blank">【津冀蒙必胜客】每个手机号限一次</a>
-              <p>
-                <span class="modIconTxt jobPrice">1元/次</span><span class="modIconTxt modIconTxt_gps">剩余266次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/5b268a77-d109-4632-b851-cc0b99771489.html" target="_blank">【中国银联云闪付】简单注册</a>
-              <p>
-                <span class="modIconTxt jobPrice">7元/次</span><span class="modIconTxt modIconTxt_gps">剩余11次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/b0b2a532-f799-4d10-bff4-4f459dcc3098.html" target="_blank">京东支付0.01</a>
-              <p>
-                <span class="modIconTxt jobPrice">0.6元/次</span><span class="modIconTxt modIconTxt_gps">剩余10次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/f911580e-795d-4cf8-b097-cb24e76d0277.html"
-                target="_blank">【分期乐】注册出额度即可，送30元话费（无需借款）</a>
-              <p>
-                <span class="modIconTxt jobPrice">7元/次</span><span class="modIconTxt modIconTxt_gps">剩余37次</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="modJobListImg">
-              <img src="/public/picture/c4bc2aae8793490a93d44708a410bbca.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="/web/task/081eee93-21e4-413e-b563-fe1bb66e729a.html" target="_blank">【京东白条】注册绑卡1元购物立省15元</a>
-              <p>
-                <span class="modIconTxt jobPrice">17元/次</span><span class="modIconTxt modIconTxt_gps">剩余16次</span>
-              </p>
-            </div>
-          </li>
           <li class="clearFloat moreJob">
-            <a href="javascript:void(0);" class="getMoreTask">下载APP查看更多</a>
-            <div class="qrCodePopUp">
-              <p>扫码下载兼客兼职APP</p>
-            </div>
+            <a href="Job" target="_blank" class="getMoreTask">查看更多</a>
           </li>
         </ul>
       </div>
     </div>
   </section>
-  <script>
-  $(function(){
-    $('.container .nav li').on('click',function(){
-      let index = $(this).index();
-      $(this).addClass('active').siblings().removeClass('active');
-      console.log($('.container ul.modJobList')[0]);
-      $($('.container .modJobList')[index]).addClass('show').siblings().removeClass('show');
-    })
-  })
-  </script>
 
   <!--页面数据[end]-->
   <div class="bottomLink">
-    <div class="content">
+    <!--<div class="content">
       <div class="bottomWrap">
         <div class="linkWrap">
           <div class="citySite">
@@ -621,7 +502,7 @@
         </div>
       </div>
     </div>
-    <i id="returnTop"></i>
+    <i id="returnTop"></i>-->
   </div>
 
   <!-- 尾部 -->
@@ -632,17 +513,17 @@
           <span>关于兼客</span>
           <p>
             <a rel="nofollow" href="./aboutus.html">公司简介</a>
-            <a rel="nofollow" href="#">加入我们</a>
+            <!--<a rel="nofollow" href="#">加入我们</a>-->
           </p>
         </div>
-        <div class="item">
+        <!--<div class="item">
           <span>定制服务</span>
           <p>
             <a rel="nofollow" href="#">熊地推</a>
             <a rel="nofollow" href="#">兼客通告</a>
             <a rel="nofollow" href="#">兼客服务商</a>
           </p>
-        </div>
+        </div>-->
         <div class="item">
           <span>其他</span>
           <p>
@@ -675,18 +556,29 @@
   <script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js "></script>
 
   <!-- 定位 -->
-  <script>
+  <!--<script>
       var geolocation = new qq.maps.Geolocation("7XXBZ-X753F-4A3JN-JENMQ-LSMTZ-M6FCR", "jianke");
       geolocation.getLocation(function (res) {
-        $('.currentCity span').html(res.city);
-        $('.may_city a').html(res.city);
-        console.log(res.city)
+          $('.currentCity span').html(res.city);
+          $('.may_city a').html(res.city);
+          console.log(res.city)
       }, function (err) {
-        console.log(err)
+          console.log(err)
       }, {
-        timeout: 3000
+          timeout: 3000
       })
-    </script>
+  </script>-->
 </body>
+
+<script>
+    $(function(){
+        $('.container .nav li').on('click',function(){
+            let index = $(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+            console.log($('.container ul.modJobList')[0]);
+            $($('.container .modJobList')[index]).addClass('show').siblings().removeClass('show');
+        })
+    })
+</script>
 
 </html>
