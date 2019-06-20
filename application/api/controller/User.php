@@ -2,7 +2,7 @@
 
 namespace app\api\controller;
 
-use app\admin\model\ZjBasicConf;
+use app\api\model\ZjBasicConf;
 use app\api\model\ZjUser;
 use app\api\model\ZjUserNotice;
 use app\api\model\ZjWithdrawWay;
