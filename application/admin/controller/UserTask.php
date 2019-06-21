@@ -153,45 +153,45 @@ class UserTask extends BaseController
             $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id,nickname')->find();
             //任务金额
             $money = $task['money'];
+            //一级佣金比例
+            $commissionConf = ZjCommissionConf::where(['level'=>1])->value('value');
+            //一级佣金数据
+            $oneCommission = [
+                'type'=>1,
+                'user_id'=>$user['superior_user_id'],
+                'money'=>$task['money'] * $commissionConf/100,
+                'from_user_id'=>$user['user_id'],
+                'task_id'=>$task['task_id']
+            ];
+            //剩余任务金额
+            $money -=$oneCommission['money'];
             if($user['superior_user_id'] != 0){
                 //存在上级 TODO 上级分享一级佣金
-                //一级佣金比例
-                $commissionConf = ZjCommissionConf::where(['level'=>1])->value('value');
-                //一级佣金数据
-                $oneCommission = [
-                    'type'=>1,
-                    'user_id'=>$user['superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf/100,
-                    'from_user_id'=>$user['user_id'],
-                    'task_id'=>$task['task_id']
-                ];
                 //添加佣金数据
                 ZjCommission::create($oneCommission);
                 //上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
-                //剩余任务金额
-                $money -=$oneCommission['money'];
                 //发送消息给用户
                 $this->sendNotice($user['superior_user_id'],'佣金到账',"您的一级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$oneCommission['money']}'");
             }
+            //二级佣金比例
+            $commissionConf = ZjCommissionConf::where(['level'=>2])->value('value');
+            //二级佣金数据
+            $twoCommission = [
+                'type'=>2,
+                'user_id'=>$user['superior_superior_user_id'],
+                'money'=>$task['money'] * $commissionConf/100,
+                'from_user_id'=>$user['user_id'],
+                'task_id'=>$task['task_id']
+            ];
+            //剩余任务金额
+            $money-=$twoCommission['money'];
             if($user['superior_superior_user_id'] != 0){
                 //存在上上级 TODO 上上级分享二级佣金
-                //二级佣金比例
-                $commissionConf = ZjCommissionConf::where(['level'=>2])->value('value');
-                //二级佣金数据
-                $twoCommission = [
-                    'type'=>2,
-                    'user_id'=>$user['superior_superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf/100,
-                    'from_user_id'=>$user['user_id'],
-                    'task_id'=>$task['task_id']
-                ];
                 //添加佣金数据
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
-                //剩余任务金额
-                $money-=$twoCommission['money'];
                 //发送消息给用户
                 $this->sendNotice($user['superior_user_id'],'佣金到账',"您的二级成员'{$user['nickname']}'任务通过了审核,收到佣金'{$twoCommission['money']}'");
             }

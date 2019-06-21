@@ -146,28 +146,34 @@ class Task extends Base
                 if($userTaskNum>0){
                     //判断当前用户该任务状态
                     $userTask = ZjUserTask::where($where)->field('id,submit_time,status,gmt_create')->find();
-                    $surplusTime = 0;
-                    if($userTask['status'] == 0){
-                        //执行中返回执行剩余时间
-                        $finishDuration = $res['finish_duration']*60*60;
-                        $surplusTime = $finishDuration-(time()-strtotime($userTask['gmt_create']));
-                        //当时间小于0时，表示阶段已结束，进行订单放弃处理
-                        if ($surplusTime <= 0) {
-                            ZjUserTask::update(['id' => $userTask['id'], 'status' => 4]);
+                    if($userTask['status'] == 4){
+                        //任务超时或主动放弃 可重新领取
+                        $res['can_receive'] = 1;
+                    }else{
+                        $surplusTime = 0;
+                        if($userTask['status'] == 0){
+                            //执行中返回执行剩余时间
+                            $finishDuration = $res['finish_duration']*60*60;
+                            $surplusTime = $finishDuration-(time()-strtotime($userTask['gmt_create']));
+                            //当时间小于0时，表示阶段已结束，进行订单放弃处理
+                            if ($surplusTime <= 0) {
+                                ZjUserTask::update(['id' => $userTask['id'], 'status' => 4]);
+                            }
+                        }else if($userTask['status'] == 1){
+                            //执行中返回审核剩余时间
+                            $checkDuration = $res['check_duration']*60*60;
+                            $surplusTime = $checkDuration-(time()-strtotime($userTask['submit_time']));
+                            //当时间小于0时，表示阶段已结束，进行订单自动通过处理
+                            if ($surplusTime <= 0) {
+                                ZjUserTask::update(['id' => $userTask['id'], 'status' => 2]);
+                            }
                         }
-                    }else if($userTask['status'] == 1){
-                        //执行中返回审核剩余时间
-                        $checkDuration = $res['check_duration']*60*60;
-                        $surplusTime = $checkDuration-(time()-strtotime($userTask['submit_time']));
-                        //当时间小于0时，表示阶段已结束，进行订单自动通过处理
-                        if ($surplusTime <= 0) {
-                            ZjUserTask::update(['id' => $userTask['id'], 'status' => 2]);
-                        }
+                        $res['user_task_id'] = $userTask['id'];
+                        $res['surplus_time'] = $surplusTime*1000;
+                        $res['status'] = $userTask['status'];
+                        $res['can_receive'] = 0;
                     }
-                    $res['user_task_id'] = $userTask['id'];
-                    $res['surplus_time'] = $surplusTime*1000;
-                    $res['status'] = $userTask['status'];
-                    $res['can_receive'] = 0;
+
                 }else{
                     $res['can_receive'] = 1;
                 }
@@ -197,43 +203,43 @@ class Task extends Base
             $user = ZjUser::where(['user_id'=>$userTask['user_id'],'is_delete'=>0])->field('superior_user_id,superior_superior_user_id,user_id')->find();
             //任务金额
             $money = $task['money'];
+            //一级佣金比例
+            $commissionConf = ZjCommissionConf::where(['level'=>1])->value('value');
+            //一级佣金数据
+            $oneCommission = [
+                'type'=>1,
+                'user_id'=>$user['superior_user_id'],
+                'money'=>$task['money'] * $commissionConf/100,
+                'from_user_id'=>$user['user_id'],
+                'task_id'=>$task['task_id']
+            ];
+            //剩余任务金额
+            $money -=$oneCommission['money'];
             if($user['superior_user_id'] !== 0){
                 //存在上级 TODO 上级分享一级佣金
-                //一级佣金比例
-                $commissionConf = ZjCommissionConf::where(['level'=>1])->value('value');
-                //一级佣金数据
-                $oneCommission = [
-                    'type'=>1,
-                    'user_id'=>$user['superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf/100,
-                    'from_user_id'=>$user['user_id'],
-                    'task_id'=>$task['task_id']
-                ];
                 //添加佣金数据
                 ZjCommission::create($oneCommission);
                 //上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$oneCommission['money']*100);
-                //剩余任务金额
-                $money -=$oneCommission['money'];
             }
+            //二级佣金比例
+            $commissionConf = ZjCommissionConf::where(['level'=>2])->value('value');
+            //二级佣金数据
+            $twoCommission = [
+                'type'=>2,
+                'user_id'=>$user['superior_superior_user_id'],
+                'money'=>$task['money'] * $commissionConf/100,
+                'from_user_id'=>$user['user_id'],
+                'task_id'=>$task['task_id']
+            ];
+            //剩余任务金额
+            $money-=$twoCommission['money'];
+            //添加佣金数
             if($user['superior_superior_user_id'] !== 0){
-                //存在上上级 TODO 上上级分享二级佣金
-                //二级佣金比例
-                $commissionConf = ZjCommissionConf::where(['level'=>2])->value('value');
-                //二级佣金数据
-                $twoCommission = [
-                    'type'=>2,
-                    'user_id'=>$user['superior_superior_user_id'],
-                    'money'=>$task['money'] * $commissionConf/100,
-                    'from_user_id'=>$user['user_id'],
-                    'task_id'=>$task['task_id']
-                ];
-                //添加佣金数据
+                //存在上上级 TODO 上上级分享二级佣金据
                 ZjCommission::create($twoCommission);
                 //上上级增加金额
                 ZjUser::where(['user_id'=>$user['superior_superior_user_id']])->setInc('money',$twoCommission['money']*100);
-                //剩余任务金额
-                $money-=$twoCommission['money'];
             }
             //添加用户收入数据
             $userIncome = [
