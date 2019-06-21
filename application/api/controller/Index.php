@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\api\model\Area;
 use app\api\model\ZjBanner;
+use app\api\model\ZjBasicConf;
 use app\api\model\ZjLink;
 use app\util\ReturnCode;
 use WeChat\Script;
@@ -24,8 +25,23 @@ class Index extends Base
 
     public function getWechatJsSign(){
         $Script = new Script($this->config);
-        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
+//        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
+        $res=$Script->getJsSign('jianzhi.hmdog.com','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
         return $this->buildSuccess($res);
+    }
+
+    /**
+     * 城市列表
+     * @return array|\think\response\Json
+     */
+    public function wechatQrCode()
+    {
+        $this->requestType('GET');
+        $wechatQrCode =ZjBasicConf::where(['name' => 'wechat_qr_code'])->value('value');
+        if(!$wechatQrCode){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND, '记录未找到', '');
+        }
+        return $this->buildSuccess($wechatQrCode);
     }
 
     /**
@@ -36,6 +52,8 @@ class Index extends Base
     {
         $this->requestType('GET');
         $provinceList =Area::where(['level' => 1])->field('code,name')->select();
+        $newProvinceList[0] = '全国';
+        $newCityList[0] = '全国';
         foreach ($provinceList as $item){
             $newProvinceList[$item['code']] = $item['name'];
         }

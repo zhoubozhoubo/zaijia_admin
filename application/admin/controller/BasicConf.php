@@ -62,5 +62,20 @@ class BasicConf extends BaseController
         }
         return $this->buildSuccess($res);
     }
+    public function wechatQrCode(){
+        $res = ZjBasicConf::where(['name'=>'wechat_qr_code'])->value('value');
+        if(!$res){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        return $this->buildSuccess($res);
+    }
+    public function saveWechatQrCode(){
+        $postData = $this->request->post();
+        $res = ZjBasicConf::where(['name'=>'wechat_qr_code'])->update(['value'=>$postData['wechat_qr_code']]);
+        if(!$res){
+            return $this->buildFailed(ReturnCode::UPDATE_FAILED,'更新数据失败','');
+        }
+        return $this->buildSuccess($res);
+    }
 
 }

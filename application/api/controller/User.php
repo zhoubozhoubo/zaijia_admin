@@ -2,7 +2,7 @@
 
 namespace app\api\controller;
 
-use app\admin\model\ZjBasicConf;
+use app\api\model\ZjBasicConf;
 use app\api\model\ZjUser;
 use app\api\model\ZjUserNotice;
 use app\api\model\ZjWithdrawWay;
@@ -254,9 +254,10 @@ class User extends Base
         //检测用户是否关注公众号
         $Oauth = new Oauth($this->config);
         $userInfo = $Oauth->getUser($info['openid']);
-        if(!$userInfo['subscribe']){
-            echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
-        }
+        $subScribe = $userInfo['subscribe'];
+//        if(!$userInfo['subscribe']){
+//            echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
+//        }
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
         if ($res > 0) {
@@ -270,7 +271,7 @@ class User extends Base
 //            ];
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'登陆成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."';</script>";
+//            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }else{
             //不存在则创建用户信息
             $user=[
@@ -295,8 +296,9 @@ class User extends Base
             $user = ZjUser::where($where)->find();
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'注册成功');
-            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."';</script>";
+//            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
+        echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
 
     }
 
