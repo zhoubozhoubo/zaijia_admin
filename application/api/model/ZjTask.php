@@ -51,7 +51,7 @@ class ZjTask extends Model
      * @return float
      */
     public function getFinishDurationAttr($value){
-        return $value = 30 ? 0.5 : $value;
+        return $value === 30 ? 0.5 : $value;
     }
 
 }
