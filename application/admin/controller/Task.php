@@ -106,9 +106,16 @@ class Task extends BaseController
             }
             unset($postData['area']);
         }
-        $postData['step'] = implode('%,%',$postData['step']);
-        $postData['show_img'] = implode('%,%',$postData['show_img']);
-        $postData['submit_img'] = implode('%,%',$postData['submit_img']);
+        if (isset($postData['step'])) {
+            $postData['step'] = implode('%,%',$postData['step']);
+        }
+        if (isset($postData['show_img'])) {
+            $postData['show_img'] = implode('%,%',$postData['show_img']);
+        }
+        if (isset($postData['submit_img'])) {
+            $postData['submit_img'] = implode('%,%',$postData['submit_img']);
+        }
+
 
         if ($postData['task_id'] !== 0) {
             $number = ZjTask::where('task_id', $postData['task_id'])->value('number');
