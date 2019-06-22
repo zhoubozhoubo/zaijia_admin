@@ -145,7 +145,7 @@ class Task extends Base
                 $userTaskNum = ZjUserTask::where($where)->count();
                 if($userTaskNum>0){
                     //判断当前用户该任务状态
-                    $userTask = ZjUserTask::where($where)->field('id,submit_time,status,gmt_create')->find();
+                    $userTask = ZjUserTask::where($where)->field('id,task_id,submit_time,status,gmt_create')->find();
                     if($userTask['status'] == 4){
                         //任务超时或主动放弃 可重新领取
                         $res['can_receive'] = 1;
@@ -158,6 +158,8 @@ class Task extends Base
                             //当时间小于0时，表示阶段已结束，进行订单放弃处理
                             if ($surplusTime <= 0) {
                                 ZjUserTask::update(['id' => $userTask['id'], 'status' => 4]);
+                                //任务已领取数量自减
+                                ZjTask::where(['task_id'=>$userTask['task_id']])->setDec('have_number');
                             }
                         }else if($userTask['status'] == 1){
                             //执行中返回审核剩余时间
