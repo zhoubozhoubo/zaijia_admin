@@ -111,7 +111,7 @@ class UserTask extends Base
                 ZjUserTask::update(['id' => $res['id'], 'status' => 4]);
                 $res['status'] = 4;
                 //任务已领取数量自减
-                ZjTask::where(['task_id'=>$res['task_id']])->setDnc('have_number');
+                ZjTask::where(['task_id'=>$res['task_id']])->setDec('have_number');
             }
         } else if ($res['status'] == 1) {
             //执行中返回审核剩余时间
