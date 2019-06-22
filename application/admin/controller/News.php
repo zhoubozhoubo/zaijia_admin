@@ -46,6 +46,7 @@ class News extends BaseController
                 }
             }
         }
+        $where['is_delete']=0;
         $db = $db->where($where)->order('news_id desc');
         return $this->_list($db);
     }

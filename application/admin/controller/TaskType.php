@@ -44,6 +44,7 @@ class TaskType extends BaseController
                 }
             }
         }
+        $where['is_delete']=0;
         $db = $db->where($where)->order('sort ASC');
         return $this->_list($db);
     }
