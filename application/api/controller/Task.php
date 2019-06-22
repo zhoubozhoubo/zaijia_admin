@@ -142,39 +142,35 @@ class Task extends Base
             }else{
                 //不可重复
                 //查找当前用户是否已领取过该任务
-                $userTaskNum = ZjUserTask::where($where)->count();
-                if($userTaskNum>0){
+                $userTaskNum = ZjUserTask::where($where)->where('status', 'neq', 4)->count();
+                if ($userTaskNum > 0) {
                     //判断当前用户该任务状态
-                    $userTask = ZjUserTask::where($where)->field('id,task_id,submit_time,status,gmt_create')->find();
-                    if($userTask['status'] == 4){
-                        //任务超时或主动放弃 可重新领取
-                        $res['can_receive'] = 1;
-                    }else{
-                        $surplusTime = 0;
-                        if($userTask['status'] == 0){
-                            //执行中返回执行剩余时间
-                            $finishDuration = $res['finish_duration']*60*60;
-                            $surplusTime = $finishDuration-(time()-strtotime($userTask['gmt_create']));
-                            //当时间小于0时，表示阶段已结束，进行订单放弃处理
-                            if ($surplusTime <= 0) {
-                                ZjUserTask::update(['id' => $userTask['id'], 'status' => 4]);
-                                //任务已领取数量自减
-                                ZjTask::where(['task_id'=>$userTask['task_id']])->setDec('have_number');
-                            }
-                        }else if($userTask['status'] == 1){
-                            //执行中返回审核剩余时间
-                            $checkDuration = $res['check_duration']*60*60;
-                            $surplusTime = $checkDuration-(time()-strtotime($userTask['submit_time']));
-                            //当时间小于0时，表示阶段已结束，进行订单自动通过处理
-                            if ($surplusTime <= 0) {
-                                ZjUserTask::update(['id' => $userTask['id'], 'status' => 2]);
-                            }
+                    $userTask = ZjUserTask::where($where)->where('status', 'neq', 4)->field('id,task_id,submit_time,status,gmt_create')->find();
+                    $surplusTime = 0;
+                    if ($userTask['status'] == 0) {
+                        //执行中返回执行剩余时间
+                        $finishDuration = $res['finish_duration'] * 60 * 60;
+                        $surplusTime = $finishDuration - (time() - strtotime($userTask['gmt_create']));
+                        //当时间小于0时，表示阶段已结束，进行订单放弃处理
+                        if ($surplusTime <= 0) {
+                            ZjUserTask::update(['id' => $userTask['id'], 'status' => 4]);
+                            //任务已领取数量自减
+                            ZjTask::where(['task_id' => $userTask['task_id']])->setDec('have_number');
                         }
-                        $res['user_task_id'] = $userTask['id'];
-                        $res['surplus_time'] = $surplusTime*1000;
-                        $res['status'] = $userTask['status'];
-                        $res['can_receive'] = 0;
+                    } else if ($userTask['status'] == 1) {
+                        //执行中返回审核剩余时间
+                        $checkDuration = $res['check_duration'] * 60 * 60;
+                        $surplusTime = $checkDuration - (time() - strtotime($userTask['submit_time']));
+                        //当时间小于0时，表示阶段已结束，进行订单自动通过处理
+                        if ($surplusTime <= 0) {
+                            ZjUserTask::update(['id' => $userTask['id'], 'status' => 2]);
+                        }
                     }
+                    $res['user_task_id'] = $userTask['id'];
+                    $res['surplus_time'] = $surplusTime * 1000;
+                    $res['status'] = $userTask['status'];
+                    $res['can_receive'] = 0;
+
 
                 }else{
                     $res['can_receive'] = 1;
