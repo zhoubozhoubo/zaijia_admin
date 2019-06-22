@@ -74,6 +74,8 @@ class Task extends BaseController
             }
             if(!isset($searchConf['status']) || $searchConf['status'] == ''){
                 $where["a.status"] = ['neq',0];
+            }else if($searchConf['status'] == 0){
+                $where["a.status"] = 0;
             }
         }
         $db = $db->where($where)->order('gmt_create DESC');
