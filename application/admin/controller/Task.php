@@ -72,6 +72,9 @@ class Task extends BaseController
                     }
                 }
             }
+            if($searchConf['status'] == ''){
+                $where["a.status"] = ['neq',0];
+            }
         }
         $db = $db->where($where)->order('gmt_create DESC');
         return $this->_list($db);
