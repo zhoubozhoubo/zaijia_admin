@@ -76,7 +76,7 @@ class User extends Base
         //最新消息数量
         $noticeNum = ZjUserNotice::where(['user_id'=>$res['user_id'],'is_read'=>0])->count();
         $res['notice_num']=$noticeNum;
-        //用户分享二维码
+        //用户分享二维码海报
         $res['qr_code']= $this->qrCode($this->userInfo['openid']);
 
         return $this->buildSuccess($res);
@@ -366,7 +366,21 @@ class User extends Base
             //返回图片
             $qrCode->save($name);
         }
-        return $website.'/upload/qrCode/' . $user['code'] . '.png';
+        //背景海报
+        $bigImgPath =ZjBasicConf::where(['name' => 'wechat_qr_code'])->value('value');
+        //用户二维码
+        $qCodePath = $website.'/upload/qrCode/' . $user['code'] . '.png';
+
+        $bigImg = imagecreatefromstring(file_get_contents($bigImgPath));
+        $qCodeImg = imagecreatefromstring(file_get_contents($qCodePath));
+
+        list($qCodeWidth, $qCodeHight) = getimagesize($qCodePath);
+
+        imagecopymerge($bigImg, $qCodeImg, 120, 250, 0, 0, $qCodeWidth, $qCodeHight, 100);
+
+        imagejpeg($bigImg,ROOT_PATH . 'public/upload/qrCode/' . $user['code'] . '.jpg');
+
+        return $website.'/upload/qrCode/' . $user['code'] . '.jpg';
 
 
         $db = Db::name('user')->field('userimg,id')->where('openid', $openid)->find();
