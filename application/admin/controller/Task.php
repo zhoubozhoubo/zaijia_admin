@@ -72,7 +72,7 @@ class Task extends BaseController
                     }
                 }
             }
-            if($searchConf['status'] == ''){
+            if(!isset($searchConf['status']) || $searchConf['status'] == ''){
                 $where["a.status"] = ['neq',0];
             }
         }
