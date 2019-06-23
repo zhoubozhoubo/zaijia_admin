@@ -149,8 +149,11 @@ class Task extends BaseController
 
 
         if ($postData['task_id'] !== 0) {
-            $number = ZjTask::where('task_id', $postData['task_id'])->value('number');
-            $postData['number'] += $number;
+            if(!isset($postData['status']) || $postData['status'] !== 1){
+                $number = ZjTask::where('task_id', $postData['task_id'])->value('number');
+                $postData['number'] += $number;
+            }
+
             $res = ZjTask::update($postData);
             return $this->buildSuccess($res);
         } else if (ZjTask::create($postData)) {
