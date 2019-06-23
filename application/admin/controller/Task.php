@@ -88,6 +88,32 @@ class Task extends BaseController
             $item['have_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>2,'is_delete'=>0])->count();
             $item['no_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>3,'is_delete'=>0])->count();
             $item['money'] =  number_format($item['money'] / 100, 2, '.', '');
+            $item['step'] =  explode('%,%',$item['step']);
+
+            if($item['show_img']){
+                $showImg = explode('%,%',$item['show_img']);
+                if($showImg){
+                    foreach($showImg as $key=>$show){
+                        $img[$key]['url'] = $show;
+                    }
+                    $item['show_img'] =  $img;
+                }else{
+                    $item['show_img'] =  [];
+                }
+            }
+
+            if($item['submit_img']){
+                $showImg = explode('%,%',$item['submit_img']);
+                if($showImg){
+                    foreach($showImg as $key=>$show){
+                        $img[$key]['url'] = $show;
+                    }
+                    $item['submit_img'] =  $img;
+                }else{
+                    $item['submit_img'] =  [];
+                }
+            }
+//            $item['submit_img'] =  explode('%,%',$item['submit_img']);
             if($item['finish_duration'] == 30){
                 $item['finish_duration'] = 0.5;
             }
@@ -103,6 +129,7 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        print_r($postData);exit;
         $postData['end_date'] = date('Y-m-d', strtotime($postData['end_date']));
         if (isset($postData['area'])) {
             if($postData['area'] !== []){
