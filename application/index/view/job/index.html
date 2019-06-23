@@ -145,7 +145,7 @@
                   </div>
                   <div class="modJobListTxt">
                     <div class="title">
-                      <a href="javascript:showQrCode()">{$vo.title}</a>
+                      <a href="/Job/details?task_id={$vo.task_id}">{$vo.title}</a>
                     </div>
                     <p>
                       <span class="modIconTxt jobPrice">{$vo.money}元/天</span>
@@ -1726,41 +1726,31 @@
     <div class="container">
       <div class="e-a-c">
         <div class="item">
-          <span>关于兼客</span>
+          <span>关于慧元</span>
           <p>
-            <a rel="nofollow" href="https://www.jianke.cc/aboutus.html">公司简介</a>
-            <a rel="nofollow" href="https://www.jianke.cc/tojoinus.html">加入我们</a>
+            <a rel="nofollow" href="/Aboutus">公司简介</a>
           </p>
         </div>
-        <<!--div class="item">
-          <span>定制服务</span>
-          <p>
-            <a rel="nofollow" href="http://ditui.jianke.cc">熊地推</a>
-            <a rel="nofollow" href="https://tonggao.jianke.cc">兼客通告</a>
-            <a rel="nofollow" href="https://youpin.jianke.cc/teamservice/">兼客服务商</a>
-          </p>
-        </div>-->
         <div class="item">
           <span>其他</span>
           <p>
-            <a rel="nofollow" href="https://www.jianke.cc/web/toHelpCenterPage">帮助中心</a>
-            <a rel="nofollow" href="https://www.jianke.cc/getbook.html">建议反馈</a>
-            <a href="https://www.jianke.cc/web/zixun/index">行业资讯</a>
-            <a rel="nofollow" href="https://cooperation.jianke.cc">商务合作</a>
+            <a href="/News">最新资讯</a>
           </p>
         </div>
       </div>
       <div class="wechat">
         <span>扫描关注公众号</span>
         <p>
-          <img src="static/picture/wx.png" />
+          <img src="../../../../public/static/images/huiyuancaifu.jpg"/>
         </p>
       </div>
       <div class="custom">
-        <span>客服热线</span>
-        <p>400-168-9788</p>
-        <span>合作邮箱</span>
-        <p>hz@jianke.cc</p>
+
+        {volist name="customer" id="vo"}
+        <span>{$vo.name}：</span>
+        <p>{$vo.value}</p>
+        {/volist}
+
       </div>
     </div>
     <div class="bottom">

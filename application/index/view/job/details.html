@@ -1,0 +1,523 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="keywords" content="">
+  <meta content="" name="description">
+  <title>趣步…走路赚钱，让你的生活更有趣_广州群管理员兼职招聘信息_兼客兼职</title>
+  <meta name="keywords" content="趣步…走路赚钱，让你的生活更有趣_广州兼职招聘">
+  <meta name="description"
+        content="开封市洗马林商贸有限公司招聘趣步…走路赚钱，让你的生活更有趣,兼职9999人,工作地点：广州全国可做，时间地点都不限,薪资工资300元/天。兼职工作内容：工作内容：●下 载 注 册 认证，走路得糖果，糖果可以兑换商品，优惠卷，交易。●趣 步软件走路赚钱促进全民健康运动！让你健康美丽又有财富！让">
+  <meta name="baidu-site-verification" content="9d9d59e771c6df2c998a69672caa273e"/>
+  <!--[if lt IE 9]>
+  <script src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/lib/html5shiv.min.js"></script>
+  <![endif]-->
+  <!--网易云无感验证-->
+  <script charset="UTF-8" type="text/javascript" src="https://cstaticdun.126.net/load.min.js"></script>
+  <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=22e181360e785951270f245716d21b91"></script>
+  <link rel="stylesheet" type="text/css" href="http://developer.amap.com/Public/css/demo.Default.css"/>
+
+  <link rel="stylesheet" href="../../../../public/static/css/auto_combine_d26ef.css">
+  <script data-fixed='true'>
+    if (/iphone|android/i.test(window.navigator.userAgent)) {
+      window.location.href = "https://m.jianke.cc/job/0d337b4a-c42a-4395-8a8e-b008841fb358.html";
+    }
+  </script>
+  <link rel="stylesheet" href="../../../../public/static/js/layui/css/layui.css"  media="all">
+  <script src="../../../../public/static/js/layui/layui.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<style>
+  .modNewHeader a {
+    color: #223a50 !important;
+    border-right: none !important;
+    border-left: none !important;
+  }
+  .modNewHeader .current {
+    color: #00bcd4 !important;
+  }
+
+  .modNewHeader .logo_text {
+    font-size: 26px !important;
+  }
+  .btn{
+    display: block;
+    margin: 20px auto 0;
+  }
+  .jobDetailContent .img_div{
+    width: 21%;
+    display: inline-block;
+    padding: 10px 2%;
+  }
+  .jobDetailContent .img_div img{
+    width: 100%;
+  }
+</style>
+
+<body>
+<!--
+@require "modules/modNewHeader_v3/modNewHeader_v3.css"
+@require "modNewHeader_v3"
+-->
+<!-- WEB导航栏 -->
+<div class="modNewHeader modNewHeader_static">
+  <div class="container">
+    <!--<a href="#" class="logo"></a>-->
+    <div class="nav-list">
+      <a href="#" class="logo_text">慧元财富</a>
+      <a href="#" class="currentCity"></a>
+      <a href="/Index">首页</a>
+      <a href="/Job" class="current">兼职</a>
+      <a href="/News">最新资讯</a>
+      <a href="/Aboutus">关于我们</a>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<!--<div id="captcha"></div> &lt;!&ndash; 验证码容器元素 &ndash;&gt;-->
+<div class="contentWrap">
+  <div class="content">
+    <!--<div class="breadcrumbs">
+      <a href="/">兼职</a><em>─&nbsp;</em>
+      <a href="/qunguanliyuan_aa_1/">
+        群管理员</a><em>─&nbsp;</em>
+      <span>趣步…走路赚钱，让你的生活更有趣</span>
+    </div>-->
+
+    <div class="jobContent">
+      <!-- 暂无名额 添加 -->
+      <div class="jobbody">
+        <div class="jobTitleBlock">
+          <div class="title">
+            {$task.title}
+          </div>
+          <div class="titleTips"><span class="salary">{$task.money}元/天</span>
+            <!--<span>完工结算</span>-->
+            <span>{$task.end_date}</span>
+            <!--<span>4599次浏览</span>-->
+          </div>
+          <!--<div class="jobIcons">
+
+          </div>-->
+          <!--<div class="jobTags">
+            <a href="https://gz.jianke.cc/?jt=！">！</a>
+          </div>-->
+        </div>
+
+        <div id="mapContainer" class="map" data-position="全国可做，时间地点都不限" latlng="23.12911,113.264385"></div>
+        <div class="baseInfo">
+          <div><span>截止日期：</span><span>{$task.end_date}</span></div>
+          <div><span>审核时长：</span><span>{$task.check_duration}小时</span></div>
+          <div><span>完成时间：</span><span>{$task.finish_duration}小时</span></div>
+          <div><span>重复执行：</span><span>{if condition="$task.is_repeat === 0"}否{else/}是{/if}</span></div>
+        </div>
+        <div class="jobDetail">
+          <div class="title">任务说明</div>
+          <div class="jobDetailContent">
+
+            {volist name="task.step" id="vo" key="i"}
+            {$i}、{$vo}<br/>
+            {/volist}
+
+            {volist name="task.show_img" id="vo" key="i"}
+            <div class="img_div"><img src="{$vo}"/></div>
+            {/volist}
+
+          </div>
+
+          <div class="title">提交说明</div>
+          <div class="jobDetailContent">
+
+            {$task.submit_notice}<br/>
+
+            {volist name="task.submit_img" id="vo" key="i"}
+            <div class="img_div"><img src="{$vo}"/></div>
+            {/volist}
+
+          </div>
+          <!--<div class="jobDetailContent">
+            工作内容：<br/>●下 载 注 册 认证，走路得糖果，糖果可以兑换商品，优惠卷，交易。<br/>●趣 步软件走路赚钱促进全民健康运动！让你健康美丽又有财富！让生活更有趣！<br/> <br/> <br/>工资结算：<br/>1.注册奖： 每个注册认证好，发“已认证”截图即可认证费向我索取。 直推奖:5%提成，增加每天糖果产量。 用户量分红奖: 团队总活跃点500拿5%分红，2000点拿20%分红，月入8000一20000元。<br/><br/>2.每天保持4000步，走路或者跑步奖励，送运动糖果GHT，每个价格：25元，秒卖变现。每单10一1000个秒结到你支付宝帐户。<br/> <br/>趣步，让你的生活变得更有趣，边走边赚，不仅让你获得健康，而且让你增加财富！还在哪等待吗？赶紧一起来加入趣步吧！<br/> <br/> 报名方式：报名后请立即添加客服微信,报名后请立即添加客服微信,报名后请立即添加客服微信.重要的事情说三遍！！<br/>注意：添加报名人数多，通过验证比较慢，请耐心等待。
+          </div>-->
+          <div class="tips">注意事项：{$task.take_care}</div>
+        </div>
+        <!--<div id="applyWrap" class="applyWrap">-->
+          <button type="button" class="btn" onclick="showQrCode()">报名参加</button>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="fl">
+      <div class="entBaseinfo">
+        &lt;!&ndash; 页面具体内容 &ndash;&gt;
+        <div class="entInfo">
+          <div class="photo">
+            <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/shijianke-server/userprofile/c40af8ce83ba4c4d99f2274192205705/2015-10-07/49c0775a4f3e4fbda0899edb5253eda1.png" alt="雇主头像">
+          </div>
+          <div class="entDetail">
+            <p class="entName">开封市洗马林商贸有限公司<span class="entIdentifyFlag"></span></p>
+            <p class="industry">行业：其他</p>
+            <p class="address">所在城市：开封
+              <a href="/web/ent/index/4390588">查看更多</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="inBiddingJob">
+        <div class="title">在招岗位（1）</div>
+        <ul class="modJobList">
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/0d337b4a-c42a-4395-8a8e-b008841fb358.html" target="_blank" class="btn">报名</a>
+            </div>
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-06-14/e492970a5a5a47d9886b190b2eaa27ab.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/0d337b4a-c42a-4395-8a8e-b008841fb358.html" target="_blank">趣步…走路赚钱，让你的生活更有趣</a>
+              <p>
+                <span class="modIconTxt jobPrice">300元/天</span>
+                <span class="modIconTxt modIconTxt_gps">广州全市</span>
+                <span class="modIconTxt modIconTxt_time">06/19-09/16</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="guessYouLikeJob">
+        <div class="title">猜你喜欢</div>
+        <ul class="modJobList">
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/e998fe48-ac7b-4a2d-8aff-1f67ccdbb7a6.html" target="_blank" class="btn">报名</a>
+            </div>
+
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-04-18/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/e998fe48-ac7b-4a2d-8aff-1f67ccdbb7a6.html" target="_blank">可不露脸新人模特</a>
+              <p>
+                <span class="modIconTxt jobPrice">160元/时</span>
+                <span class="modIconTxt modIconTxt_gps">番禺区</span>
+                <span class="modIconTxt modIconTxt_time">06/20-09/17</span>
+              </p>
+            </div>
+          </li>
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/fff7951b-ba8e-4b62-9ed8-9cfd1dea2006.html" target="_blank" class="btn">报名</a>
+            </div>
+
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-04-18/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/fff7951b-ba8e-4b62-9ed8-9cfd1dea2006.html" target="_blank">古装汉服试拍模特</a>
+              <p>
+                <span class="modIconTxt jobPrice">180元/时</span>
+                <span class="modIconTxt modIconTxt_gps">天河区</span>
+                <span class="modIconTxt modIconTxt_time">06/19-09/16</span>
+              </p>
+            </div>
+          </li>
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/4bbd0388-27d7-4dc6-9367-8681bf912bf9.html" target="_blank" class="btn">报名</a>
+            </div>
+
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-06-10/d033992989f0426fa25b6df4f14063da.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/4bbd0388-27d7-4dc6-9367-8681bf912bf9.html" target="_blank">福利暑假工利口福食品包装</a>
+              <p>
+                <span class="modIconTxt jobPrice">150元/天</span>
+                <span class="modIconTxt modIconTxt_gps">番禺区</span>
+                <span class="modIconTxt modIconTxt_time">06/12-08/26</span>
+              </p>
+            </div>
+          </li>
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/330d6c81-dcef-41c7-9e15-f85cc2282e41.html" target="_blank" class="btn">报名</a>
+            </div>
+
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-06-20/71636bbc12704ace9517e568ceb5f472.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/330d6c81-dcef-41c7-9e15-f85cc2282e41.html" target="_blank">泽鸿科技招聘暑假工</a>
+              <p>
+                <span class="modIconTxt jobPrice">150元/天</span>
+                <span class="modIconTxt modIconTxt_gps">天河区</span>
+                <span class="modIconTxt modIconTxt_time">06/12-08/25</span>
+              </p>
+            </div>
+          </li>
+          <li class="clearFloat">
+            <div class="rightBtn">
+              <a href="https://gz.jianke.cc/job/a3e86ea4-7971-409c-93dd-5cb3a1ddb46a.html" target="_blank" class="btn">报名</a>
+            </div>
+
+            <div class="modJobListImg">
+              <img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/jobClassify/2017-04-18/b7553b8ac3d842b98dc358cefd0ffbd6.png" alt="">
+            </div>
+            <div class="modJobListTxt">
+              <a href="https://gz.jianke.cc/job/a3e86ea4-7971-409c-93dd-5cb3a1ddb46a.html" target="_blank">京东物流包裹分拣暑假工</a>
+              <p>
+                <span class="modIconTxt jobPrice">150元/天</span>
+                <span class="modIconTxt modIconTxt_gps">黄埔区</span>
+                <span class="modIconTxt modIconTxt_time">06/12-08/25</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="fl">
+      <div class="qr-code">
+        <img src="http://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/icon/download_jianzhi_top.png" />
+        <div>扫码下载兼客兼职APP</div>
+      </div>
+
+      <div class="zhongbao">
+        <a href="/web/toTaskListPage.html"></a>
+      </div>
+
+      <div class="recommandJob">
+        <div class="title">推荐岗位</div>
+        <ul class="modJobList">
+        </ul>
+      </div>
+
+    </div>-->
+
+
+  </div>
+</div>
+
+<div id="jobTime" class="hide">
+  <div id="J_datePicker"></div>
+</div>
+
+<!-- 快速报名 -->
+<div class="quick-apply-popup">
+  <div class="view">
+    <i class="close"></i>
+    <h1>趣步…走路赚钱，让你的生活更有趣</h1>
+    <p class="info">
+      兼职日期：2019.06.19-2019.09.16</br>
+      工作地址：全国可做，时间地点都不限</br>
+      报名限制：没有报名限制
+    </p>
+    <p class="title">验证手机号-确保工资到账</p>
+    <ul class="from">
+      <li>
+        <span>兼客姓名：</span>
+        <input type="text" class="quick-apply-true-name jk-input" placeholder="输入真实姓名">
+      </li>
+      <li>
+        <span>性别：</span>
+        <div class="sex  quick-apply-info-sex">
+          <p class="active" data-value="0">女</p>
+          <p  data-value="1">男</p>
+        </div>
+      </li>
+      <li>
+        <span>手机号码：</span>
+        <input type="text" class="jk-input quick-apply-telphone" placeholder="输入你的手机号" maxlength="11">
+      </li>
+      <!--<li>
+        <span>图形码：</span>
+        <input type="text" class="code jk-input quick-apply-pic-code" placeholder="输入图形码">
+        <img src="/web/getImgRandCode?0.45" class="imgCode"/>
+      </li>-->
+      <li>
+        <span>动态密码：</span>
+        <input type="text" class="code jk-input quick-apply-telphone-code" placeholder="输入6位手机验证码">
+        <p class="getCode" id="btnGetVCode">获取验证码</p>
+      </li>
+    </ul>
+    <div class="submit">
+      <button class="quick-apply-submit" type="button">完成并报名</button>
+      <span class="cont">
+            已有账号？<span class="toLogin">去登录</span>
+          </span>
+    </div>
+  </div>
+</div>
+
+<!-- 完善信息 -->
+<div class="complete-info-popup">
+  <div class="view">
+    <i class="close"></i>
+    <h1>完善信息</h1>
+    <ul class="from">
+      <li>
+        <span>真实姓名：</span>
+        <input class="complete-info-true-name jk-input" type="text" placeholder="输入你的姓名">
+      </li>
+      <li>
+        <span>性别：</span>
+        <div class="sex complete-info-sex">
+          <p class="active" data-value="0">女</p>
+          <p data-value="1">男</p>
+        </div>
+      </li>
+    </ul>
+    <div class="submit">
+      <button class="complete-info-submit" type="button">提交</button>
+    </div>
+  </div>
+</div>
+<!-- 3个弹窗 end -->
+<div id="timeZone" class="hide">2019.06.19-2019.09.16</div>
+<div id="pageData" class="hide">
+  {
+  "jobid":"915612",
+  "is_accurate_job":"0",
+  "userType":"",
+  "hasResume":"",
+  "isVerifyed": '',
+  "has_applied_num":"",
+  "apply_limit_min_on_board_time":"",
+  "check_rel_name_verify": "",
+  "check_life_photo": "",
+  "check_health_cer" : "",
+  "check_stu_id_card": "",
+  "check_sex": "",
+  "check_age": "",
+  "check_height": "",
+  "rel_name_verify": "0",
+  "life_photo": "0",
+  "health_cer" : "0",
+  "stu_id_card": "0",
+  "sex": "",
+  "age": "",
+  "height": "",
+  "challenge":"669e462ee18da788",
+  "apply_job_date": "" ,
+  "source":"3"
+
+  }
+</div>
+
+<!-- 尾部 -->
+<div class="modFooter">
+  <div class="container">
+    <div class="e-a-c">
+      <div class="item">
+        <span>关于慧元</span>
+        <p>
+          <a rel="nofollow" href="/Aboutus">公司简介</a>
+        </p>
+      </div>
+      <div class="item">
+        <span>其他</span>
+        <p>
+          <a href="/News">最新资讯</a>
+        </p>
+      </div>
+    </div>
+    <div class="wechat">
+      <span>扫描关注公众号</span>
+      <p>
+        <img src="../../../../public/static/images/huiyuancaifu.jpg"/>
+      </p>
+    </div>
+    <div class="custom">
+
+      {volist name="customer" id="vo"}
+      <span>{$vo.name}：</span>
+      <p>{$vo.value}</p>
+      {/volist}
+
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="container">
+      <span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+    </div>
+  </div>
+</div>
+<!--<script>
+  (function(){
+    window.setTimeout(function(){
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?328ac3c1c3ad520f3d4748a3cf9901f5";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    }, 1000)
+  })();
+</script>
+
+<script>
+  (function(){
+    window.setTimeout(function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    }, 1500)
+  })();
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/analytics.js','ga1');
+  ga1('create', 'UA-76730243-1', 'auto');
+  ga1('send', 'pageview');
+</script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/pkg/auto_combine_b71d3.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/pkg/lib.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/pkg/auto_combine_1d9bc.js"></script>
+<script type="text/javascript">
+  require('jobDetail/jobDetail');
+</script>
+<script>
+  window._bd_share_config = {
+    "common": {
+      "bdSnsKey": {},
+      "bdText": "全国可做，时间地点都不限 300.0元/天 我正在利用业余时间赚钱，这个岗位推荐给你！",
+      "bdMini": "2",
+      "bdMiniList": false,
+      "bdPic": "http://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/share/2015-10-07/59474372b8cd4b50ad20a402407a4323.shareImg",
+      "bdStyle": "0",
+      "bdSize": "24"
+    },
+    "share": {}
+  };
+  with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+
+</script>-->
+</body>
+<script>
+  function showQrCode ()
+  {
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      layer.open({
+        type: 0,
+        title: '请扫码关注微信公众号',
+        content: '<img src="../../../../public/static/images/huiyuancaifu.jpg"/>' //这里content是一个普通的String
+      });
+    })
+  }
+</script>
+</html>

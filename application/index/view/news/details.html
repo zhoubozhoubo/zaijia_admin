@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>福利专题_兼客资讯_兼客兼职</title>
+	<meta name="keywords" content="专题">
+	<meta name="description" content=" 福利 ">
+	<!--[if lt IE 9]>
+	<script src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/lib/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="../../../../public/static/css/auto_combine_42917.css">
+	<script data-fixed='true'>
+		if(/iphone|android/i.test(window.navigator.userAgent)){
+			window.location.href = "https://m.jianke.cc/m/zixun/1672.html";
+		}
+	</script>
+</head>
+
+<style>
+	.modNewHeader a {
+		color: #223a50 !important;
+		border-right: none !important;
+		border-left: none !important;
+	}
+	.modNewHeader .current {
+		color: #00bcd4 !important;
+	}
+
+	.modNewHeader .logo_text {
+		font-size: 26px !important;
+	}
+	.btn{
+		display: block;
+		margin: 20px auto 0;
+	}
+	.jobDetailContent .img_div{
+		width: 21%;
+		display: inline-block;
+		padding: 10px 2%;
+	}
+	.jobDetailContent .img_div img{
+		width: 100%;
+	}
+</style>
+
+<body>
+<!--
+@require "modules/modNewHeader_v3/modNewHeader_v3.css"
+@require "modNewHeader_v3"
+-->
+<!-- 头部 -->
+<!-- WEB导航栏 -->
+<div class="modNewHeader modNewHeader_static">
+	<div class="container">
+		<!--<a href="#" class="logo"></a>-->
+		<div class="nav-list">
+			<a href="#" class="logo_text">慧元财富</a>
+			<a href="#" class="currentCity"></a>
+			<a href="/Index">首页</a>
+			<a href="/Job">兼职</a>
+			<a href="/News" class="current">最新资讯</a>
+			<a href="/Aboutus">关于我们</a>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="mainContainer">
+	<!-- <div class="dateWrap">
+        <div class="date">
+            <div class="month">7</div>
+            <div class="day">19</div>
+        </div>
+    </div> -->
+	<div class="contentWrap">
+		<div class="contentLeft fl">
+			<div class="infoTitle">
+				<!--<span><a href="/web/zixun/index">兼客资讯</a></span>-->
+				<!--<span class="colorgray"> - </span>-->
+				<span class="colorgray">最新资讯</span>
+			</div>
+			<div class="contetntDetail">
+				<h1>{$news.title}</h1>
+				<div class="information">
+					<!--<span class="author">作者：番茄千岛酱</span>-->
+					<span class="time">{$news.gmt_create}</span>
+					<span class="keyword">浏览数：{$news.number}</span>
+				</div>
+				<br>
+				{$news.content}
+				<!--<p style="text-align:center;">
+					<a href="https://zhongbao.jianke.cc/m/task/afaffd5c-9c4e-483b-b1ab-58df050dfbc0.html" target="_blank"><img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/artical/upload/2019-04-15/a10181d4bc364d0d9b89f25d90049195.jpg" alt="" /></a>
+				</p>
+				<p style="text-align:center;">
+					<a href="https://zhongbao.jianke.cc/m/task/075b42b1-8732-4858-8471-bbdfd0c95c4b.html" target="_blank"><img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/artical/upload/2019-04-15/47764f4c8b404bdfb0cb4addca5cae58.jpg" alt="" /></a>
+				</p>
+				<p style="text-align:center;">
+					<a href="https://zhongbao.jianke.cc/m/task/5b994f8d-8729-480b-9678-6443a2517397.html" target="_blank"><img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/artical/upload/2019-04-15/4af6211276eb48feb9f99fedff011768.jpg" alt="" /></a>
+				</p>
+				<p style="text-align:center;">
+					<a href="https://zhongbao.jianke.cc/m/task/b0b2a532-f799-4d10-bff4-4f459dcc3098.html" target="_blank"><img src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/product/Upload/shijianke-mgr/artical/upload/2019-04-15/5bbeb9be754d4700bfc1400a5f58b8f2.jpg" alt="" /></a>
+				</p>-->
+			</div>
+
+			<!--<div>
+				<a href="/zixun/1671.html" class="next">下一篇： 周末福利 </a>
+			</div>-->
+		</div>
+		<div class="contentRight fr">
+			<div class="adContainer">
+				<img src="../../../../public/static/images/huiyuancaifu.jpg"/>
+				<div>扫码关注微信公众号</div>
+			</div>
+			<div id="listWrap" class="jobContainer clearFloat">
+				<!--
+                   @require "modules/modNewsJobList/modNewsJobList.css"
+               -->
+				<div class="jobWrap">
+					<h3>最新兼职<i></i></h3>
+
+					<!--<h3>看了这个岗位的人也看了<i></i></h3>-->
+
+					{volist name="task" id="vo"}
+					<section>
+						<a href="/Job/details?task_id={$vo.task_id}">
+							<img src="{$vo.type_img}" alt="">
+							<div class="contentblock">
+								<p>{$vo.title}</p>
+
+								<div class="job_salary">{$vo.money}元/天</div>
+								<div class="job_date">{$vo.end_date}</div>
+							</div>
+							<span class="job_gps">{$vo.city_name}</span>
+						</a>
+					</section>
+					{/volist}
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<div class="toolbar">
+	<a href="javascript:;" class="toolbar-item toolbar-item-wexin">
+		<span class="toolbar-layer"></span>
+	</a>
+	<a href="https://www.jianke.cc/getbook.html"  class="toolbar-item toolbar-item-feedback"></a>
+	<a href="javascript:;" class="toolbar-item toolbar-item-app">
+		<span class="toolbar-layer"></span>
+	</a>
+	<!-- <a href="javascript:;" class="toolbar-item toolbar-item-top"></a> -->
+</div>
+<!-- 尾部 -->
+<div class="modFooter">
+	<div class="container">
+		<div class="e-a-c">
+			<div class="item">
+				<span>关于慧元</span>
+				<p>
+					<a rel="nofollow" href="/Aboutus">公司简介</a>
+				</p>
+			</div>
+			<div class="item">
+				<span>其他</span>
+				<p>
+					<a href="/News">最新资讯</a>
+				</p>
+			</div>
+		</div>
+		<div class="wechat">
+			<span>扫描关注公众号</span>
+			<p>
+				<img src="../../../../public/static/images/huiyuancaifu.jpg"/>
+			</p>
+		</div>
+		<div class="custom">
+
+			{volist name="customer" id="vo"}
+			<span>{$vo.name}：</span>
+			<p>{$vo.value}</p>
+			{/volist}
+
+		</div>
+	</div>
+	<div class="bottom">
+		<div class="container">
+			<span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+		</div>
+	</div>
+</div>
+<!--<script>
+	(function(){
+		window.setTimeout(function(){
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?328ac3c1c3ad520f3d4748a3cf9901f5";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		}, 1000)
+	})();
+</script>
+
+<script>
+	(function(){
+		window.setTimeout(function(){
+			var bp = document.createElement('script');
+			var curProtocol = window.location.protocol.split(':')[0];
+			if (curProtocol === 'https') {
+				bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+			}
+			else {
+				bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+			}
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(bp, s);
+		}, 1500)
+	})();
+</script>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/analytics.js','ga1');
+	ga1('create', 'UA-76730243-1', 'auto');
+	ga1('send', 'pageview');
+</script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/lib/mod.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/pkg/lib.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://wodan-idc.oss-cn-hangzhou.aliyuncs.com/shijianke-web/v70/static-web/pkg/auto_combine_b9a3c.js"></script>
+<script type="text/javascript">
+	require('informationDetail/informationDetail');
+</script>-->
+</body>
+</html>

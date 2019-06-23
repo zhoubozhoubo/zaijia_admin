@@ -41,10 +41,10 @@
 		<div class="nav-list">
 			<a href="#" class="logo_text">慧元财富</a>
 			<a href="#" class="currentCity"></a>
-			<a href="Index">首页</a>
-			<a href="Job">兼职</a>
-			<a href="News">最新资讯</a>
-			<a href="Aboutus" class="current">关于我们</a>
+			<a href="/Index">首页</a>
+			<a href="/Job">兼职</a>
+			<a href="/News">最新资讯</a>
+			<a href="/Aboutus" class="current">关于我们</a>
 		</div>
 	</div>
 </div>
@@ -64,52 +64,42 @@
     </div>
     <!-- <link rel="import" href="/modules/modFooter/modFooter.html?__inline"> -->
      <!-- 尾部 -->
-<div class="modFooter">
-	<div class="container">
-			<div class="e-a-c">
-					<div class="item">
-						<span>关于兼客</span>
-						<p>
-							<a rel="nofollow" href="./aboutus.html">公司简介</a>
-							<a rel="nofollow" href="#">加入我们</a>
-						</p>
-					</div>
-					<div class="item">
-						<span>定制服务</span>
-						<p>
-							<a rel="nofollow" href="#">熊地推</a>
-							<a rel="nofollow" href="#">兼客通告</a>
-							<a rel="nofollow" href="#">兼客服务商</a>
-						</p>
-					</div>
-					<div class="item">
-						<span>其他</span>
-						<p>
-							<a rel="nofollow" href="#">帮助中心</a>
-							<a rel="nofollow" href="#">建议反馈</a>
-							<a href="./news.html">行业资讯</a>
-							<a rel="nofollow" href="#">商务合作</a>
-						</p>
-					</div>
-				</div>
-		<div class="wechat">
-			<span>扫描关注公众号</span>
-			<p>
-				<img src="static/picture/wx.png" />
-			</p>
-		</div>
-		<div class="custom">
-			<span>客服热线</span>
-			<p>400-168-9788</p>
-			<span>合作邮箱</span>
-			<p>hz@jianke.cc</p>
-		</div>			
-	</div>
-	<div class="bottom">
+	<div class="modFooter">
 		<div class="container">
-			<span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+			<div class="e-a-c">
+				<div class="item">
+					<span>关于慧元</span>
+					<p>
+						<a rel="nofollow" href="/Aboutus">公司简介</a>
+					</p>
+				</div>
+				<div class="item">
+					<span>其他</span>
+					<p>
+						<a href="/News">最新资讯</a>
+					</p>
+				</div>
+			</div>
+			<div class="wechat">
+				<span>扫描关注公众号</span>
+				<p>
+					<img src="../../../../public/static/images/huiyuancaifu.jpg"/>
+				</p>
+			</div>
+			<div class="custom">
+
+				{volist name="customer" id="vo"}
+				<span>{$vo.name}：</span>
+				<p>{$vo.value}</p>
+				{/volist}
+
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="container">
+				<span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

@@ -70,7 +70,7 @@ class User extends Base
         //邀请技巧
         $invite = ZjBasicConf::where(['name'=>'invite'])->value('value');
         $res['invite'] = explode('%,%',$invite);
-        //邀请技巧
+        //联系客服
         $customer = ZjBasicConf::where(['name'=>'customer'])->value('value');
         $res['customer'] = explode('%,%',$customer);
         //最新消息数量

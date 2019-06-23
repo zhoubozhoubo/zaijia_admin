@@ -39,10 +39,10 @@
 		<div class="nav-list">
 			<a href="#" class="logo_text">慧元财富</a>
 			<a href="#" class="currentCity"></a>
-			<a href="Index">首页</a>
-			<a href="Job">兼职</a>
-			<a href="News" class="current">最新资讯</a>
-			<a href="Aboutus">关于我们</a>
+			<a href="/Index">首页</a>
+			<a href="/Job">兼职</a>
+			<a href="/News" class="current">最新资讯</a>
+			<a href="/Aboutus">关于我们</a>
 		</div>
 	</div>
 </div>
@@ -58,7 +58,7 @@
 					<li>
 						<a href="/zixun/1672.html"><img src="{$vo.img}" alt="图片"></a>
 						<div>
-							<a href="/zixun/1672.html"><h1>{$vo.title}</h1></a>
+							<a href="/News/details?news_id={$vo.news_id}"><h1>{$vo.title}</h1></a>
 							<span>{$vo.gmt_create}</span>
 							<p>{$vo.comment}</p>
 						</div>
@@ -96,7 +96,7 @@
 
 					{volist name="task" id="vo"}
                     <section>
-                        <a href="https://fz.jianke.cc/job/84031597-aa0a-42eb-b58e-0ad145831293.html" target="_blank">
+                        <a href="/Job/details?task_id={$vo.task_id}">
 		                    <img src="{$vo.type_img}" alt="">
 		                    <div class="contentblock">
 		                    	<p>{$vo.title}</p>
@@ -119,45 +119,43 @@
     </section>
     
     <!-- 尾部 -->
-<div class="modFooter">
-	<div class="container">
-	  <div class="e-a-c">
-		<div class="item">
-		  <span>关于兼客</span>
-		  <p>
-			<a rel="nofollow" href="https://www.jianke.cc/aboutus.html">公司简介</a>
-			<a rel="nofollow" href="https://www.jianke.cc/tojoinus.html">加入我们</a>
-		  </p>
-		</div>
-		<div class="item">
-		  <span>其他</span>
-		  <p>
-			<a rel="nofollow" href="https://www.jianke.cc/web/toHelpCenterPage">帮助中心</a>
-			<a rel="nofollow" href="https://www.jianke.cc/getbook.html">建议反馈</a>
-			<a href="https://www.jianke.cc/web/zixun/index">行业资讯</a>
-			<a rel="nofollow" href="https://cooperation.jianke.cc">商务合作</a>
-		  </p>
-		</div>
-	  </div>
-		<div class="wechat">
-			<span>扫描关注公众号</span>
-			<p>
-				<img src="static/picture/wx.png" />
-			</p>
-		</div>
-		<div class="custom">
-			<span>客服热线</span>
-			<p>400-168-9788</p>
-			<span>合作邮箱</span>
-			<p>hz@jianke.cc</p>
-		</div>			
-	</div>
-	<div class="bottom">
+	<div class="modFooter">
 		<div class="container">
-			<span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+			<div class="e-a-c">
+				<div class="item">
+					<span>关于慧元</span>
+					<p>
+						<a rel="nofollow" href="/Aboutus">公司简介</a>
+					</p>
+				</div>
+				<div class="item">
+					<span>其他</span>
+					<p>
+						<a href="/News">最新资讯</a>
+					</p>
+				</div>
+			</div>
+			<div class="wechat">
+				<span>扫描关注公众号</span>
+				<p>
+					<img src="../../../../public/static/images/huiyuancaifu.jpg"/>
+				</p>
+			</div>
+			<div class="custom">
+
+				{volist name="customer" id="vo"}
+				<span>{$vo.name}：</span>
+				<p>{$vo.value}</p>
+				{/volist}
+
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="container">
+				<span>©2014-2019 JIANKE 闽ICP备15001133号-3</span>
+			</div>
 		</div>
 	</div>
-</div>
 <script>
 (function(){
 	window.setTimeout(function(){
