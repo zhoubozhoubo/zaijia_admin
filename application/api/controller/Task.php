@@ -27,6 +27,7 @@ class Task extends Base
      */
     public function taskList()
     {
+        $this->chackTask();
         $this->requestType('GET');
         $getData = $this->request->get();
         $where = [
@@ -259,7 +260,42 @@ class Task extends Base
 
     }
 
+    public function chackTask(){
+        $task = ZjTask::where('is_delete',0)->field('task_id,finish_duration,check_duration')->select();
+        foreach ($task as $item){
+            //查询用户任务列表中执行中与待审核的任务
+            $where=[
+                'task_id'=>$item['task_id'],
+                'status'=>['in','0,1'],
+                'is_delete'=>0
+            ];
+            $userTask = ZjUserTask::where($where)->select();
+            foreach ($userTask as $value) {
+                if ($value['status'] == 0) {
+                    //执行中返回执行剩余时间
+                    $finishDuration = $item['finish_duration'] * 60 * 60;
+                    $surplusTime = $finishDuration - (time() - strtotime($value['gmt_create']));
+                    //当时间小于0时，表示执行阶段已结束，进行订单放弃处理
+                    if ($surplusTime <= 0) {
+                        ZjUserTask::update(['id' => $value['id'], 'status' => 4]);
+                        //任务已领取数量自减
+                        ZjTask::where(['task_id'=>$item['task_id']])->setDec('have_number');
+                    }
+                } else if ($value['status'] == 1) {
+                    //审核中返回审核剩余时间
+                    $checkDuration = $item['check_duration'] * 60 * 60;
+                    $surplusTime = $checkDuration - (time() - strtotime($value['submit_time']));
+                    //当时间小于0时，表示审核阶段已结束，进行订单自动通过处理
+                    if ($surplusTime <= 0) {
+                        ZjUserTask::update(['id' => $value['id'],'check_time'=>date('Y-m-d H:i:s'), 'status' => 2]);
+                        // TODO 用户收入，佣金记录
+                        $this->commissionShare($item['id']);
+                    }
+                }
+            }
 
+        }
+    }
 
 
 

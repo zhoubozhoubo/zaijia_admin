@@ -62,6 +62,8 @@ class UserTask extends Base
                 //当时间小于0时，表示执行阶段已结束，进行订单放弃处理
                 if ($surplusTime <= 0) {
                     ZjUserTask::update(['id' => $item['id'], 'status' => 4]);
+                    //任务已领取数量自减
+                    ZjTask::where(['task_id'=>$res['task_id']])->setDec('have_number');
                     unset($res[$key]);
                 }
             } else if ($item['status'] == 1) {
