@@ -289,7 +289,7 @@ class Task extends Base
                     if ($surplusTime <= 0) {
                         ZjUserTask::update(['id' => $value['id'],'check_time'=>date('Y-m-d H:i:s'), 'status' => 2]);
                         // TODO 用户收入，佣金记录
-                        $this->commissionShare($item['id']);
+                        $this->commissionShare($value['id']);
                     }
                 }
             }
