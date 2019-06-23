@@ -129,7 +129,6 @@ class Task extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
-        print_r($postData);exit;
         $postData['end_date'] = date('Y-m-d', strtotime($postData['end_date']));
         if (isset($postData['area'])) {
             if($postData['area'] !== []){
