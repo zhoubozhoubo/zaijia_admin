@@ -12,9 +12,21 @@
     <script src="/public/static/js/html5shiv.min.js"></script>
     <![endif]-->
   <link type="text/css" rel="stylesheet" href="/public/static/css/auto_combine_d5456.css">
+  <link rel="stylesheet" href="../../../../public/static/js/layui/css/layui.css"  media="all">
+  <script src="../../../../public/static/js/layui/layui.js"></script>
   <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <style>
+  .banner{
+    position: absolute;
+    /*left: 50%;*/
+    /*margin-left: -600px;*/
+    width: 100%!important;
+    height: 600px!important;
+  }
+  .banner img{
+    width: 100%;
+  }
   .recommandJob{
     margin-top: 40px!important;
   }
@@ -24,6 +36,25 @@
   .qr-code{
     background-image: none!important;
   }
+  .modNewHeader a{
+    color: #FFFFFF!important;
+    border-right: none!important;
+    border-left: none!important;
+  }
+  .modNewHeader .current {
+    color: #00bcd4 !important;
+  }
+  .modNewHeader .logo_text{
+    font-size: 26px!important;
+  }
+  .link{
+    padding: 20px 0;
+  }
+  .link li{
+    width: 25%;
+    float: left;
+    text-align: center;
+  }
 </style>
 
 <body>
@@ -31,6 +62,13 @@
   <!-- 主页海报 -->
   <section>
     <div class="masthead">
+      <div class="layui-carousel banner" id="test1" lay-filter="test1">
+        <div carousel-item="">
+          {volist name="banner" id="vo"}
+            <a href="{$vo.url}"><img src="{$vo.img}"/></a>
+          {/volist}
+        </div>
+      </div>
       <div class="container">
         <!--<div class="side left-side"></div>-->
         <!--<div class="side right-side"></div>-->
@@ -163,19 +201,32 @@
             </ul>
           </div>
         </div>-->
+        <div class="modNewHeader modNewHeader_static">
+          <div class="container">
+            <!--<a href="#" class="logo"></a>-->
+            <div class="nav-list">
+              <a href="#" class="logo_text">慧元财富</a>
+              <a href="./city.html" class="currentCity"></a>
+              <a href="Index" class="current">首页</a>
+              <a href="Job">兼职</a>
+              <a href="News">最新资讯</a>
+              <a href="Aboutus">关于我们</a>
+            </div>
+          </div>
+        </div>
 
-        <div class="slogen">
+        <!--<div class="slogen">
           <div class="title">
             <span class="left-title indent">闲时间</span>
             <div class="right-title"><span class="indent">能赚钱</span></div>
           </div>
           <div class="desc">国内专业的兼职平台，为您提供免费、海量、真实的兼职服务</div>
-        </div>
+        </div>-->
 
         <div class="app-download">
           <div class="txt">扫码关注微信公众号</div>
           <div class="qr-code">
-            <img src="{$wechatQrCode}"/>
+            <img src="../../../../public/static/images/huiyuancaifu.jpg"/>
           </div>
         </div>
         <!--<div class="whiteDown"></div>-->
@@ -189,7 +240,7 @@
     @require "modNewHeader_v3"
 -->
   <!-- WEB导航栏 -->
-  <div class="modNewHeader modNewHeader_static">
+  <!--<div class="modNewHeader modNewHeader_static">
     <div class="container">
       <a href="#" class="logo"></a>
       <div class="nav-list">
@@ -200,8 +251,19 @@
         <a href="Aboutus">关于我们</a>
       </div>
     </div>
-  </div>
+  </div>-->
   <div class="clear"></div>
+
+  <div class="container">
+    <ul class="link">
+      {volist name="link" id="vo"}
+      <li>
+        <a href="{$vo.url}"><img src="{$vo.img}"/></a>
+      </li>
+      {/volist}
+      <div class="clear"></div>
+    </ul>
+  </div>
 
   <!--头部[end]-->
 
@@ -286,166 +348,27 @@
           <!--<li class="title">众包列表</li>-->
         </ul>
         <ul class="modJobList show">
+
+          {volist name="task" id="vo"}
           <li class="clearFloat">
-            <div class="rightBtn"><a href="https://fz.jianke.cc/job/84031597-aa0a-42eb-b58e-0ad145831293.html"
-                target="_blank" class="btn">报名</a></div>
+            <div class="rightBtn">
+              <a href="javascript:showQrCode()" target="_blank" class="btn">报名</a>
+              <!--<button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal">居中弹出</button>-->
+            </div>
             <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
+              <img src="{$vo.type_img}" alt="">
             </div>
             <div class="modJobListTxt">
-              <a href="https://fz.jianke.cc/job/84031597-aa0a-42eb-b58e-0ad145831293.html" target="_blank">
-                手机兼职，在家可做，日赚800元</a>
+              <a href="javascript:showQrCode()" target="_blank">
+                {$vo.title}</a>
               <p>
-                <span class="modIconTxt jobPrice">300元/天</span>
-                <span class="modIconTxt modIconTxt_gps">闽侯县</span>
-                <span class="modIconTxt modIconTxt_time">04/30-06/30</span>
+                <span class="modIconTxt jobPrice">{$vo.money}元/天</span>
+                <span class="modIconTxt modIconTxt_gps">{$vo.city_name}</span>
+                <span class="modIconTxt modIconTxt_time">截止日期：{$vo.end_date}</span>
               </p>
             </div>
           </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://sh.jianke.cc/job/f687d155-879c-4c7a-9924-dccc0a5fd2cb.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://sh.jianke.cc/job/f687d155-879c-4c7a-9924-dccc0a5fd2cb.html"
-                target="_blank">线上兼职，手机随时可做。现做现结！</a>
-              <p>
-                <span class="modIconTxt jobPrice">20元/次</span>
-                <span class="modIconTxt modIconTxt_gps">上海全市</span>
-                <span class="modIconTxt modIconTxt_time">05/01-07/29</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://bj.jianke.cc/job/0211ec2c-6364-49be-b850-74bd0f84d2e9.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://bj.jianke.cc/job/0211ec2c-6364-49be-b850-74bd0f84d2e9.html"
-                target="_blank">火爆:手机兼职，微信随时可做，现做现结!</a>
-              <p>
-                <span class="modIconTxt jobPrice">150元/天</span>
-                <span class="modIconTxt modIconTxt_gps">北京全市</span>
-                <span class="modIconTxt modIconTxt_time">05/08-08/05</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://fz.jianke.cc/job/3e4a631e-cb09-4606-9d44-cd62c257c2f4.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://fz.jianke.cc/job/3e4a631e-cb09-4606-9d44-cd62c257c2f4.html" target="_blank">轻松关注公众号 在家赚
-                现结</a>
-              <p>
-                <span class="modIconTxt jobPrice">50元/时</span>
-                <span class="modIconTxt modIconTxt_gps">福州全市</span>
-                <span class="modIconTxt modIconTxt_time">04/05-07/03</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://bj.jianke.cc/job/39f87b19-dcac-41e1-8912-3048f1a8aea6.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://bj.jianke.cc/job/39f87b19-dcac-41e1-8912-3048f1a8aea6.html" target="_blank">高效手 机兼职 大量缺人
-                高薪日结</a>
-              <p>
-                <span class="modIconTxt jobPrice">500元/天</span>
-                <span class="modIconTxt modIconTxt_gps">北京全市</span>
-                <span class="modIconTxt modIconTxt_time">04/29-07/11</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://hangzhou.jianke.cc/job/fcd77a0d-f8bf-4c6e-8ec6-4ee2a13243c5.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://hangzhou.jianke.cc/job/fcd77a0d-f8bf-4c6e-8ec6-4ee2a13243c5.html" target="_blank">一部手机
-                轻松兼职创业</a>
-              <p>
-                <span class="modIconTxt jobPrice">300元/天</span>
-                <span class="modIconTxt modIconTxt_gps">杭州全市</span>
-                <span class="modIconTxt modIconTxt_time">05/09-08/06</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://wuhan.jianke.cc/job/35bb10f4-33a5-4a23-9e2e-9dc1fce6926c.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://wuhan.jianke.cc/job/35bb10f4-33a5-4a23-9e2e-9dc1fce6926c.html"
-                target="_blank">简单小任务，在家在校可做</a>
-              <p>
-                <span class="modIconTxt jobPrice">300元/天</span>
-                <span class="modIconTxt modIconTxt_gps">武汉全市</span>
-                <span class="modIconTxt modIconTxt_time">05/08-08/05</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://sh.jianke.cc/job/e1cb4f04-d2c1-48d4-ad35-3201046df857.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://sh.jianke.cc/job/e1cb4f04-d2c1-48d4-ad35-3201046df857.html" target="_blank">微信兼职 全国可做
-                做完现结。</a>
-              <p>
-                <span class="modIconTxt jobPrice">50元/次</span>
-                <span class="modIconTxt modIconTxt_gps">上海全市</span>
-                <span class="modIconTxt modIconTxt_time">05/09-08/06</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://cd.jianke.cc/job/8354cadf-509c-4861-92ae-740521a09583.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://cd.jianke.cc/job/8354cadf-509c-4861-92ae-740521a09583.html"
-                target="_blank">手机兼职，云闪付体验，三分钟完成</a>
-              <p>
-                <span class="modIconTxt jobPrice">8元/次</span>
-                <span class="modIconTxt modIconTxt_gps">成都全市</span>
-                <span class="modIconTxt modIconTxt_time">05/08-08/05</span>
-              </p>
-            </div>
-          </li>
-          <li class="clearFloat">
-            <div class="rightBtn"><a href="https://cq.jianke.cc/job/45421459-5bd7-4b7e-b171-afd8e1bf8636.html"
-                target="_blank" class="btn">报名</a></div>
-            <div class="modJobListImg">
-              <img src="/public/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
-            </div>
-            <div class="modJobListTxt">
-              <a href="https://cq.jianke.cc/job/45421459-5bd7-4b7e-b171-afd8e1bf8636.html" target="_blank">手机简单任务，随时赚
-                现结</a>
-              <p>
-                <span class="modIconTxt jobPrice">300元/天</span>
-                <span class="modIconTxt modIconTxt_gps">重庆全市</span>
-                <span class="modIconTxt modIconTxt_time">05/09-08/06</span>
-              </p>
-            </div>
-          </li>
+          {/volist}
 
           <li class="clearFloat moreJob">
             <a href="Job" target="_blank" class="getMoreTask">查看更多</a>
@@ -571,6 +494,29 @@
 </body>
 
 <script>
+  layui.use(['carousel', 'form'], function () {
+    var carousel = layui.carousel
+            , form = layui.form;
+
+    //常规轮播
+    carousel.render({
+      elem: '#test1'
+      , arrow: 'always'
+    });
+  })
+  function showQrCode ()
+  {
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      layer.open({
+        type: 0,
+        title: '请扫码关注微信公众号',
+        content: '<img src="../../../../public/static/images/huiyuancaifu.jpg"/>' //这里content是一个普通的String
+      });
+    })
+  }
+</script>
+<script>
     $(function(){
         $('.container .nav li').on('click',function(){
             let index = $(this).index();
@@ -580,5 +526,4 @@
         })
     })
 </script>
-
 </html>

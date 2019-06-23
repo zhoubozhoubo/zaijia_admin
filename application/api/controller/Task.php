@@ -56,10 +56,11 @@ class Task extends Base
             default:
                 $order = '';
         }
-
+        $date = date('Y-m-d');
         $res = ZjTask::where($where)
             ->field('task_id,task_type_id,title,money,number,have_number,(number-have_number) as surplus_number')
             ->where('number - have_number','>',0)
+            ->where('end_date','>=',$date)
             ->order($order)
             ->paginate();
         if (!$res) {

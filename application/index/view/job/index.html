@@ -11,9 +11,26 @@
     <script src="/public/static/js/html5shiv.min.js"></script>
     <![endif]-->
   <link type="text/css" rel="stylesheet" href="/public/static/css/auto_combine_5a29e.css">
+  <link rel="stylesheet" href="../../../../public/static/js/layui/css/layui.css"  media="all">
+  <script src="../../../../public/static/js/layui/layui.js"></script>
   <script src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
   <script src="/public//static/js/areaData_v2.js"></script>
 </head>
+
+<style>
+  .modNewHeader a {
+    color: #223a50 !important;
+    border-right: none !important;
+    border-left: none !important;
+  }
+  .modNewHeader .current {
+    color: #00bcd4 !important;
+  }
+
+  .modNewHeader .logo_text {
+    font-size: 26px !important;
+  }
+</style>
 
 <body>
   <!--
@@ -23,8 +40,9 @@
   <!-- WEB导航栏 -->
   <div class="modNewHeader modNewHeader_static">
     <div class="container">
-      <a href="#" class="logo"></a>
+      <!--<a href="#" class="logo"></a>-->
       <div class="nav-list">
+        <a href="#" class="logo_text">慧元财富</a>
         <a href="#" class="currentCity"></a>
         <a href="Index">首页</a>
         <a href="Job" class="current">兼职</a>
@@ -44,39 +62,20 @@
           <div class="classify">
             <div class="classifyTitle">分类：</div>
             <div class="classifyList">
-              <a href="https://bj.jianke.cc/aj_aa_1/" class="selected">全部分类</a>
-              <a href="https://bj.jianke.cc/chuandanpaifa_aa_1/">传单派发</a>
-              <a href="https://bj.jianke.cc/cuxiaoyuan_aa_1/">商场促销</a>
-              <a href="https://bj.jianke.cc/fuwuyuan_aa_1/">餐饮服务</a>
-              <a href="https://bj.jianke.cc/huawuyuan_aa_1/">客服话务</a>
-              <a href="https://bj.jianke.cc/mote_aa_1/">会展执行</a>
-              <a href="https://bj.jianke.cc/guanzhongchongchang_aa_1/">观众充场</a>
-              <a href="https://bj.jianke.cc/songcanyuan_aa_1/">外卖送餐</a>
-              <a href="https://bj.jianke.cc/kuaidi_aa_1/">快递分拣</a>
-              <a href="https://bj.jianke.cc/xiaoshou_aa_1/">销售导购</a>
-              <a href="https://bj.jianke.cc/anbao_aa_1/">现场安保</a>
-              <a href="https://bj.jianke.cc/yanchu_aa_1/">商业演出</a>
-              <a href="https://bj.jianke.cc/linyi_aa_1/">礼仪模特</a>
-              <a href="https://bj.jianke.cc/wenjuandiaoyan_aa_1/">问卷调研</a>
-              <a href="https://bj.jianke.cc/shixi_aa_1/">企业实习</a>
-              <a href="https://bj.jianke.cc/wenyuan_aa_1/">文员翻译</a>
-              <a href="https://bj.jianke.cc/jiajiao_aa_1/">家教老师</a>
-              <a href="https://bj.jianke.cc/xiaoyuandaili_aa_1/">校园代理</a>
-              <a href="https://bj.jianke.cc/fanyi_aa_1/">文案编辑</a>
-              <a href="https://bj.jianke.cc/qunguanliyuan_aa_1/">群管理员</a>
-              <a href="https://bj.jianke.cc/hanjiagong_aa_1/">寒假工</a>
-              <a href="https://bj.jianke.cc/shuqigong_aa_1/">暑期兼职</a>
-              <a href="https://bj.jianke.cc/zhongdiangong_aa_1/">临时工</a>
-              <a href="https://bj.jianke.cc/shiwan_aa_1/">APP试玩</a>
-              <a href="https://bj.jianke.cc/sheyingpaizhao_aa_1/">摄影拍照</a>
-              <a href="https://bj.jianke.cc/dancheguanliyuan_aa_1/">单车管理员</a>
-              <a href="https://bj.jianke.cc/zhubo_aa_1/">主播</a>
-              <a href="https://bj.jianke.cc/xianshang_aa_1/">线上</a>
-              <a href="https://bj.jianke.cc/qita_aa_1/">其他兼职</a>
+              <a href="https://bj.jianke.cc/aj_aa_1/" class="selected">全部</a>
+
+              {volist name="taskType" id="vo"}
+              {if condition="$vo.id === 1"}
+              <a href="https://bj.jianke.cc/aj_aa_1/" class="selected">{$vo.name}</a>
+              {else/}
+              <a href="https://bj.jianke.cc/aj_aa_1/">{$vo.name}</a>
+              {/if}
+              {/volist}
+
             </div>
           </div>
           <div class="clear"></div>
-          <div class="area">
+          <!--<div class="area">
             <div class="areaTitle">区域：</div>
             <div class="areaList">
               <a href="https://bj.jianke.cc/aj_aa_1/" class="selected">全部分类</a>
@@ -109,8 +108,8 @@
               <a href="https://bj.jianke.cc/xianshang_aa_1/">线上</a>
               <a href="https://bj.jianke.cc/qita_aa_1/">其他兼职</a>
             </div>
-          </div>
-          <div class="search">
+          </div>-->
+          <!--<div class="search">
             <input data-url="https://bj.jianke.cc/?jt=" maxLength="10" placeholder="输入雇主、岗位关键词搜索" type="text"
               value="" />
             <i class="search-btn"></i>
@@ -122,7 +121,7 @@
               <a href="https://bj.jianke.cc/?jt=夜班">夜班</a>
               <a href="https://bj.jianke.cc/?jt=手机">手机</a>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
       <div class="main clearFloat">
@@ -136,53 +135,28 @@
           <div class="resultContent">
             <div id="listWrap">
               <ul class="modJobList">
+
+                {volist name="task" id="vo"}
                 <li class="jobItem clearFloat">
-                  <div class="rightBtn"><a href="https://fz.jianke.cc/job/84031597-aa0a-42eb-b58e-0ad145831293.html"
+                  <div class="rightBtn"><a href="javascript:showQrCode()"
                       target="_blank" class="btn">报名</a></div>
                   <div class="modJobListImg">
-                    <img src="static/picture/c767f47ce370479692cc8d0dd1601c1d.png" alt="">
+                    <img src="{$vo.type_img}" alt="">
                   </div>
                   <div class="modJobListTxt">
                     <div class="title">
-
-
-
-                      <a href="https://fz.jianke.cc/job/84031597-aa0a-42eb-b58e-0ad145831293.html"> 手机兼职，在家可做，日赚800元</a>
+                      <a href="javascript:showQrCode()">{$vo.title}</a>
                     </div>
                     <p>
-                      <span class="modIconTxt jobPrice">300元/天</span>
-                      <span class="modIconTxt modIconTxt_gps">闽侯县</span>
-                      <span class="modIconTxt modIconTxt_time">04/30-06/30</span>
-
+                      <span class="modIconTxt jobPrice">{$vo.money}元/天</span>
+                      <span class="modIconTxt modIconTxt_gps">{$vo.city_name}</span>
+                      <span class="modIconTxt modIconTxt_time">截止日期：{$vo.end_date}</span>
                     </p>
                   </div>
-
-                  <div class="triangle"></div>
-                  <div class="antiTriangle"></div>
-                  <div class="hide jobDetail">
-                    <ul>
-                      <li>
-                        <h1> 手机兼职，在家可做，日赚800元</h1>
-                      </li>
-                      <li>
-                        <span>薪资待遇：</span><span><b class="salary">300</b>元/天</span>
-                      </li>
-                      <li>
-                        <span>招聘人数：</span><span>9999人</span>
-                      </li>
-                      <li>
-                        <span>兼职日期：</span><span>04/30-06/30</span>
-                      </li>
-                      <li>
-                        <span>工作地址：</span><span>全国不限时间地址</span>
-                      </li>
-                      <li>
-                        <p></p>
-                      </li>
-                    </ul>
-                  </div>
                 </li>
-                <li class="jobItem clearFloat">
+                {/volist}
+
+                <!--<li class="jobItem clearFloat">
                   <div class="rightBtn"><a href="https://sh.jianke.cc/job/f687d155-879c-4c7a-9924-dccc0a5fd2cb.html"
                       target="_blank" class="btn">报名</a></div>
                   <div class="modJobListImg">
@@ -1576,7 +1550,7 @@
                       </li>
                     </ul>
                   </div>
-                </li>
+                </li>-->
               </ul>
             </div>
           </div>
@@ -1597,7 +1571,7 @@
         </div>
         <div class="adContainer fr">
           <div class="qr-code">
-            <img src="static/picture/download_jianzhi_top.png" />
+            <img src="../../../../public/static/images/huiyuancaifu.jpg"/>
             <div>扫码关注微信公众号</div>
           </div>
           <!--<div class="zhaiJob">
@@ -1832,6 +1806,19 @@
       return res;
     } 
   </script>-->
+<script>
+  function showQrCode ()
+  {
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      layer.open({
+        type: 0,
+        title: '请扫码关注微信公众号',
+        content: '<img src="../../../../public/static/images/huiyuancaifu.jpg"/>' //这里content是一个普通的String
+      });
+    })
+  }
+</script>
 </body>
 
 </html>

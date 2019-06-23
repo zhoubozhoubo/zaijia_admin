@@ -31,6 +31,7 @@ class ZjTask extends Model
         return explode('%,%',$value);
     }
 
+
     /**
      * 关联任务类型
      * @return \think\model\relation\HasOne
