@@ -505,6 +505,14 @@ Route::group('admin', function () use ($afterBehavior) {
         'saveWechatQrCode' => [
             'admin/BasicConf/saveWechatQrCode',
             ['method' => 'post']
+        ],
+        'company' => [
+            'admin/BasicConf/company',
+            ['method' => 'get']
+        ],
+        'saveCompany' => [
+            'admin/BasicConf/saveCompany',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('News', [

@@ -77,5 +77,20 @@ class BasicConf extends BaseController
         }
         return $this->buildSuccess($res);
     }
+    public function company(){
+        $res = ZjBasicConf::where(['name'=>'company'])->value('value');
+        if(!$res){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        return $this->buildSuccess($res);
+    }
+    public function saveCompany(){
+        $postData = $this->request->post();
+        $res = ZjBasicConf::where(['name'=>'company'])->update(['value'=>$postData['company']]);
+        if(!$res){
+            return $this->buildFailed(ReturnCode::UPDATE_FAILED,'更新数据失败','');
+        }
+        return $this->buildSuccess($res);
+    }
 
 }
