@@ -79,8 +79,7 @@ class Script extends BasicWeChat
         list($url,) = explode('#', $url);
         is_null($ticket) && $ticket = $this->getTicket('jsapi');
         is_null($appid) && $appid = $this->config->get('appid');
-        $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => $ticket, "noncestr" => Tools::createNoncestr(16)];
-        print_r($data);exit;
+        $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => 'HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte80M5ajAt0zr7AiBM5EIpYmUky0zwg1GOg3Jgq6UdsApig', "noncestr" => Tools::createNoncestr(16)];
         return [
             'debug'     => true,
             "appId"     => $appid,
