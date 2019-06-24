@@ -83,9 +83,11 @@ class Script extends BasicWeChat
         return [
             'debug'     => true,
             "appId"     => $appid,
-            "nonceStr"  => $data['noncestr'],
-            "timestamp" => $data['timestamp'],
+//            "nonceStr"  => $data['noncestr'],
+//            "timestamp" => $data['timestamp'],
 //            "signature" => $this->getSignature($data, 'sha1'),
+            "nonceStr"  => 'i9vkye0jrfwqsj8x',
+            "timestamp" => '1561388580',
             "signature" => 'e5f22d2d267a686feabe6cc33ab0f30447b3bf55',
             'jsApiList' => [
                 'onWXDeviceBluetoothStateChange', 'onWXDeviceStateChange',
