@@ -172,7 +172,7 @@ class User extends Base
         }
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://zaijia.huiyuancaifu.cn/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_base');
 
 //        $res = [
@@ -301,7 +301,7 @@ class User extends Base
 //            return $this->buildSuccess($res,'注册成功');
 //            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
-        echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+        echo "<script>window.location.href='http://zaijia.huiyuancaifu.cn:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
 
     }
 
