@@ -80,6 +80,7 @@ class Script extends BasicWeChat
         is_null($ticket) && $ticket = $this->getTicket('jsapi');
         is_null($appid) && $appid = $this->config->get('appid');
         $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => $ticket, "noncestr" => Tools::createNoncestr(16)];
+        print_r($data);exit;
         return [
             'debug'     => true,
             "appId"     => $appid,
