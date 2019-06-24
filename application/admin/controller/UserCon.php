@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\ZjBasicConf;
 use app\admin\model\ZjUser;
 use app\util\BaseController;
 use think\Db;
@@ -56,5 +57,18 @@ class UserCon extends BaseController
         }
         $db = $db->where($where)->order('gmt_create desc');
         return $this->_list($db);
+    }
+
+    public function _getList_data_filter(&$data){
+        //获取域名配置
+        $website = ZjBasicConf::where(['name'=>'website'])->value('value');
+        foreach ($data as &$item){
+            $item['qrCode'] =  $website.'/upload/qrCode/' . $item['code'] . '.png';
+            $name = ROOT_PATH . 'public/upload/qrCode/' . $item['code'] . '.png';
+            //判断二维码是否存在
+            if (!file_exists($name)) {
+                $item['qrCode'] =$item['avatarurl'];
+            }
+        }
     }
 }
