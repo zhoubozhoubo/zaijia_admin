@@ -79,16 +79,13 @@ class Script extends BasicWeChat
         list($url,) = explode('#', $url);
         is_null($ticket) && $ticket = $this->getTicket('jsapi');
         is_null($appid) && $appid = $this->config->get('appid');
-        $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => 'HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte80M5ajAt0zr7AiBM5EIpYmUky0zwg1GOg3Jgq6UdsApig', "noncestr" => Tools::createNoncestr(16)];
+        $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => $ticket, "noncestr" => Tools::createNoncestr(16)];
         return [
             'debug'     => true,
             "appId"     => $appid,
-//            "nonceStr"  => $data['noncestr'],
-//            "timestamp" => $data['timestamp'],
-//            "signature" => $this->getSignature($data, 'sha1'),
-            "nonceStr"  => 'i9vkye0jrfwqsj8x',
-            "timestamp" => '1561388580',
-            "signature" => 'e5f22d2d267a686feabe6cc33ab0f30447b3bf55',
+            "nonceStr"  => $data['noncestr'],
+            "timestamp" => $data['timestamp'],
+            "signature" => $this->getSignature($data, 'sha1'),
             'jsApiList' => [
                 'onWXDeviceBluetoothStateChange', 'onWXDeviceStateChange',
                 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard',
