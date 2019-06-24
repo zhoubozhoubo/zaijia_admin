@@ -24,9 +24,10 @@ class Index extends Base
     ];
 
     public function getWechatJsSign(){
+        $url =!empty($url)?$url:"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $Script = new Script($this->config);
-//        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
-        $res=$Script->getJsSign('jianzhi.hmdog.com','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
+        $res=$Script->getJsSign($url);
+//        $res=$Script->getJsSign('jianzhi.hmdog.com');
         return $this->buildSuccess($res);
     }
 

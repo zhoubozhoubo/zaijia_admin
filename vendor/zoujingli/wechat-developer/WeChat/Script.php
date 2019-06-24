@@ -52,8 +52,9 @@ class Script extends BasicWeChat
         is_null($appid) && $appid = $this->config->get('appid');
         $cache_name = "{$appid}_ticket_{$type}";
         $ticket = Tools::getCache($cache_name);
+        $access_token = $this->getAccessToken();
         if (empty($ticket)) {
-            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type={$type}";
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={$access_token}&type={$type}";
             $this->registerApi($url, __FUNCTION__, func_get_args());
             $result = $this->httpGetForJson($url);
             if (empty($result['ticket'])) {
@@ -87,15 +88,7 @@ class Script extends BasicWeChat
             "timestamp" => $data['timestamp'],
             "signature" => $this->getSignature($data, 'sha1'),
             'jsApiList' => [
-                'onWXDeviceBluetoothStateChange', 'onWXDeviceStateChange',
-                'openProductSpecificView', 'addCard', 'chooseCard', 'openCard',
-                'translateVoice', 'getNetworkType', 'openLocation', 'getLocation',
-                'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone',
-                'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'closeWindow', 'scanQRCode', 'chooseWXPay',
-                'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem',
-                'startScanWXDevice', 'stopScanWXDevice', 'onWXDeviceBindStateChange', 'onScanWXDeviceResult', 'onReceiveDataFromWXDevice',
-                'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice',
-                'openWXDeviceLib', 'closeWXDeviceLib', 'getWXDeviceInfos', 'sendDataToWXDevice', 'disconnectWXDevice', 'getWXDeviceTicket', 'connectWXDevice',
+                'getLocation'
             ],
         ];
     }
