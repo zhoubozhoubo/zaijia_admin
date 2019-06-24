@@ -25,8 +25,8 @@ class Index extends Base
 
     public function getWechatJsSign(){
         $Script = new Script($this->config);
-//        $res=$Script->getJsSign('http://jianzhi.hmdog.com');
-        $res=$Script->getJsSign('jianzhi.hmdog.com','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
+//        $res=$Script->getJsSign('http://zaijia.huiyuancaifu.cn');
+        $res=$Script->getJsSign('zaijia.huiyuancaifu.cn','wxc5b8b08c2e2b506f','HoagFKDcsGMVCIY2vOjf9hfq8V4-tVFUJ-IWv4mte83cWGw3hOoRiiuPlFFUZmUt2t7x1fAmpitHf25vojcOXw');
         return $this->buildSuccess($res);
     }
 

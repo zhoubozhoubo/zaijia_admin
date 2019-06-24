@@ -172,7 +172,7 @@ class User extends Base
         }
 
         //获取code
-        $code = $Oauth->getOauthRedirect("http://jianzhi.hmdog.com/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://zaijia.huiyuancaifu.cn/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_base');
 
 //        $res = [
@@ -267,14 +267,14 @@ class User extends Base
             //存在则返回用户信息以及token
             $user = ZjUser::where($where)->find();
 //            $res = [
-//                'url'=>'jianzhi.hmdog.com:8003/#/User',
+//                'url'=>'zaijia.huiyuancaifu.cn:8003/#/User',
 //                'nickname'=>$info['nickname'],
 //                'headimgurl'=>$info['headimgurl'],
 //                'token'=>$this->createToken($user)
 //            ];
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'登陆成功');
-//            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+//            echo "<script>window.location.href='http://zaijia.huiyuancaifu.cn:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }else{
             //不存在则创建用户信息
             $user=[
@@ -299,9 +299,9 @@ class User extends Base
             $user = ZjUser::where($where)->find();
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'注册成功');
-//            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+//            echo "<script>window.location.href='http://zaijia.huiyuancaifu.cn:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
-        echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+        echo "<script>window.location.href='http://zaijia.huiyuancaifu.cn:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
 
     }
 
