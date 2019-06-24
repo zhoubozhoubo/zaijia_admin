@@ -86,7 +86,7 @@ class Script extends BasicWeChat
             "nonceStr"  => $data['noncestr'],
             "timestamp" => $data['timestamp'],
 //            "signature" => $this->getSignature($data, 'sha1'),
-            "signature" => '65d59660d52248d568ee0a7de6254597f5004a11',
+            "signature" => 'e5f22d2d267a686feabe6cc33ab0f30447b3bf55',
             'jsApiList' => [
                 'onWXDeviceBluetoothStateChange', 'onWXDeviceStateChange',
                 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard',
