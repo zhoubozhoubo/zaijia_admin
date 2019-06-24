@@ -12,6 +12,7 @@ class News extends Controller
     public function index(){
         //新闻列表
         $where = [
+            'status'=>['neq', 2],
             'is_delete'=>0
         ];
         $news =ZjNews::where($where)->field('news_id,news_type_id,title,img,comment,number,gmt_create')->order('gmt_create DESC')->select();

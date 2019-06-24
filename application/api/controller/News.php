@@ -25,6 +25,7 @@ class News extends Base
         $getData = $this->request->get();
         $where = [
             'news_type_id'=>$getData['news_type_id'],
+            'status'=>['neq', 1],
             'is_delete'=>0
         ];
         $res =ZjNews::where($where)->field('news_id,news_type_id,title,img,comment,number,gmt_create')->order('gmt_create DESC')->paginate();
