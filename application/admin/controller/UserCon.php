@@ -63,11 +63,12 @@ class UserCon extends BaseController
         //获取域名配置
         $website = ZjBasicConf::where(['name'=>'website'])->value('value');
         foreach ($data as &$item){
-            $item['qrCode'] =  $website.'/upload/qrCode/' . $item['code'] . '.png';
             $name = ROOT_PATH . 'public/upload/qrCode/' . $item['code'] . '.png';
             //判断二维码是否存在
             if (!file_exists($name)) {
                 $item['qrCode'] =$item['avatarurl'];
+            }else{
+                $item['qrCode'] =  $website.'/upload/qrCode/' . $item['code'] . '.png';
             }
         }
     }
