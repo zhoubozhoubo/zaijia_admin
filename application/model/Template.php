@@ -11,7 +11,7 @@ use think\Model;
  */
 class Template extends Model {
 
-    public $withdrawTempId = '';    //提现通知
+    public $withdrawTempId = '_5IV3WZ170DCTUimJjtccVDIVIS1I5In9yavQ_2zs-o';    //提现通知
 
     //初始化配置
     public $config = [
