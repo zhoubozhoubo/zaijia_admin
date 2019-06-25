@@ -36,11 +36,11 @@ class Task extends Base
             'is_delete' => 0
         ];
         if($getData['city']){
-            $where['city'] = $getData['city'];
+            $where['city'] =['in',"{$getData['city']},0"];
         }else if(isset($getData['city'])&& $getData['city']==''){
             if(isset($getData['city_name'])&& $getData['city_name']!=''){
                 $code = Area::where('name','like',"%{$getData['city_name']}%")->value('code');
-                $where['city'] = $code;
+                $where['city'] =['in',"{$code},0"];
             }
         }
         switch ($getData['order']){
