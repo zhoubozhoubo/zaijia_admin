@@ -100,10 +100,14 @@
 
             <div class="areaTitle">城市：</div>
             <div class="areaList">
-              {if condition="$city === ''"}
-              <a href="/Job?taskType={$taskType}&province={$province}&city=" class="selected">全国</a>
+              {if condition="$province === ''"}
+              <a href="/Job?taskType={$taskType}&province=&city=" class="selected">全国</a>
               {else/}
-              <a href="/Job?taskType={$taskType}&province={$province}&city=">全国</a>
+              {if condition="$city === ''"}
+              <a href="/Job?taskType={$taskType}&province={$province}&city=" class="selected">全市</a>
+              {else/}
+              <a href="/Job?taskType={$taskType}&province={$province}&city=">全市</a>
+              {/if}
               {/if}
 
               {volist name="cityList" id="vo"}
