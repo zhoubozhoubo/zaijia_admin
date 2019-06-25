@@ -10,12 +10,15 @@ use think\Db;
 class News extends Controller
 {
     public function index(){
+        $p = $this->request->get('p',0);
+        $limit = $this->request->get('limit',10);
         //新闻列表
         $where = [
             'status'=>['neq', 2],
             'is_delete'=>0
         ];
-        $news =ZjNews::where($where)->field('news_id,news_type_id,title,img,comment,number,gmt_create')->order('gmt_create DESC')->select();
+        $news =ZjNews::where($where)->field('news_id,news_type_id,title,img,comment,number,gmt_create')->order('gmt_create DESC')->page($p,$limit)->select();
+        $count =ZjNews::where($where)->field('news_id,news_type_id,title,img,comment,number,gmt_create')->order('gmt_create DESC')->count();
         //task
         $task = Db::view(['zj_task'=>'a'],'task_id,title,money,end_date')->view(['zj_task_type'=>'b'],'img as type_img','a.task_type_id=b.id','LEFT')->view(['area'=>'c'],'name as city_name','a.city=c.code','LEFT')->where('a.is_delete',0)->where('a.end_date','>=',date('Y-m-d'))->where('a.number - a.have_number','>',0)->order('a.gmt_create DESC')->limit(10)->select();
         foreach ($task as &$item){
@@ -34,6 +37,9 @@ class News extends Controller
         }
 
         $this->assign('news',$news);
+        $this->assign('count',$count);
+        $this->assign('limit',$limit);
+        $this->assign('p',$p);
         $this->assign('task',$task);
         $this->assign('customer',$customer);
         return $this->fetch();
