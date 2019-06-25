@@ -96,7 +96,7 @@ class UserTask extends BaseController
         $this->requestType('POST');
         $postData = $this->request->post();
         if ($postData['id'] != 0) {
-            $userTask = ZjUserTask::where(['id'=>$postData['id']])->field('task_id,user_id，gmt_create')->find();
+            $userTask = ZjUserTask::where(['id'=>$postData['id']])->field('task_id,user_id,gmt_create')->find();
             if($postData['status'] === 2 || $postData['status'] === 3){
                 $postData['check_time'] = date('Y-m-d H:i:s');
             }
