@@ -95,7 +95,7 @@ class Withdraw extends BaseController
                 $this->sendNotice($withdraw['user_id'],'申请提现失败',"您于'{$withdraw['gmt_create']}'发起的申请提现被拒绝,有疑问请联系管理员");
                 //发送微信消息给用户
                 $template = new Template();
-                $template->withdraw($openId,'您好，您的提现操作未通过后台审核，提现金额已返回帐号余额',$withdraw['money'],'感谢您的使用');
+                $template->withdrawFail($openId,$withdraw['money']);
             }
             // 提交事务
             Db::commit();
@@ -103,7 +103,7 @@ class Withdraw extends BaseController
             $this->sendNotice($withdraw['user_id'],'申请提现成功',"您于'{$withdraw['gmt_create']}'发起的申请提现已通过,请到账号'{$withdraw['name']}({$withdraw['account']})'查收");
             //发送微信消息给用户
             $template = new Template();
-            $template->withdraw($openId,'您好，您的提现操作已经成功',$withdraw['money'],'感谢您的使用');
+            $template->withdrawSuccess($openId,$withdraw['money']);
             return $this->buildSuccess($res,'操作成功');
         } catch (\Exception $e) {
             // 回滚事务
