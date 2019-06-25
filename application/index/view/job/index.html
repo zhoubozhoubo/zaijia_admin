@@ -91,9 +91,9 @@
 
               {volist name="provinceList" id="vo"}
               {if condition="$vo.code === $province"}
-              <a href="/Job?taskType={$taskType}&province={$vo.code}&city={$city}" class="selected">{$vo.name}</a>
+              <a href="/Job?taskType={$taskType}&province={$vo.code}" class="selected">{$vo.name}</a>
               {else/}
-              <a href="/Job?taskType={$taskType}&province={$vo.code}&city={$city}">{$vo.name}</a>
+              <a href="/Job?taskType={$taskType}&province={$vo.code}">{$vo.name}</a>
               {/if}
               {/volist}
             </div>
