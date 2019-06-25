@@ -6,6 +6,7 @@ use app\api\model\ZjBasicConf;
 use app\api\model\ZjUser;
 use app\api\model\ZjUserNotice;
 use app\api\model\ZjWithdrawWay;
+use app\model\Template;
 use app\util\ReturnCode;
 use WeChat\Exceptions\InvalidArgumentException;
 use think\Exception;
@@ -290,6 +291,10 @@ class User extends Base
                 if($superior){
                     $user['superior_user_id'] =  $superior['user_id'];
                     $user['superior_superior_user_id'] =  $superior['superior_user_id'];
+                    //发送微信消息给用户
+                    $openId = ZjUser::where('user_id',$user['superior_user_id'])->value('openid');
+                    $template = new Template();
+                    $template->bindSuccess($openId,$user['nickname']);
                 }
             }
             $res = ZjUser::create($user);

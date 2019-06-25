@@ -8,6 +8,7 @@ use app\admin\model\ZjUser;
 use app\admin\model\ZjUserIncome;
 use app\admin\model\ZjUserNotice;
 use app\admin\model\ZjUserTask;
+use app\model\Template;
 use app\util\BaseController;
 use app\util\ReturnCode;
 use think\Db;
@@ -95,15 +96,20 @@ class UserTask extends BaseController
         $this->requestType('POST');
         $postData = $this->request->post();
         if ($postData['id'] != 0) {
-            $userTask = ZjUserTask::where(['id'=>$postData['id']])->field('task_id,user_id,gmt_create')->find();
+            $userTask = ZjUserTask::where(['id'=>$postData['id']])->field('task_id,user_id，gmt_create')->find();
             if($postData['status'] === 2 || $postData['status'] === 3){
                 $postData['check_time'] = date('Y-m-d H:i:s');
             }
+            $openId = ZjUser::where('user_id',$userTask['user_id'])->value('openid');
+            $taskTitle = ZjTask::where('task_id',$userTask['task_id'])->value('title');
             //如果任务通过 TODO 分销佣金
             if($postData['status'] === 2){
                 $this->commissionShare($postData['id']);
                 //发送消息给用户
                 $this->sendNotice($userTask['user_id'],'任务通过',"您于'{$userTask['gmt_create']}'领取的任务已通过审核");
+                //发送微信消息给用户
+                $template = new Template();
+                $template->checkSuccess($openId,$taskTitle);
             }
 
             //如果未通过 任务已领取数量自减
@@ -111,6 +117,9 @@ class UserTask extends BaseController
                 ZjTask::where(['task_id'=>$userTask['task_id']])->setDec('have_number');
                 //发送消息给用户
                 $this->sendNotice($userTask['user_id'],'任务未通过',"您于'{$userTask['gmt_create']}'领取的任务未通过审核,有疑问请联系管理员");
+                //发送微信消息给用户
+                $template = new Template();
+                $template->checkFail($openId,$taskTitle,$postData['refuse_text']);
             }
             ZjUserTask::update($postData);
             return $this->buildSuccess([]);
