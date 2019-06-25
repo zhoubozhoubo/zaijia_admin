@@ -8,6 +8,7 @@ use app\api\model\ZjTask;
 use app\api\model\ZjUser;
 use app\api\model\ZjUserIncome;
 use app\api\model\ZjUserTask;
+use app\api\model\Area;
 use app\util\ReturnCode;
 use think\Db;
 
@@ -36,6 +37,11 @@ class Task extends Base
         ];
         if($getData['city']){
             $where['city'] = $getData['city'];
+        }else if(isset($getData['city'])&& $getData['city']==''){
+            if(isset($getData['city_name'])&& $getData['city_name']!=''){
+                $code = Area::where('name','like',"%{$getData['city_name']}%")->value('code');
+                $where['city'] = $code;
+            }
         }
         switch ($getData['order']){
             case 0: //默认排序

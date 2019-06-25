@@ -82,7 +82,7 @@ class Script extends BasicWeChat
         is_null($appid) && $appid = $this->config->get('appid');
         $data = ["url" => $url, "timestamp" => '' . time(), "jsapi_ticket" => $ticket, "noncestr" => Tools::createNoncestr(16)];
         return [
-            'debug'     => true,
+            'debug'     => false,
             "appId"     => $appid,
             "nonceStr"  => $data['noncestr'],
             "timestamp" => $data['timestamp'],
