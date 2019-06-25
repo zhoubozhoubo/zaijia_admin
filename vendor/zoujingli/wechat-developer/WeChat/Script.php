@@ -88,7 +88,7 @@ class Script extends BasicWeChat
             "timestamp" => $data['timestamp'],
             "signature" => $this->getSignature($data, 'sha1'),
             'jsApiList' => [
-                'getLocation'
+                'getLocation','geoLocation'
             ],
         ];
     }
