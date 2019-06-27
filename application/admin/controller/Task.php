@@ -83,7 +83,7 @@ class Task extends BaseController
     }
 
     public function _getList_data_filter(&$data){
-        foreach ($data as &$item){
+        foreach ($data as $k=>&$item){
             $item['wait_check'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>1,'is_delete'=>0])->count();
             $item['have_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>2,'is_delete'=>0])->count();
             $item['no_pass'] = ZjUserTask::where(['task_id'=>$item['task_id'],'status'=>3,'is_delete'=>0])->count();
@@ -93,10 +93,13 @@ class Task extends BaseController
             if($item['show_img']){
                 $showImg = explode('%,%',$item['show_img']);
                 if($showImg){
+                    $img_arr = [];
                     foreach($showImg as $key=>$show){
-                        $img[$key]['url'] = $show;
+//                        $img[$key]['url'] = $show;
+                        $img_arr[] = ['name' => '', 'url' => $show];
                     }
-                    $item['show_img'] =  $img;
+//                    $item['show_img'] =  $img;
+                    $data[$k]['show_img'] = $img_arr;
                 }else{
                     $item['show_img'] =  [];
                 }
@@ -141,10 +144,10 @@ class Task extends BaseController
             $postData['step'] = implode('%,%',$postData['step']);
         }
         if (isset($postData['show_img'])) {
-            $postData['show_img'] = implode('%,%',$postData['show_img']);
+            $postData['show_img'] = implode('%,%',array_column($postData['show_img'], 'url'));
         }
         if (isset($postData['submit_img'])) {
-            $postData['submit_img'] = implode('%,%',$postData['submit_img']);
+            $postData['show_img'] = implode('%,%',array_column($postData['submit_img'], 'url'));
         }
 
 
