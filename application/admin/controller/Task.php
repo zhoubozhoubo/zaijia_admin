@@ -115,7 +115,7 @@ class Task extends BaseController
                     $item['submit_img'] =  [];
                 }
             }
-            
+
             if($item['finish_duration'] == 30){
                 $item['finish_duration'] = 0.5;
             }
@@ -146,7 +146,7 @@ class Task extends BaseController
             $postData['show_img'] = implode('%,%',array_column($postData['show_img'], 'url'));
         }
         if (isset($postData['submit_img'])) {
-            $postData['show_img'] = implode('%,%',array_column($postData['submit_img'], 'url'));
+            $postData['submit_img'] = implode('%,%',array_column($postData['submit_img'], 'url'));
         }
 
 
