@@ -95,10 +95,8 @@ class Task extends BaseController
                 if($showImg){
                     $img_arr = [];
                     foreach($showImg as $key=>$show){
-//                        $img[$key]['url'] = $show;
                         $img_arr[] = ['name' => '', 'url' => $show];
                     }
-//                    $item['show_img'] =  $img;
                     $data[$k]['show_img'] = $img_arr;
                 }else{
                     $item['show_img'] =  [];
@@ -106,17 +104,18 @@ class Task extends BaseController
             }
 
             if($item['submit_img']){
-                $showImg = explode('%,%',$item['submit_img']);
-                if($showImg){
-                    foreach($showImg as $key=>$show){
-                        $img[$key]['url'] = $show;
+                $submitImg = explode('%,%',$item['submit_img']);
+                if($submitImg){
+                    $img_arr = [];
+                    foreach($submitImg as $key=>$show){
+                        $img_arr[] = ['name' => '', 'url' => $show];
                     }
-                    $item['submit_img'] =  $img;
+                    $data[$k]['submit_img'] = $img_arr;
                 }else{
                     $item['submit_img'] =  [];
                 }
             }
-//            $item['submit_img'] =  explode('%,%',$item['submit_img']);
+            
             if($item['finish_duration'] == 30){
                 $item['finish_duration'] = 0.5;
             }
