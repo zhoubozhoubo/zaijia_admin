@@ -153,7 +153,7 @@ class Task extends Base
                 $userTaskNum = ZjUserTask::where($where)->where('status', 'neq', 4)->count();
                 if ($userTaskNum > 0) {
                     //判断当前用户该任务状态
-                    $userTask = ZjUserTask::where($where)->where('status', 'neq', 3)->field('id,task_id,submit_time,status,gmt_create')->find();
+                    $userTask = ZjUserTask::where($where)->where(['status'=>['not in', '3,4']])->field('id,task_id,submit_time,status,gmt_create')->find();
                     if($userTask){
                         $surplusTime = 0;
                         $res['status'] = $userTask['status'];
