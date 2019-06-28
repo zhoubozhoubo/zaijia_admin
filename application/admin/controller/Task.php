@@ -101,6 +101,8 @@ class Task extends BaseController
                 }else{
                     $item['show_img'] =  [];
                 }
+            }else{
+                $item['show_img'] =  [];
             }
 
             if($item['submit_img']){
@@ -114,6 +116,8 @@ class Task extends BaseController
                 }else{
                     $item['submit_img'] =  [];
                 }
+            }else{
+                $item['submit_img'] =  [];
             }
 
             if($item['finish_duration'] == 30){
@@ -132,6 +136,9 @@ class Task extends BaseController
         $this->requestType('POST');
         $postData = $this->request->post();
         $postData['end_date'] = date('Y-m-d', strtotime($postData['end_date']));
+        if($postData['end_date'] < date('Y-m-d')){
+            return $this->buildFailed(-1,'截止日期应大于等于今天','');
+        }
         if (isset($postData['area'])) {
             if($postData['area'] !== []){
                 $postData['province'] = $postData['area'][0];
