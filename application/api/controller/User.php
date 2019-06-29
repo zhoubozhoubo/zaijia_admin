@@ -178,8 +178,10 @@ class User extends Base
             $page=1;
         }
 
+        $state = $invitationCode.$page;
+
         //获取code
-        $code = $Oauth->getOauthRedirect("http://zaijia.huiyuancaifu.cn/api/5d0793b7e8f50", $invitationCode,'snsapi_userinfo');
+        $code = $Oauth->getOauthRedirect("http://zaijia.huiyuancaifu.cn/api/5d0793b7e8f50", $state,'snsapi_userinfo');
         // $code = $Oauth->getOauthRedirect(AdminUrl() . "/api/5bfcff58cdf2f", 'state', 'snsapi_base');
 
 //        $res = [
@@ -199,10 +201,19 @@ class User extends Base
     public function get() {
         try {
             $Oauth = new Oauth($this->config);
-            $invitationCode = isset($_GET['state']) ? $_GET['state'] : '';
+            $state = isset($_GET['state']) ? $_GET['state'] : '';
+
+            $invitationCode = substr($state,0,strlen($state)-1);
+
+            $page = substr($state,-1);
+
+            $data = [
+                'openid'=>$invitationCode,
+                'page'=>$page
+            ];
 
             $token = $Oauth->getOauthAccessToken();
-            cache($token['openid'],$invitationCode);
+            cache($token['openid'],$data);
 
             $this->GetToken($token, $Oauth);
         } catch (Exception $e) {
@@ -268,6 +279,8 @@ class User extends Base
 //        if(!$userInfo['subscribe']){
 //            echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
 //        }
+        $data = cache($info['openid']);
+        $page = $data['page'];
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
         if ($res > 0) {
@@ -290,7 +303,7 @@ class User extends Base
                 'avatarurl'=>$info['headimgurl'],
                 'openid'=>$info['openid']
             ];
-            $invitationCode = cache($info['openid']);
+            $invitationCode = $data['invitationCode'];
             if($invitationCode){
                 //根据邀请码绑定上级及上上级
                 $superior = ZjUser::where(['code'=>$invitationCode,'is_delete'=>0])->field('user_id,superior_user_id')->find();
@@ -312,7 +325,13 @@ class User extends Base
 //            return $this->buildSuccess($res,'注册成功');
 //            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
-        echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+
+        if($page == 0){
+            echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/Index?token=".$token."&subscribe=".$subScribe."';</script>";
+        }else if($page == 1){
+            echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+        }
+
 
     }
 
