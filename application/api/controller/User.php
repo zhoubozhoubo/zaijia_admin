@@ -207,13 +207,9 @@ class User extends Base
 
             $page = substr($state,-1);
 
-            $data = [
-                'openid'=>$invitationCode,
-                'page'=>$page
-            ];
-
             $token = $Oauth->getOauthAccessToken();
-            cache($token['openid'],$data);
+            cache($token['openid'],$invitationCode);
+            cache($token['openid'].'_page',$page);
 
             $this->GetToken($token, $Oauth);
         } catch (Exception $e) {
@@ -279,8 +275,6 @@ class User extends Base
 //        if(!$userInfo['subscribe']){
 //            echo "<script>window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU2Mjc3NDE1Mw==&scene=126&bizpsid=0#wechat_redirect';</script>";
 //        }
-        $data = cache($info['openid']);
-        $page = $data['page'];
         //检查该用户是否存在
         $res = ZjUser::where($where)->count();
         if ($res > 0) {
@@ -303,7 +297,7 @@ class User extends Base
                 'avatarurl'=>$info['headimgurl'],
                 'openid'=>$info['openid']
             ];
-            $invitationCode = $data['invitationCode'];
+            $invitationCode = cache($info['openid']);
             if($invitationCode){
                 //根据邀请码绑定上级及上上级
                 $superior = ZjUser::where(['code'=>$invitationCode,'is_delete'=>0])->field('user_id,superior_user_id')->find();
@@ -326,6 +320,7 @@ class User extends Base
 //            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
 
+        $page = cache($info['openid'].'_page');
         if($page == 0){
             echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/Index?token=".$token."&subscribe=".$subScribe."';</script>";
         }else if($page == 1){
