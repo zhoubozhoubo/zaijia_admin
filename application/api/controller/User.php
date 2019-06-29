@@ -322,7 +322,7 @@ class User extends Base
 
         $page = cache($info['openid'].'_page');
         if($page == 0){
-            echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/Index?token=".$token."&subscribe=".$subScribe."';</script>";
+            echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/?token=".$token."&subscribe=".$subScribe."';</script>";
         }else if($page == 1){
             echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
         }
