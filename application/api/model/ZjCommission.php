@@ -24,7 +24,6 @@ class ZjCommission extends Model
      */
     public function task(){
         $where=[
-            'status'=>1,
             'is_delete'=>0
         ];
         return $this->hasOne('ZjTask','task_id','task_id')

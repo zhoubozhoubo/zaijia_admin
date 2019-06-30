@@ -30,7 +30,6 @@ class ZjWithdraw extends Model
      */
     public function withdrawType(){
         $where=[
-            'status'=>1,
             'is_delete'=>0
         ];
         return $this->hasOne('ZjWithdrawWay','withdraw_way_id','withdraw_way_id')

@@ -37,7 +37,6 @@ class ZjTask extends Model
      */
     public function taskType(){
         $where=[
-            'status'=>1,
             'is_delete'=>0
         ];
         return $this->hasOne('ZjTaskType','id','task_type_id')
