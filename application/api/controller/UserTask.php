@@ -149,6 +149,17 @@ class UserTask extends Base
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
+        //判断任务状态，以及任务是否已领完
+        $where = [
+            'task_id'=>$postData['task_id'],
+            'end_date'=>['>=',date('Y-m-d')],
+            'status'=>1
+        ];
+        $task = ZjTask::where($where)->where('number','neq','have_number')->find();
+        if(!$task){
+            return $this->buildFailed(ReturnCode::ADD_FAILED, '该任务已下架或已结束', '');
+        }
+
         $data = [
             'user_id'=>$this->userInfo['user_id'],
             'task_id'=>$postData['task_id']
