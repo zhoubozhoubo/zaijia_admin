@@ -55,8 +55,8 @@ class Index extends Base
     {
         $this->requestType('GET');
         $provinceList =Area::where(['level' => 1])->field('code,name')->select();
-        $newProvinceList[0] = '全国';
-        $newCityList[0] = '全国';
+//        $newProvinceList[0] = '全国';
+//        $newCityList[0] = '全国';
         foreach ($provinceList as $item){
             $newProvinceList[$item['code']] = $item['name'];
         }
