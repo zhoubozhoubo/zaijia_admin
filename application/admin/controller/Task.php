@@ -143,6 +143,9 @@ class Task extends BaseController
             if($postData['area'] !== []){
                 $postData['province'] = $postData['area'][0];
                 $postData['city'] = $postData['area'][1];
+            }else{
+                $postData['province'] = 0;
+                $postData['city'] = 0;
             }
             unset($postData['area']);
         }
