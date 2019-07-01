@@ -349,6 +349,9 @@ class User extends Base
      */
     public function createCode(){
         $nowMaxCode = ZjUser::order('code DESC')->limit(1)->value('code');
+        if(!$nowMaxCode){
+            $nowMaxCode = 1000;
+        }
         return $nowMaxCode+1;
     }
 
