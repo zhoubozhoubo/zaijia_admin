@@ -34,7 +34,11 @@ class UserIncome extends Base
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
         foreach ($res as $item){
-            $item->task;
+            if($item['task_id']){
+                $item->task;
+            }else{
+                $item['task']['title'] = '首次关注奖励';
+            }
         }
         return $this->buildSuccess($res);
     }
@@ -54,15 +58,23 @@ class UserIncome extends Base
         }
         $where = [
             'user_id'=>$this->userInfo['user_id'],
-            'type'=>$postData['type'],
             'is_delete'=>0
         ];
+        if($postData['type'] == 1){
+            $where['type'] = ['neq', 2];
+        }else{
+            $where['type'] = 2;
+        }
         $res = ZjCommission::where($where)->field('gmt_modified,is_delete',true)->paginate();
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
         foreach ($res as $item){
-            $item->task;
+            if($item['type'] == 3 && $item['task_id'] == 0) {
+                $item['task']['title'] = '邀请新人奖励';
+            }else{
+                $item->task;
+            }
             $item->fromUser;
         }
         return $this->buildSuccess($res);

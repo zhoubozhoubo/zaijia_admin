@@ -3,7 +3,9 @@
 namespace app\api\controller;
 
 use app\api\model\ZjBasicConf;
+use app\api\model\ZjCommission;
 use app\api\model\ZjUser;
+use app\api\model\ZjUserIncome;
 use app\api\model\ZjUserNotice;
 use app\api\model\ZjWithdrawWay;
 use app\model\Template;
@@ -318,6 +320,34 @@ class User extends Base
             $token = $this->createToken($user);
 //            return $this->buildSuccess($res,'注册成功');
 //            echo "<script>window.location.href='http://jianzhi.hmdog.com:8003/#/User?token=".$token."&subscribe=".$subScribe."';</script>";
+        }
+
+        //用户未首次关注公众号，关注公众号奖励
+        if(!$user['first_follow'] && $subScribe == 1){
+            //获取首次关注奖励
+            $firstFollowMoney = ZjBasicConf::where(['name'=>'first_follow_money'])->value('value');
+            //添加用户收入数据
+            $userIncome = [
+                'user_id'=>$user['user_id'],
+                'task_id'=>0,
+                'money'=>$firstFollowMoney
+            ];
+            ZjUserIncome::create($userIncome);
+
+            //如果存在上级，则进行上级奖励
+            if($user['superior_user_id']){
+                //获取邀请新人关注奖励
+                $inviteNewMoney = ZjBasicConf::where(['name'=>'invite_new_money'])->value('value');
+                //添加佣金数据
+                $commission = [
+                    'type'=>3,
+                    'user_id'=>$user['superior_user_id'],
+                    'money'=>$inviteNewMoney,
+                    'from_user_id'=>$user['user_id'],
+                    'task_id'=>0
+                ];
+                ZjCommission::create($commission);
+            }
         }
 
         $page = cache($info['openid'].'_page');
