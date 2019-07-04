@@ -202,7 +202,7 @@ class User extends Base
     public function get() {
         //判断code是否已使用
         $code = isset($_GET['code']) ? $_GET['code'] : '';
-        if($code === cache('code')){
+        if(cache('code') && $code === cache('code')){
             echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/';</script>";
         }
         try {
