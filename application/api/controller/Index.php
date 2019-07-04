@@ -119,7 +119,6 @@ class Index extends Base
         $name = $_FILES['file']['name'];
         $tmp_name = $_FILES['file']['tmp_name'];
         $error = $_FILES['file']['error'];
-        return $this->buildSuccess($_FILES['file']);
         //过滤错误
         if ($error) {
             switch ($error) {
