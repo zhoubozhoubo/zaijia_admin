@@ -201,6 +201,11 @@ class User extends Base
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function get() {
+        //判断code是否已使用
+        $code = isset($_GET['code']) ? $_GET['code'] : '';
+        if(cache('code') && $code === cache('code')){
+            echo "<script>window.location.href='http://wap.huiyuancaifu.cn/#/';</script>";
+        }
         try {
             $Oauth = new Oauth($this->config);
             $state = isset($_GET['state']) ? $_GET['state'] : '';
