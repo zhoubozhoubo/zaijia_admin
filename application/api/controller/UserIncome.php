@@ -33,11 +33,12 @@ class UserIncome extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
-        foreach ($res as $item){
+        foreach ($res as $key=>$item){
             if($item['task_id']){
                 $item->task;
             }else{
-                $item['task']['title'] = '首次关注奖励';
+//                $item['task']['title'] = '首次关注奖励';
+                $res[$key]['task']['title'] = '首次关注奖励';
             }
         }
         return $this->buildSuccess($res);
@@ -69,9 +70,10 @@ class UserIncome extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
-        foreach ($res as $item){
+        foreach ($res as $key=>$item){
             if($item['type'] == 3 && $item['task_id'] == 0) {
-                $item['task']['title'] = '邀请新人奖励';
+//                $item['task']['title'] = '邀请新人奖励';
+                $res[$key]['task']['title'] = '邀请新人奖励';
             }else{
                 $item->task;
             }

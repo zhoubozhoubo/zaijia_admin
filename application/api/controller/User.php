@@ -335,7 +335,7 @@ class User extends Base
             $userIncome = [
                 'user_id'=>$user['user_id'],
                 'task_id'=>0,
-                'money'=>$firstFollowMoney
+                'money'=>$firstFollowMoney/100
             ];
             ZjUserIncome::create($userIncome);
 
@@ -347,7 +347,7 @@ class User extends Base
                 $commission = [
                     'type'=>3,
                     'user_id'=>$user['superior_user_id'],
-                    'money'=>$inviteNewMoney,
+                    'money'=>$inviteNewMoney/100,
                     'from_user_id'=>$user['user_id'],
                     'task_id'=>0
                 ];
