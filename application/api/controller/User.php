@@ -353,6 +353,9 @@ class User extends Base
                 ];
                 ZjCommission::create($commission);
             }
+
+            //更新用户首次关注信息
+            ZjUser::where('user_id',$user['user_id'])->update(['first_follow'=>1]);
         }
 
         $page = cache($info['openid'].'_page');
