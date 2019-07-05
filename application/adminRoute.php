@@ -513,6 +513,14 @@ Route::group('admin', function () use ($afterBehavior) {
         'saveCompany' => [
             'admin/BasicConf/saveCompany',
             ['method' => 'post']
+        ],
+        'reward' => [
+            'admin/BasicConf/reward',
+            ['method' => 'get']
+        ],
+        'saveReward' => [
+            'admin/BasicConf/saveReward',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('News', [

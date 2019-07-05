@@ -92,5 +92,25 @@ class BasicConf extends BaseController
         }
         return $this->buildSuccess($res);
     }
+    public function reward(){
+        $res = ZjBasicConf::where('id','in','6,7')->select();
+        foreach ($res as &$item){
+            $item['value'] = number_format($item['value'] / 100, 2, '.', '');
+        }
+        if(!$res){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        return $this->buildSuccess($res);
+    }
+    public function saveReward(){
+        $postData = $this->request->post();
+        foreach ($postData as $key=>$val){
+            $res = ZjBasicConf::where(['name'=>$key])->update(['value'=>$val*100]);
+        }
+        if(!$res){
+            return $this->buildFailed(ReturnCode::UPDATE_FAILED,'更新数据失败','');
+        }
+        return $this->buildSuccess($res);
+    }
 
 }
