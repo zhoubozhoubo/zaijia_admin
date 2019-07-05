@@ -338,6 +338,8 @@ class User extends Base
                 'money'=>$firstFollowMoney/100
             ];
             ZjUserIncome::create($userIncome);
+            //用户增加金额
+            ZjUser::where(['user_id'=>$user['user_id']])->setInc('money',$firstFollowMoney);
 
             //如果存在上级，则进行上级奖励
             if($user['superior_user_id']){
@@ -352,6 +354,8 @@ class User extends Base
                     'task_id'=>0
                 ];
                 ZjCommission::create($commission);
+                //用户增加金额
+                ZjUser::where(['user_id'=>$user['superior_user_id']])->setInc('money',$inviteNewMoney);
             }
 
             //更新用户首次关注信息
