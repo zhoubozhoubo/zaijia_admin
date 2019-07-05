@@ -11,6 +11,7 @@ use app\api\model\ZjUserNotice;
 use app\api\model\ZjUserTask;
 use app\util\ReturnCode;
 use think\Db;
+use WeChat\Media;
 
 /**
  * 用户任务Controller
@@ -19,6 +20,12 @@ use think\Db;
  */
 class UserTask extends Base
 {
+    //初始化配置
+    public $config = [
+        'token' => 'xtcyivubohibxrctyvubn6rty',
+        'appid' => 'wxc5b8b08c2e2b506f',
+        'appsecret' => '3e0301d69ff031f7c7024e2c01ce05ea'
+    ];
     /**
      * 任务列表
      * @return \think\response\Json
@@ -192,12 +199,42 @@ class UserTask extends Base
         $data = [
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
-            'submit_img'=>implode('%,%',$postData['submit_img']),
+//            'submit_img'=>implode('%,%',$postData['submit_img']),
             'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
         ];
+
+        $media = new Media($this->config);
+        foreach ($postData['submit_server_id'] as $key=>$item){
+            $img = $media->get($item);
+            $resource = fopen(__DIR__ . "/1.jpg", 'w+');
+            fwrite($resource, $img);
+            fclose($resource);
+            $submit_img[] = __DIR__ . "/1.jpg";
+        }
+
+        //下载图片
+        $path = '/upload/' . date('Ymd', time()) . '/';
+        $name = $_FILES['file']['name'];
+        $tmp_name = $_FILES['file']['tmp_name'];
+        $arr_name = explode('.', $name);
+        $hz = array_pop($arr_name);
+        $new_name = md5(time() . uniqid()) . '.' . $hz;
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
+            mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
+        }
+        if (move_uploaded_file($tmp_name, $_SERVER['DOCUMENT_ROOT'] . $path . $new_name)) {
+            return $this->buildSuccess([
+                'fileName' => $new_name,
+                'fileUrl'  => $this->request->domain() . $path . $new_name
+            ],'上传成功');
+        } else {
+            return $this->buildFailed(ReturnCode::FILE_SAVE_ERROR, '文件上传失败');
+        }
+
+
         $res = ZjUserTask::update($data);
         if(!$res){
             return $this->buildFailed(ReturnCode::UPDATE_FAILED,'提交任务失败','');

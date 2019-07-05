@@ -53,7 +53,8 @@ class Media extends BasicWeChat
      */
     public function get($media_id, $outType = null)
     {
-        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id={$media_id}";
+        $access_token = $this->getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={$access_token}&media_id={$media_id}";
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $result = Tools::get($url);
         if (json_decode($result)) {
