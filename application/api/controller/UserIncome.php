@@ -38,6 +38,7 @@ class UserIncome extends Base
                 $item->task;
             }else{
 //                $item['task']['title'] = '首次关注奖励';
+                $res[$key]['task']=[];
                 $res[$key]['task']['title'] = '首次关注奖励';
             }
         }
