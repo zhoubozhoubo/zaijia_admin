@@ -63,6 +63,9 @@ class Commission extends BaseController
     public function _getList_data_filter(&$data){
         foreach ($data as &$item){
             $item['money'] =  number_format($item['money'] / 100, 2, '.', '');
+            if($item['type'] == 3 && $item['task_id'] == 0){
+                $item['title'] = '邀请新人奖励';
+            }
         }
     }
 }

@@ -32,6 +32,12 @@ class UserIncome extends BaseController
         if ($searchConf) {
             foreach ($searchConf as $key => $val) {
                 if($val !== ''){
+                    if ($key === 'gmt_create') {
+                        if ($val[0] && $val[1]) {
+                            $db->whereBetween('a.gmt_create', ["{$val[0]} 00:00:00", "{$val[1]} 23:59:59"]);
+                        }
+                        continue;
+                    }
                     if($key === 'nickname'){
                         $where["b.{$key}"] = ['like', '%' . $val . '%'];
                         continue;
@@ -50,6 +56,9 @@ class UserIncome extends BaseController
     public function _getList_data_filter(&$data){
         foreach ($data as &$item){
             $item['money'] =  number_format($item['money'] / 100, 2, '.', '');
+            if($item['task_id'] == 0){
+                $item['title'] = '首次关注奖励';
+            }
         }
     }
 }
