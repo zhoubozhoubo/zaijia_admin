@@ -199,14 +199,14 @@ class UserTask extends Base
         $data = [
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
-//            'submit_img'=>implode('%,%',$postData['submit_img']),
+            'submit_img'=>implode('%,%',$postData['submit_img']),
             'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
         ];
 
-        $media = new Media($this->config);
+        /*$media = new Media($this->config);
         foreach ($postData['submit_server_id'] as $key=>$item){
             $img = $media->get($item);
             $resource = fopen(__DIR__ . "/1.jpg", 'w+');
@@ -232,7 +232,7 @@ class UserTask extends Base
             ],'上传成功');
         } else {
             return $this->buildFailed(ReturnCode::FILE_SAVE_ERROR, '文件上传失败');
-        }
+        }*/
 
 
         $res = ZjUserTask::update($data);
