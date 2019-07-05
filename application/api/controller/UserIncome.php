@@ -38,8 +38,8 @@ class UserIncome extends Base
                 $item->task;
             }else{
 //                $item['task']['title'] = '首次关注奖励';
-                $res[$key]['task']=[];
-                $res[$key]['task']['title'] = '首次关注奖励';
+//                $res[$key]['task']=[];
+//                $res[$key]['task']['title'] = '首次关注奖励';
             }
         }
         return $this->buildSuccess($res);
@@ -74,7 +74,7 @@ class UserIncome extends Base
         foreach ($res as $key=>$item){
             if($item['type'] == 3 && $item['task_id'] == 0) {
 //                $item['task']['title'] = '邀请新人奖励';
-                $res[$key]['task']['title'] = '邀请新人奖励';
+//                $res[$key]['task']['title'] = '邀请新人奖励';
             }else{
                 $item->task;
             }
