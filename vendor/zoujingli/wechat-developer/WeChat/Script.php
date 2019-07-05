@@ -93,7 +93,8 @@ class Script extends BasicWeChat
                 'chooseImage',
                 'previewImage',
                 'uploadImage',
-                'downloadImage'
+                'downloadImage',
+                'getLocalImgData'
             ],
         ];
     }
