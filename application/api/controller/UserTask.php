@@ -186,7 +186,6 @@ class UserTask extends Base
     public function submitTask(){
         $this->requestType('POST');
         $postData = $this->request->post();
-        print_r($postData);exit;
         if(!$this->userInfo){
             return $this->buildFailed(ReturnCode::ACCESS_TOKEN_TIMEOUT, '非法请求', '');
         }
@@ -194,6 +193,7 @@ class UserTask extends Base
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
             'submit_img'=>implode('%,%',$postData['submit_img']),
+            'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
