@@ -33,12 +33,14 @@ class UserIncome extends Base
         if(!$res){
             return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
         }
-        foreach ($res as $key=>&$item){
+        foreach ($res as $key=>$item){
             if($item['task_id']){
                 $item->task;
             }else{
-                $item['task']['title'] = '首次关注奖励';
-//                $res[$key]['task']=[];
+//                $item['task']['title'] = '首次关注奖励';
+                $res[$key]['task']=[
+                    'title'=>'首次关注奖励'
+                ];
 //                $res[$key]['task']['title'] = '首次关注奖励';
             }
         }
