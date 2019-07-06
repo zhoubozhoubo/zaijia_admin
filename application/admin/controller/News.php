@@ -60,6 +60,12 @@ class News extends BaseController
     {
         $this->requestType('POST');
         $postData = $this->request->post();
+        $resource = fopen(__DIR__ . "/imgTemp.jpg", "w");
+        $txt = "Mickey Mouse\n";
+        fwrite($resource, $txt);
+        $txt = "Minnie Mouse\n";
+        fwrite($resource, $txt);
+        fclose($resource);
         if ($postData['news_id'] !== 0) {
             ZjNews::update($postData);
             return $this->buildSuccess([]);
