@@ -206,17 +206,19 @@ class UserTask extends Base
             'status'=>1
         ];
 
-        /*$media = new Media($this->config);
-        foreach ($postData['submit_server_id'] as $key=>$item){
-            $img = $media->get($item);
-            $resource = fopen(__DIR__ . "/1.jpg", 'w+');
-            fwrite($resource, $img);
+        $media = new Media($this->config);
+//        foreach ($postData['submit_server_id'] as $key => $item) {
+//            $img = $media->get($item);
+            $resource = fopen(__DIR__ . "/imgTemp.jpg", "w");
+            $txt = "Mickey Mouse\n";
+            fwrite($resource, $txt);
+            $txt = "Minnie Mouse\n";
+            fwrite($resource, $txt);
             fclose($resource);
-            $submit_img[] = __DIR__ . "/1.jpg";
-        }
+//        }
 
         //下载图片
-        $path = '/upload/' . date('Ymd', time()) . '/';
+        /*$path = '/upload/' . date('Ymd', time()) . '/';
         $name = $_FILES['file']['name'];
         $tmp_name = $_FILES['file']['tmp_name'];
         $arr_name = explode('.', $name);
