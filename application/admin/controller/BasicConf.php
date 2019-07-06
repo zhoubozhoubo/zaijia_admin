@@ -107,10 +107,7 @@ class BasicConf extends BaseController
         foreach ($postData as $key=>$val){
             $res = ZjBasicConf::where(['name'=>$key])->update(['value'=>$val*100]);
         }
-        if(!$res){
-            return $this->buildFailed(ReturnCode::UPDATE_FAILED,'更新数据失败','');
-        }
-        return $this->buildSuccess($res);
+        return $this->buildSuccess([]);
     }
 
 }
