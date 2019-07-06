@@ -200,42 +200,32 @@ class UserTask extends Base
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
             'submit_img'=>implode('%,%',$postData['submit_img']),
-            'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
+//            'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
         ];
 
         $media = new Media($this->config);
-//        foreach ($postData['submit_server_id'] as $key => $item) {
-//            $img = $media->get($item);
-            $resource = fopen(__DIR__ . "/imgTemp.jpg", "w");
-            $txt = "Mickey Mouse\n";
-            fwrite($resource, $txt);
-            $txt = "Minnie Mouse\n";
-            fwrite($resource, $txt);
+        $submitServerIdImg = [];
+        foreach ($postData['submit_server_id'] as $key => $item) {
+            $img = $media->get($item);
+            $resource = fopen($_SERVER['DOCUMENT_ROOT'] . "/upload/imgTemp.jpg", "w");
+            fwrite($resource, $img);
             fclose($resource);
-//        }
 
-        //下载图片
-        /*$path = '/upload/' . date('Ymd', time()) . '/';
-        $name = $_FILES['file']['name'];
-        $tmp_name = $_FILES['file']['tmp_name'];
-        $arr_name = explode('.', $name);
-        $hz = array_pop($arr_name);
-        $new_name = md5(time() . uniqid()) . '.' . $hz;
-        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
-            mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
+            $path = '/upload/' . date('Ymd', time()) . '/';
+            $new_name = md5(time() . uniqid()) . '.' . 'jpg';
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
+            }
+            $img = $media->get($item);
+            $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
+            fwrite($resource, $img);
+            fclose($resource);
+            $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
         }
-        if (move_uploaded_file($tmp_name, $_SERVER['DOCUMENT_ROOT'] . $path . $new_name)) {
-            return $this->buildSuccess([
-                'fileName' => $new_name,
-                'fileUrl'  => $this->request->domain() . $path . $new_name
-            ],'上传成功');
-        } else {
-            return $this->buildFailed(ReturnCode::FILE_SAVE_ERROR, '文件上传失败');
-        }*/
-
+        $data['submit_server_id'] = implode('%,%',$submitServerIdImg);
 
         $res = ZjUserTask::update($data);
         if(!$res){
