@@ -199,8 +199,6 @@ class UserTask extends Base
         $data = [
             'id'=>$postData['id'],
             'user_id'=>$this->userInfo['user_id'],
-            'submit_img'=>implode('%,%',$postData['submit_img']),
-//            'submit_server_id'=>implode('%,%',$postData['submit_server_id']),
             'submit_text'=>$postData['submit_text'],
             'submit_time'=>date('Y-m-d H:i:s'),
             'status'=>1
@@ -225,7 +223,7 @@ class UserTask extends Base
             fclose($resource);
             $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
         }
-        $data['submit_server_id'] = implode('%,%',$submitServerIdImg);
+        $data['submit_img'] = implode('%,%',$submitServerIdImg);
 
         $res = ZjUserTask::update($data);
         if(!$res){
