@@ -109,5 +109,20 @@ class BasicConf extends BaseController
         }
         return $this->buildSuccess([]);
     }
+    public function taskmoney(){
+        $res = ZjBasicConf::where(['name'=>'taskmoney_status'])->value('value');
+        if(!$res){
+            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
+        }
+        return $this->buildSuccess($res);
+    }
+    public function saveTaskmoney(){
+        $postData = $this->request->post();
+        $res = ZjBasicConf::where(['name'=>'taskmoney_status'])->update(['value'=>$postData['taskmoney_status']]);
+//        if(!$res){
+//            return $this->buildFailed(ReturnCode::UPDATE_FAILED,'更新数据失败','');
+//        }
+        return $this->buildSuccess($res);
+    }
 
 }

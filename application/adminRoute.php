@@ -521,6 +521,14 @@ Route::group('admin', function () use ($afterBehavior) {
         'saveReward' => [
             'admin/BasicConf/saveReward',
             ['method' => 'post']
+        ],
+        'taskmoney' => [
+            'admin/BasicConf/taskmoney',
+            ['method' => 'get']
+        ],
+        'saveTaskmoney' => [
+            'admin/BasicConf/saveTaskmoney',
+            ['method' => 'post']
         ]
     ], ['after_behavior' => $afterBehavior]);
     Route::group('News', [
