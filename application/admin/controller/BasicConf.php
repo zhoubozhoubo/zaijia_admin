@@ -111,9 +111,6 @@ class BasicConf extends BaseController
     }
     public function taskmoney(){
         $res = ZjBasicConf::where(['name'=>'taskmoney_status'])->value('value');
-        if(!$res){
-            return $this->buildFailed(ReturnCode::RECORD_NOT_FOUND,'记录未找到','');
-        }
         return $this->buildSuccess($res);
     }
     public function saveTaskmoney(){
