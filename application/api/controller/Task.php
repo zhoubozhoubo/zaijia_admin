@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\admin\model\ZjCommissionConf;
+use app\api\model\ZjBasicConf;
 use app\api\model\ZjCommission;
 use app\api\model\ZjTask;
 use app\api\model\ZjUser;
@@ -74,6 +75,14 @@ class Task extends Base
         }
         foreach ($res as &$item){
             $item->taskType;
+        }
+
+        //查询是否开启价格显示
+        $taskmoneyStatus = ZjBasicConf::where('name','taskmoney_status')->value('value');
+        if($taskmoneyStatus == 0){
+            foreach ($res as &$item){
+                unset($item['money']);
+            }
         }
         return $this->buildSuccess($res);
     }
