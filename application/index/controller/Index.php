@@ -25,7 +25,7 @@ class Index extends Controller
         ];
         $link = ZjLink::where($where)->order('sort ASC')->field('img,url')->select();
         //task
-        $task = Db::view(['zj_task'=>'a'],'task_id,title,money,end_date')->view(['zj_task_type'=>'b'],'img as type_img','a.task_type_id=b.id','LEFT')->view(['area'=>'c'],'name as city_name','a.city=c.code','LEFT')->where('a.is_delete',0)->where('a.end_date','>=',date('Y-m-d'))->where('a.number - a.have_number','>',0)->order('a.gmt_create DESC')->limit(10)->select();
+        $task = Db::view(['zj_task'=>'a'],'task_id,title,money,end_date')->view(['zj_task_type'=>'b'],'img as type_img','a.task_type_id=b.id','LEFT')->view(['area'=>'c'],'name as city_name','a.city=c.code','LEFT')->where(['a.status'=>1,'a.is_delete'=>0])->where('a.end_date','>=',date('Y-m-d'))->where('a.number - a.have_number','>',0)->order('a.gmt_create DESC')->limit(10)->select();
         foreach ($task as &$item){
             $item['money'] = number_format($item['money'] / 100, 2, '.', '');
             if($item['city_name']==''){
