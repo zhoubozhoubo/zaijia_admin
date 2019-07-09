@@ -2,6 +2,7 @@
 namespace app\model;
 
 use think\Model;
+use WeChat\Oauth;
 
 
 /**
@@ -22,6 +23,13 @@ class Template extends Model {
         'appsecret' => '3e0301d69ff031f7c7024e2c01ce05ea'
     ];
 
+    public function checkSubscribe($openid){
+        //检测用户是否关注公众号
+        $Oauth = new Oauth($this->config);
+        $userInfo = $Oauth->getUser($openid);
+        return $userInfo['subscribe'];
+    }
+
     /**
      * 提现成功通知
      *
@@ -36,6 +44,9 @@ class Template extends Model {
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function withdrawSuccess($openid,$money){
+        if(!$this->checkSubscribe($openid)){
+            return;
+        }
         $tpl=new \WeChat\Template($this->config);
         $data=[
             'touser'=>$openid,
@@ -80,6 +91,9 @@ class Template extends Model {
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function withdrawFail($openid,$money){
+        if(!$this->checkSubscribe($openid)){
+            return;
+        }
         $tpl=new \WeChat\Template($this->config);
         $data=[
             'touser'=>$openid,
@@ -125,6 +139,9 @@ class Template extends Model {
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function bindSuccess($openid,$nickname){
+        if(!$this->checkSubscribe($openid)){
+            return;
+        }
         $tpl=new \WeChat\Template($this->config);
         $data=[
             'touser'=>$openid,
@@ -174,6 +191,9 @@ class Template extends Model {
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function checkSuccess($openid,$taskTitle){
+        if(!$this->checkSubscribe($openid)){
+            return;
+        }
         $tpl=new \WeChat\Template($this->config);
         $data=[
             'touser'=>$openid,
