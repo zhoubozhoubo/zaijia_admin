@@ -33,7 +33,10 @@ class Job extends Controller
             $cityList =[];
         }
         //task
-        $where=[];
+        $where = [
+            'a.status' => 1,
+            'a.is_delete' => 0
+        ];
         if($taskType){
             $where['a.task_type_id']=$taskType;
         }
