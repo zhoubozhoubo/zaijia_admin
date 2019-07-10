@@ -240,6 +240,9 @@ class Template extends Model {
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function checkFail($openid,$taskTitle,$refuseText){
+        if(!$this->checkSubscribe($openid)){
+            return;
+        }
         $tpl=new \WeChat\Template($this->config);
         $data=[
             'touser'=>$openid,
