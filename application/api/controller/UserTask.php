@@ -206,24 +206,27 @@ class UserTask extends Base
 
         $media = new Media($this->config);
         $submitServerIdImg = [];
-        foreach ($postData['submit_server_id'] as $key => $item) {
-            $img = $media->get($item);
-            $resource = fopen($_SERVER['DOCUMENT_ROOT'] . "/upload/imgTemp.jpg", "w");
-            fwrite($resource, $img);
-            fclose($resource);
+        if($postData['submit_server_id']){
+            foreach ($postData['submit_server_id'] as $key => $item) {
+                $img = $media->get($item);
+                $resource = fopen($_SERVER['DOCUMENT_ROOT'] . "/upload/imgTemp.jpg", "w");
+                fwrite($resource, $img);
+                fclose($resource);
 
-            $path = '/upload/' . date('Ymd', time()) . '/';
-            $new_name = md5(time() . uniqid()) . '.' . 'jpg';
-            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
-                mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
+                $path = '/upload/' . date('Ymd', time()) . '/';
+                $new_name = md5(time() . uniqid()) . '.' . 'jpg';
+                if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
+                    mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
+                }
+                $img = $media->get($item);
+                $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
+                fwrite($resource, $img);
+                fclose($resource);
+                $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
             }
-            $img = $media->get($item);
-            $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
-            fwrite($resource, $img);
-            fclose($resource);
-            $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
+            $data['submit_img'] = implode('%,%',$submitServerIdImg);
         }
-        $data['submit_img'] = implode('%,%',$submitServerIdImg);
+
 
         $res = ZjUserTask::update($data);
         if(!$res){
