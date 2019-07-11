@@ -226,15 +226,15 @@ class UserTask extends Base
 
                 $res = $media->get($item);
 //
-//                if(isset($res['errcode']) && $res['errcode']===40001){
-//                    $submitServerIdImg[$key] =$res['errmsg'];
-//                }else{
-//                    $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
-//                    fwrite($resource, $res);
-//                    fclose($resource);
-//                    $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
-//                }
-                $submitServerIdImg[$key] = $res;
+                if(is_array($res)){
+                    $submitServerIdImg[$key] =$res['errcode'];
+                }else{
+                    $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
+                    fwrite($resource, $res);
+                    fclose($resource);
+                    $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
+                }
+//                $submitServerIdImg[$key] = $res;
 //                $submitServerIdImg[$key] = $item;
             }
             $data['submit_img'] = implode('%,%',$submitServerIdImg);
