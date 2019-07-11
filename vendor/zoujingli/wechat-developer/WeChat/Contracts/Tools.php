@@ -171,9 +171,9 @@ class Tools
         if (empty($result)) {
             throw new InvalidResponseException('invalid response.', '0');
         }
-        if (!empty($result['errcode'])) {
-            throw new InvalidResponseException($result['errmsg'], $result['errcode'], $result);
-        }
+//        if (!empty($result['errcode'])) {
+//            throw new InvalidResponseException($result['errmsg'], $result['errcode'], $result);
+//        }
         return $result;
     }
 
