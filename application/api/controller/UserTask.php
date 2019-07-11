@@ -224,7 +224,7 @@ class UserTask extends Base
 //                fclose($resource);
 //                $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
 
-                $res = $media->get($item);
+//                $res = $media->get($item);
 //
 //                if(isset($res['errcode']) && $res['errcode']===40001){
 //                    $submitServerIdImg[$key] =$res['errmsg'];
@@ -234,7 +234,8 @@ class UserTask extends Base
 //                    fclose($resource);
 //                    $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
 //                }
-                $submitServerIdImg[$key] = $res;
+//                $submitServerIdImg[$key] = $res;
+                $submitServerIdImg[$key] = $item;
             }
             $data['submit_img'] = implode('%,%',$submitServerIdImg);
         }
