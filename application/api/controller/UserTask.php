@@ -226,8 +226,8 @@ class UserTask extends Base
 
                 $res = $media->get($item);
 
-                if(isset($res['errcode'])){
-                    $submitServerIdImg[$key] ='errcode';
+                if(isset($res['errcode']) && $res['errcode']===40001){
+                    $submitServerIdImg[$key] =$res['errmsg'];
                 }else{
                     $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
                     fwrite($resource, $res);
