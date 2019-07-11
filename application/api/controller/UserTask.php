@@ -218,13 +218,13 @@ class UserTask extends Base
                 if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $path)) {
                     mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0755, true);
                 }
-                $img = $media->get($item);
+//                $img = $media->get($item);
 //                $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
 //                fwrite($resource, $img);
 //                fclose($resource);
 //                $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
 
-//                $res = $media->get($item);
+                $res = $media->get($item);
 //
 //                if(isset($res['errcode']) && $res['errcode']===40001){
 //                    $submitServerIdImg[$key] =$res['errmsg'];
