@@ -224,8 +224,8 @@ class UserTask extends Base
 //                fclose($resource);
 //                $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
 
-//                $submitServerIdImg[$key] = $media->get($item);
-                $submitServerIdImg[$key] = $item;
+                $submitServerIdImg[$key] = $media->get($item);
+//                $submitServerIdImg[$key] = $item;
             }
             $data['submit_img'] = implode('%,%',$submitServerIdImg);
         }
