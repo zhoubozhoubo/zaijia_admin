@@ -27,9 +27,6 @@ class Template extends Model {
         //检测用户是否关注公众号
         $Oauth = new Oauth($this->config);
         $userInfo = $Oauth->getUser($openid);
-        if(isset($userInfo['errcode'])){
-            return $this->checkSubscribe($openid);
-        }
         return $userInfo['subscribe'];
     }
 
