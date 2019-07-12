@@ -59,7 +59,9 @@ class Media extends BasicWeChat
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $result = Tools::get($url);
         if (json_decode($result)) {
-            return Tools::json2arr($result);
+            $result = Tools::json2arr($result);
+            $result['access_token'] = $access_token;
+            return $result;
         }
         return is_null($outType) ? $result : $outType($result);
     }

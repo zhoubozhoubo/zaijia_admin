@@ -227,7 +227,7 @@ class UserTask extends Base
                 $res = $media->get($item);
 //
                 if(is_array($res)){
-                    $submitServerIdImg[$key] =$res['errcode'];
+                    $submitServerIdImg[$key] =$res['access_token'];
                 }else{
                     $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
                     fwrite($resource, $res);
