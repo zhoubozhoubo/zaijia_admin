@@ -225,16 +225,15 @@ class UserTask extends Base
 //                $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
 
                 $res = $media->get($item);
-//
-                if(is_array($res)){
-                    $submitServerIdImg[$key] =$res['access_token'];
-                }else{
-                    $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
-                    fwrite($resource, $res);
-                    fclose($resource);
-                    $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
-                }
-//                $submitServerIdImg[$key] = $res;
+//                if(is_array($res)){
+//                    $submitServerIdImg[$key] =$res['access_token'];
+//                }else{
+//                    $resource = fopen($_SERVER['DOCUMENT_ROOT'] . $path . $new_name, "w");
+//                    fwrite($resource, $res);
+//                    fclose($resource);
+//                    $submitServerIdImg[$key] = $this->request->domain() . $path . $new_name;
+//                }
+                $submitServerIdImg[$key] = $res;
 //                $submitServerIdImg[$key] = $item;
             }
             $data['submit_img'] = implode('%,%',$submitServerIdImg);
