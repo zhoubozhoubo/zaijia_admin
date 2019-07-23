@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>慧元财富</title>
+  <meta name="keywords" content="慧元财富安全靠谱网上兼职赚钱平台">
+  <meta name="description" content="慧元财富是一家网上兼职和创业的服务平台，暑假工兼职、大学生兼职、在家兼职等各类兼职人员赚钱平台。">
   <!--[if lt IE 9]>
     <script src="/public/static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -31,10 +33,6 @@
 </style>
 
 <body>
-  <!--
-    @require "modules/modNewHeader_v3/modNewHeader_v3.css"
-    @require "modNewHeader_v3"
--->
   <!-- WEB导航栏 -->
   <div class="modNewHeader modNewHeader_static">
     <div class="container">
@@ -117,19 +115,6 @@
               {/volist}
             </div>
           </div>
-          <!--<div class="search">
-            <input data-url="https://bj.jianke.cc/?jt=" maxLength="10" placeholder="输入雇主、岗位关键词搜索" type="text"
-              value="" />
-            <i class="search-btn"></i>
-            <div class="jobTags">
-              <a href="https://bj.jianke.cc/?jt=日结">日结</a>
-              <a href="https://bj.jianke.cc/?jt=打字">打字</a>
-              <a href="https://bj.jianke.cc/?jt=周末兼职">周末兼职</a>
-              <a href="https://bj.jianke.cc/?jt=标注">标注</a>
-              <a href="https://bj.jianke.cc/?jt=夜班">夜班</a>
-              <a href="https://bj.jianke.cc/?jt=手机">手机</a>
-            </div>
-          </div>-->
         </div>
       </div>
       <div class="main clearFloat">
@@ -242,43 +227,6 @@
       </div>
     </div>
   </div>
-  <!--<script>
-    $(function () {
-      var cityId = location.href.str2json('city');
-     let currentCity=iosCitys.filter(item=>item.id==cityId)[0].value;
-     let areaArr =  iosCountys.filter(item=>item.parentId==cityId);
-     $('.areaList').empty();
-     $('.areaList').append("<a class='selected' href='#'>全市</a>")
-     for(let i=0;i<areaArr.length;i++){
-       $('.areaList').append("<a href='#' data-id='"+areaArr[i].id+"'>"+areaArr[i].value+"</a>")
-     }
-     $('.areaList').on('click','a',function(){
-       $(this).addClass('selected').siblings().removeClass('selected');
-     })
-    })
-
-
-    String.prototype.str2json=function(name){
-      var num = this.indexOf("?"),
-      str = this.substr(num+1),
-      arr = str.split("&"),
-      res={};      
-
-      for(var i=0;i<arr.length;i++){
-        num = arr[i].indexOf("=");
-        if(num>0){
-          var n = arr[i].substring(0,num),
-          v = arr[i].substr(num+1);
-          res[n.toLowerCase()]=v;
-        }
-      };
-      if(name){
-        name = name.toLowerCase();
-        return res[name]?res[name]:'';
-      }
-      return res;
-    } 
-  </script>-->
 <script>
   function showQrCode ()
   {
@@ -313,5 +261,18 @@
     })
   </script>
 </body>
-
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
 </html>
